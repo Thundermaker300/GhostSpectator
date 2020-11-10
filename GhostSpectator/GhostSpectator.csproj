@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>$(EXILED_REFERENCES)\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppData\Roaming\EXILED\Plugins\dependencies\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
@@ -91,6 +92,9 @@
     <Compile Include="EventHandler.cs" />
     <Compile Include="GhostSpectator.cs" />
     <Compile Include="Patches\DrawRandomTeamPatch.cs" />
+    <Compile Include="Patches\InteractingDoorPatch.cs" />
+    <Compile Include="Patches\InteractingLockerPatch.cs" />
+    <Compile Include="Patches\RemainingTargetsPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

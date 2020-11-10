@@ -22,7 +22,7 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player))
             {
                 // Do not un-ghost them or clear inventory if they are becoming a ghost.
-                if (!GhostSpectator.BodyPosition.ContainsKey(ev.Player))
+                if (!GhostSpectator.SpawnPositions.ContainsKey(ev.Player))
                 {
                     // Clear items from ghost so they don't drop them if they become a spectator.
                     ev.Player.ClearInventory();
@@ -56,12 +56,12 @@ namespace GhostSpectator
 
         public void OnDying(DyingEventArgs ev)
         {
-            GhostSpectator.BodyPosition[ev.Target] = ev.Target.Position;
+            GhostSpectator.SpawnPositions[ev.Target] = API.FindSpawnPosition(ev.Target, ev.HitInformation);
         }
 
         public void OnDied(DiedEventArgs ev)
         {
-            Timing.CallDelayed(0.5f, () =>
+            Timing.CallDelayed(0.2f, () =>
             {
                 API.GhostPlayer(ev.Target);
             });
@@ -172,6 +172,11 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractGenerators) ev.IsAllowed = false;
         }
 
+        public void OnEjectingGeneratorTablet(EjectingGeneratorTabletEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractGenerators) ev.IsAllowed = false;
+        }
+
         public void OnTriggeringTesla(TriggeringTeslaEventArgs ev)
         {
             if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.TriggerTeslas) ev.IsTriggerable = false;
@@ -191,6 +196,14 @@ namespace GhostSpectator
         {
             // INTERACTING W/ WARHEAD
             if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.StopWarhead) ev.IsAllowed = false;
+        }
+
+        public void On106Containing(ContainingEventArgs ev)
+        {
+            if (API.IsGhost(ev.ButtonPresser))
+            {
+                ev.IsAllowed = false;
+            }
         }
     }
 }

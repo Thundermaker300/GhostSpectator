@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Exiled.API.Features;
 using Exiled.API.Enums;
 using MEC;
+using UnityEngine;
 
 namespace GhostSpectator
 {
@@ -41,6 +42,23 @@ namespace GhostSpectator
             // Other
             ["Tutorial"] = "Tutorial",
         };
+
+        public static Vector3 FindSpawnPosition(Player Ply, PlayerStats.HitInfo info)
+        {
+            Log.Info(info.GetDamageName());
+            if (Ply.Role == RoleType.Scp106 && info.GetDamageType() == DamageTypes.RagdollLess)
+            {
+                return Ply.Position + new Vector3(0, 5, 0);
+            }
+            else if (Ply.CurrentRoom.Type == RoomType.Pocket)
+            {
+                return Map.GetRandomSpawnPoint(RoleType.Scp106);
+            }
+            else
+            {
+                return Ply.Position;
+            }
+        }
 
         public static bool IsGhost(Player Ply)
         {
@@ -83,12 +101,12 @@ namespace GhostSpectator
                     Scp096.TurnedPlayers.Add(Ply);
                 }
             }
-            if (GhostSpectator.BodyPosition.ContainsKey(Ply))
+            if (GhostSpectator.SpawnPositions.ContainsKey(Ply))
             {
-                Timing.CallDelayed(0.5f, () =>
+                Timing.CallDelayed(0.2f, () =>
                 {
-                    Ply.Position = GhostSpectator.BodyPosition[Ply];
-                    GhostSpectator.BodyPosition.Remove(Ply);
+                    Ply.Position = GhostSpectator.SpawnPositions[Ply];
+                    GhostSpectator.SpawnPositions.Remove(Ply);
                 });
             }
             if (GhostSpectator.Singleton.Config.SpawnMessage != "none" && GhostSpectator.Singleton.Config.SpawnMessageLength > 0)

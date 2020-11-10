@@ -17,7 +17,7 @@ namespace GhostSpectator
     {
         public static GhostSpectator Singleton;
         public static List<Player> Ghosts = new List<Player> { };
-        public static Dictionary<Player, Vector3> BodyPosition = new Dictionary<Player, Vector3> { };
+        public static Dictionary<Player, Vector3> SpawnPositions = new Dictionary<Player, Vector3> { };
         private EventHandler Handler;
         private Harmony HarmonyPatch;
         private string PatchId = nameof(GhostSpectator).ToLowerInvariant();
@@ -38,11 +38,16 @@ namespace GhostSpectator
             Events.Player.ChangingRole += Handler.OnChangingRole;
             Events.Player.DroppingItem += Handler.OnDroppingItem;
             Events.Player.PickingUpItem += Handler.OnPickingUpItem;
-            Events.Player.InteractingDoor += Handler.OnInteractingDoor;
+            //Events.Player.InteractingDoor += Handler.OnInteractingDoor;
             Events.Player.InteractingElevator += Handler.OnInteractingElevator;
-            Events.Player.InteractingLocker += Handler.OnInteractingLocker;
+            //Events.Player.InteractingLocker += Handler.OnInteractingLocker;
             Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
+            //// Generators
+            Events.Player.OpeningGenerator += Handler.OnOpeningGenerator;
+            Events.Player.ClosingGenerator += Handler.OnClosingGenerator;
+            Events.Player.InsertingGeneratorTablet += Handler.OnInsertingGeneratorTablet;
+            Events.Player.EjectingGeneratorTablet += Handler.OnEjectingGeneratorTablet;
             /// SCP-914
             Events.Scp914.Activating += Handler.OnActivating;
             Events.Scp914.ChangingKnobSetting += Handler.OnChangingKnobStatus;
@@ -50,6 +55,8 @@ namespace GhostSpectator
             Events.Warhead.Starting += Handler.OnStarting;
             Events.Warhead.Stopping += Handler.OnStopping;
             Events.Warhead.ChangingLeverStatus += Handler.OnChangingLeverStatus;
+            /// Other
+            Events.Scp106.Containing += Handler.On106Containing;
 
             // Patching
             try
@@ -79,11 +86,16 @@ namespace GhostSpectator
             Events.Player.ChangingRole -= Handler.OnChangingRole;
             Events.Player.DroppingItem -= Handler.OnDroppingItem;
             Events.Player.PickingUpItem -= Handler.OnPickingUpItem;
-            Events.Player.InteractingDoor -= Handler.OnInteractingDoor;
+            //Events.Player.InteractingDoor -= Handler.OnInteractingDoor;
             Events.Player.InteractingElevator -= Handler.OnInteractingElevator;
-            Events.Player.InteractingLocker -= Handler.OnInteractingLocker;
+            //Events.Player.InteractingLocker -= Handler.OnInteractingLocker;
             Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
+            //// Generators
+            Events.Player.OpeningGenerator -= Handler.OnOpeningGenerator;
+            Events.Player.ClosingGenerator -= Handler.OnClosingGenerator;
+            Events.Player.InsertingGeneratorTablet -= Handler.OnInsertingGeneratorTablet;
+            Events.Player.EjectingGeneratorTablet -= Handler.OnEjectingGeneratorTablet;
             /// SCP-914
             Events.Scp914.Activating -= Handler.OnActivating;
             Events.Scp914.ChangingKnobSetting -= Handler.OnChangingKnobStatus;
