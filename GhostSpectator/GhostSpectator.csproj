@@ -94,7 +94,6 @@
     <Compile Include="Patches\DrawRandomTeamPatch.cs" />
     <Compile Include="Patches\InteractingDoorPatch.cs" />
     <Compile Include="Patches\InteractingLockerPatch.cs" />
-    <Compile Include="Patches\RemainingTargetsPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
