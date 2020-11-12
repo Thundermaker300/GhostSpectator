@@ -26,11 +26,11 @@ namespace GhostSpectator
         public bool CanGhostsTeleport { get; set; } = true;
         [Description("Set the message to show when a ghost teleports. Set to none to disable teleport messages.")]
         public string TeleportMessage { get; set; } = "You teleported to <b>{name}</b> who is a <b>{class}</b>.";
-        [Description("Determines if ghosts can freeze SCP-173, trigger SCP-096, and show up on SCP-939's vision.")]
-        public string TeleportNoneMessage { get; set; } = "There is nobody alive to teleport to.";
-        [Description("Set each of the following to true to determine whether or not ghosts can interact with them.")]
-        public bool TriggerScps { get; set; } = false;
         [Description("Set the message to show if a ghost tries to teleport and nobody is alive that can be teleported to.")]
+        public string TeleportNoneMessage { get; set; } = "There is nobody alive to teleport to.";
+        [Description("Determines if ghosts can freeze SCP-173 and trigger SCP-096.")]
+        public bool TriggerScps { get; set; } = false;
+        [Description("Set each of the following to true to determine whether or not ghosts can interact with them.")]
         public bool PickupItems { get; set; } = false;
         public bool DropItems { get; set; } = false;
         public bool InteractDoors { get; set; } = false;
