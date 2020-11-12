@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Exiled.API.Enums;
 using Exiled.API.Features;
@@ -38,9 +35,7 @@ namespace GhostSpectator
             Events.Player.ChangingRole += Handler.OnChangingRole;
             Events.Player.DroppingItem += Handler.OnDroppingItem;
             Events.Player.PickingUpItem += Handler.OnPickingUpItem;
-            //Events.Player.InteractingDoor += Handler.OnInteractingDoor;
             Events.Player.InteractingElevator += Handler.OnInteractingElevator;
-            //Events.Player.InteractingLocker += Handler.OnInteractingLocker;
             Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
             //// Generators
@@ -86,9 +81,7 @@ namespace GhostSpectator
             Events.Player.ChangingRole -= Handler.OnChangingRole;
             Events.Player.DroppingItem -= Handler.OnDroppingItem;
             Events.Player.PickingUpItem -= Handler.OnPickingUpItem;
-            //Events.Player.InteractingDoor -= Handler.OnInteractingDoor;
             Events.Player.InteractingElevator -= Handler.OnInteractingElevator;
-            //Events.Player.InteractingLocker -= Handler.OnInteractingLocker;
             Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
             //// Generators

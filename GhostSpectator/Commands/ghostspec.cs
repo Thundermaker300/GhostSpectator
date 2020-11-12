@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using CommandSystem;
 using Exiled.Permissions.Extensions;
-using Exiled.API.Features;
-using Exiled.Events.Handlers;
-using MEC;
-using Exiled.API.Enums;
 
 using Player = Exiled.API.Features.Player;
 

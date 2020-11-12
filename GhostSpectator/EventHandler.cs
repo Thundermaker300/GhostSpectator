@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Random = System.Random;
 
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using UnityEngine;
 using MEC;
-using System.Diagnostics.Tracing;
 
 namespace GhostSpectator
 {
