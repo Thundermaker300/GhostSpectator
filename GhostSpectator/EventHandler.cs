@@ -109,7 +109,7 @@ namespace GhostSpectator
             if (ev.Item.id == ItemType.Coin && GhostSpectator.Singleton.Config.CanGhostsTeleport == true && API.IsGhost(ev.Player))
             {
                 // Todo: setting to allow ghosts to tp to each other
-                List<Player> PlysToTeleport = Player.List.Where(p => p.Team != Team.RIP && !API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.TeleportBlacklist.Contains(p.Role)).ToList();
+                List<Player> PlysToTeleport = Player.List.Where(p => p.Team != Team.RIP && !API.IsGhost(p) && !GhostSpectator.Singleton.Config.TeleportBlacklist.Contains(p.Role)).ToList();
                 if (PlysToTeleport.Count == 0)
                 {
                     ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportNoneMessage);
@@ -119,7 +119,7 @@ namespace GhostSpectator
                     Player Chosen = PlysToTeleport.ElementAt(rng.Next(PlysToTeleport.Count));
                     if (GhostSpectator.Singleton.Config.TeleportMessage != "none")
                     {
-                        ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportMessage.Replace("{name}", Chosen.Nickname).Replace("{class}", $"<color={Chosen.RoleColor.ToHex()}>{API.RoleInfo[Chosen.Role.ToString()]}</color>"), 3);
+                        ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportMessage.Replace("{name}", Chosen.Nickname).Replace("{class}", $"<color={Chosen.RoleColor.ToHex()}>{GhostSpectator.Singleton.Config.RoleStrings[Chosen.Role]}</color>"), 3);
                     }
                     ev.Player.Position = Chosen.Position + new Vector3(0, 2, 0);
                 }

@@ -45,5 +45,27 @@ namespace GhostSpectator
         public bool ToggleWarhead { get; set; } = false;
         public bool InteractScp914 { get; set; } = false;
         public bool InteractIntercom { get; set; } = false;
+
+        [Description("Sets the string for roles in place of {class} in the above commands (for example, replacing Class-D Personnel with DBOI will make it say DBOI in game.")]
+        public Dictionary<RoleType, string> RoleStrings { get; set; } = new Dictionary<RoleType, string>
+        {
+            [RoleType.ClassD] = "Class-D Personnel",
+            [RoleType.Scientist] = "Scientist",
+            [RoleType.FacilityGuard] = "Facility Guard",
+            [RoleType.NtfCadet] = "NTF Cadet",
+            [RoleType.NtfLieutenant] = "NTF Lieutenant",
+            [RoleType.NtfScientist] = "NTF Scientist",
+            [RoleType.NtfCommander] = "NTF Commander",
+            [RoleType.ChaosInsurgency] = "Chaos Insurgency",
+            [RoleType.Scp049] = "SCP-049",
+            [RoleType.Scp0492] = "SCP-049-2",
+            [RoleType.Scp079] = "SCP-079",
+            [RoleType.Scp096] = "SCP-096",
+            [RoleType.Scp106] = "SCP-106",
+            [RoleType.Scp173] = "SCP-173",
+            [RoleType.Scp93953] = "SCP-939-53",
+            [RoleType.Scp93989] = "SCP-939-89",
+            [RoleType.Tutorial] = "Tutorial",
+        };
     }
 }
