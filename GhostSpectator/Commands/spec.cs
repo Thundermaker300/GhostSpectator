@@ -12,7 +12,7 @@ namespace GhostSpectator.Commands
 
         public string[] Aliases => new string[] { };
 
-        public string Description => "Switches from ghost to normal spectator mode.";
+        public string Description => "Switches from ghost to normal spectator mode and vice versa.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
