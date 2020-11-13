@@ -17,6 +17,7 @@ What ghosts can interact with is not shown on this list but is configurable and 
 | teleport\_message          | string     | Set the message to show when a ghost teleports\. Set to none to disable teleport messages\.                                                                        |
 | teleport\_none\_message    | string     | Set the message to show if a ghost tries to teleport and nobody is alive that can be teleported to\.                                                               |
 | trigger\_scps              | bool       | Determines if ghosts can freeze SCP\-173 and trigger SCP\-096\.                                                                                                    |
+| role\_strings              | List       | Sets the string for roles in place of \{class\} in the above strings \(for example, replacing Class-D Personnel with DBOI will make it say DBOI in game\)\.        |
 
 ## Commands
 | Command                         | Permission | Description                                                      |

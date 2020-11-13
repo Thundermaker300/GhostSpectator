@@ -46,7 +46,7 @@ namespace GhostSpectator
         public bool InteractScp914 { get; set; } = false;
         public bool InteractIntercom { get; set; } = false;
 
-        [Description("Sets the string for roles in place of {class} in the above commands (for example, replacing Class-D Personnel with DBOI will make it say DBOI in game.")]
+        [Description("Sets the string for roles in place of {class} in the above strings (for example, replacing Class-D Personnel with DBOI will make it say DBOI in game.")]
         public Dictionary<RoleType, string> RoleStrings { get; set; } = new Dictionary<RoleType, string>
         {
             [RoleType.ClassD] = "Class-D Personnel",
