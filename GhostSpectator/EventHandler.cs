@@ -37,6 +37,15 @@ namespace GhostSpectator
             }
         }
 
+        public void OnFinishingRecall(FinishingRecallEventArgs ev)
+        {
+            if (API.IsGhost(ev.Target))
+            {
+                ev.Target.ClearInventory();
+                API.UnGhostPlayer(ev.Target);
+            }
+        }
+
         public void Joined(JoinedEventArgs ev)
         {
             API.GhostPlayer(ev.Player);
@@ -100,15 +109,14 @@ namespace GhostSpectator
             if (ev.Item.id == ItemType.Coin && GhostSpectator.Singleton.Config.CanGhostsTeleport == true && API.IsGhost(ev.Player))
             {
                 // Todo: setting to allow ghosts to tp to each other
-                List<Player> PlysToTeleport = Player.List.Where(p => p.Team != Team.RIP && p.Team != Team.TUT).ToList();
+                List<Player> PlysToTeleport = Player.List.Where(p => p.Team != Team.RIP && !GhostSpectator.Singleton.Config.TeleportBlacklist.Contains(p.Role)).ToList();
                 if (PlysToTeleport.Count == 0)
                 {
                     ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportNoneMessage);
                 }
                 else
                 {
-                    int index = rng.Next(0, PlysToTeleport.Count() - 1);
-                    Player Chosen = PlysToTeleport.ElementAt(index);
+                    Player Chosen = PlysToTeleport.ElementAt(rng.Next(PlysToTeleport.Count));
                     if (GhostSpectator.Singleton.Config.TeleportMessage != "none")
                     {
                         ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportMessage.Replace("{name}", Chosen.Nickname).Replace("{class}", $"<color={Chosen.RoleColor.ToHex()}>{API.RoleInfo[Chosen.Role.ToString()]}</color>"), 3);
@@ -119,7 +127,15 @@ namespace GhostSpectator
             }
             else if (ev.Item.id == ItemType.KeycardO5 && GhostSpectator.Singleton.Config.GiveGhostNavigator == true && API.IsGhost(ev.Player))
             {
-                List<Door> Doors = Map.Doors.ToList();
+                List<Door> Doors;
+                if (GhostSpectator.Singleton.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
+                {
+                    Doors = Map.Doors.Where(d => d.transform.position.y < -100 || d.transform.position.y > 300).ToList();
+                }
+                else
+                {
+                    Doors = Map.Doors.ToList();
+                }
                 Door chosen = Doors.ElementAt(rng.Next(0, Doors.Count - 1));
                 if (GhostSpectator.Singleton.Config.NavigateMessage != "none")
                 {

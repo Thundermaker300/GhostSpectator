@@ -38,6 +38,8 @@ namespace GhostSpectator
             Events.Player.InteractingElevator += Handler.OnInteractingElevator;
             Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
+            /// SCP-049 FIX
+            Events.Scp049.FinishingRecall += Handler.OnFinishingRecall;
             //// Generators
             Events.Player.OpeningGenerator += Handler.OnOpeningGenerator;
             Events.Player.ClosingGenerator += Handler.OnClosingGenerator;
@@ -84,6 +86,8 @@ namespace GhostSpectator
             Events.Player.InteractingElevator -= Handler.OnInteractingElevator;
             Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
+            /// SCP-049 FIX
+            Events.Scp049.FinishingRecall -= Handler.OnFinishingRecall;
             //// Generators
             Events.Player.OpeningGenerator -= Handler.OnOpeningGenerator;
             Events.Player.ClosingGenerator -= Handler.OnClosingGenerator;
