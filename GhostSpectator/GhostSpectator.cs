@@ -38,6 +38,7 @@ namespace GhostSpectator
             Events.Player.InteractingElevator += Handler.OnInteractingElevator;
             Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
+            Events.Player.EnteringFemurBreaker += Handler.OnFemurEnter;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall += Handler.OnFinishingRecall;
             //// Generators
@@ -52,8 +53,9 @@ namespace GhostSpectator
             Events.Warhead.Starting += Handler.OnStarting;
             Events.Warhead.Stopping += Handler.OnStopping;
             Events.Warhead.ChangingLeverStatus += Handler.OnChangingLeverStatus;
-            /// Other
+            /// SCP-106
             Events.Scp106.Containing += Handler.On106Containing;
+            /// Other (nothing here rn)
 
             // Patching
             try
@@ -86,6 +88,7 @@ namespace GhostSpectator
             Events.Player.InteractingElevator -= Handler.OnInteractingElevator;
             Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
+            Events.Player.EnteringFemurBreaker -= Handler.OnFemurEnter;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall -= Handler.OnFinishingRecall;
             //// Generators
@@ -100,6 +103,9 @@ namespace GhostSpectator
             Events.Warhead.Starting -= Handler.OnStarting;
             Events.Warhead.Stopping -= Handler.OnStopping;
             Events.Warhead.ChangingLeverStatus -= Handler.OnChangingLeverStatus;
+            /// SCP-106
+            Events.Scp106.Containing -= Handler.On106Containing;
+            /// Other (nothing here rn)
 
             // Unpatch
             HarmonyPatch.UnpatchAll(PatchId);
