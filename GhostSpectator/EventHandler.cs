@@ -214,5 +214,9 @@ namespace GhostSpectator
         {
             if (API.IsGhost(ev.ButtonPresser) && !GhostSpectator.Singleton.Config.Contain106) ev.IsAllowed = false;
         }
+        public void OnFemurEnter(EnteringFemurBreakerEventArgs ev)
+        {
+            if (API.IsGhost(ev.ButtonPresser) && !GhostSpectator.Singleton.Config.EnterFemurBreaker) ev.IsAllowed = false;
+        }
     }
 }
