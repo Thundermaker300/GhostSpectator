@@ -212,10 +212,7 @@ namespace GhostSpectator
 
         public void On106Containing(ContainingEventArgs ev)
         {
-            if (API.IsGhost(ev.ButtonPresser))
-            {
-                ev.IsAllowed = false;
-            }
+            if (API.IsGhost(ev.ButtonPresser) && !GhostSpectator.Singleton.Config.Contain106) ev.IsAllowed = false;
         }
     }
 }
