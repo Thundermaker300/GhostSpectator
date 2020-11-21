@@ -8,7 +8,7 @@ What ghosts can interact with is not shown on this list but is configurable and 
 | spawn\_message             | string     | Message to show to ghosts upon spawning\. Set to none to disable\.                                                                                                 |
 | spawn\_message\_length     | integer    | Sets the length of time in seconds the spawn message is visible\.                                                                                                  |
 | ghost\_spec\_swap          | bool       | If set to true, ghosts can swap to spectator mode via the \.spec command in the server console, and vice versa\.                                                   |
-| give\_ghost\_navigator     | bool       | If set to true, ghosts will be given an O5 card that they can drop to teleport to gates/checkpoints \(they can't actually drop it for alive players to pick up\)\. |
+| give\_ghost\_navigator     | bool       | If set to true, ghosts will be given a workstation that they can drop to teleport to a random door in the map.                                                     |
 | navigate\_lcz\_after\_decon| bool       | If set to true, ghosts can navigate to doors in light containment after decontamination has begun\.                                                                |
 | navigate\_message          | string     | Set the message to show when a ghost navigates\. Set to none to disable navigate messages\.                                                                        |
 | navigate\_fail\_message    | string     | The message to show if the teleport fails\.                                                                                                                        |
