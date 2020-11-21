@@ -125,7 +125,7 @@ namespace GhostSpectator
                 }
                 ev.IsAllowed = false;
             }
-            else if (ev.Item.id == ItemType.KeycardO5 && GhostSpectator.Singleton.Config.GiveGhostNavigator == true && API.IsGhost(ev.Player))
+            else if (ev.Item.id == ItemType.WeaponManagerTablet && GhostSpectator.Singleton.Config.GiveGhostNavigator == true && API.IsGhost(ev.Player))
             {
                 List<Door> Doors;
                 if (GhostSpectator.Singleton.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)

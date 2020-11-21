@@ -9,7 +9,7 @@ namespace GhostSpectator
     {
         public bool IsEnabled { get; set; } = true;
         [Description("Message to show to ghosts upon spawning. Set to none to disable.")]
-        public string SpawnMessage { get; set; } = "<size=25><color=#5EFF29>You are a ghost!\n- You can <b>noclip</b> by pressing I.\n- You <b>cannot</b> interact with doors, elevators, generators, etc.\n- Drop your <b>O5 Keycard</b> to teleport to a random door.\n- Drop your <b>Coin</b> to teleport to a random player.\n- You cannot enrage 096 or freeze 173.</color></size>";
+        public string SpawnMessage { get; set; } = "<size=25><color=#5EFF29>You are a ghost!\n- You can <b>noclip</b> by pressing I.\n- You <b>cannot</b> interact with doors, elevators, generators, etc.\n- Drop your <b>Weapon Manager Tablet</b> to teleport to a random door.\n- Drop your <b>Coin</b> to teleport to a random player.\n- You cannot enrage 096 or freeze 173.</color></size>";
         [Description("Sets the length of time in seconds the spawn message is visible.")]
         public int SpawnMessageLength { get; set; } = 10;
         [Description("If set to true, ghosts can swap to spectator mode via the .spec command in the server console, and vice versa.")]

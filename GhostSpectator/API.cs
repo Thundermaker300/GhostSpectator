@@ -52,7 +52,7 @@ namespace GhostSpectator
             });
             if (GhostSpectator.Singleton.Config.GiveGhostNavigator == true)
             {
-                Ply.Inventory.AddNewItem(ItemType.KeycardO5);
+                Ply.Inventory.AddNewItem(ItemType.WeaponManagerTablet);
             }
             if (GhostSpectator.Singleton.Config.CanGhostsTeleport == true)
             {
