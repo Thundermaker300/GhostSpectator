@@ -41,14 +41,12 @@ namespace GhostSpectator
             Events.Player.EnteringFemurBreaker += Handler.OnFemurEnter;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall += Handler.OnFinishingRecall;
-            //// Generators
-            Events.Player.OpeningGenerator += Handler.OnOpeningGenerator;
-            Events.Player.ClosingGenerator += Handler.OnClosingGenerator;
-            Events.Player.InsertingGeneratorTablet += Handler.OnInsertingGeneratorTablet;
-            Events.Player.EjectingGeneratorTablet += Handler.OnEjectingGeneratorTablet;
             /// SCP-914
             Events.Scp914.Activating += Handler.OnActivating;
             Events.Scp914.ChangingKnobSetting += Handler.OnChangingKnobStatus;
+            /// Workstation
+            Events.Player.ActivatingWorkstation += Handler.OnActivatingWorkstation;
+            Events.Player.DeactivatingWorkstation += Handler.OnDeactivatingWorkstation;
             /// Warhead
             Events.Warhead.Starting += Handler.OnStarting;
             Events.Warhead.Stopping += Handler.OnStopping;
@@ -91,14 +89,12 @@ namespace GhostSpectator
             Events.Player.EnteringFemurBreaker -= Handler.OnFemurEnter;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall -= Handler.OnFinishingRecall;
-            //// Generators
-            Events.Player.OpeningGenerator -= Handler.OnOpeningGenerator;
-            Events.Player.ClosingGenerator -= Handler.OnClosingGenerator;
-            Events.Player.InsertingGeneratorTablet -= Handler.OnInsertingGeneratorTablet;
-            Events.Player.EjectingGeneratorTablet -= Handler.OnEjectingGeneratorTablet;
             /// SCP-914
             Events.Scp914.Activating -= Handler.OnActivating;
             Events.Scp914.ChangingKnobSetting -= Handler.OnChangingKnobStatus;
+            /// Workstation
+            Events.Player.ActivatingWorkstation -= Handler.OnActivatingWorkstation;
+            Events.Player.DeactivatingWorkstation -= Handler.OnDeactivatingWorkstation;
             /// Warhead
             Events.Warhead.Starting -= Handler.OnStarting;
             Events.Warhead.Stopping -= Handler.OnStopping;
@@ -117,7 +113,7 @@ namespace GhostSpectator
 
         public override string Name => "GhostSpectator";
         public override string Author => "Thunder";
-        public override Version Version => new Version(1, 0, 2);
+        public override Version Version => new Version(1, 0, 3);
         public override PluginPriority Priority => PluginPriority.High;
     }
 }

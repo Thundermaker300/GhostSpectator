@@ -199,6 +199,16 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractIntercom) ev.IsAllowed = false;
         }
 
+        public void OnActivatingWorkstation(ActivatingWorkstationEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractWorkstation) ev.IsAllowed = false;
+        }
+
+        public void OnDeactivatingWorkstation(DeactivatingWorkstationEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractWorkstation) ev.IsAllowed = false;
+        }
+
         public void OnPickingUpItem(PickingUpItemEventArgs ev)
         {
             if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.PickupItems) ev.IsAllowed = false;
@@ -216,7 +226,7 @@ namespace GhostSpectator
         }
         public void OnFemurEnter(EnteringFemurBreakerEventArgs ev)
         {
-            if (API.IsGhost(ev.ButtonPresser) && !GhostSpectator.Singleton.Config.EnterFemurBreaker) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.EnterFemurBreaker) ev.IsAllowed = false;
         }
     }
 }

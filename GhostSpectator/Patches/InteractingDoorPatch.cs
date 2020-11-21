@@ -15,7 +15,7 @@ namespace GhostSpectator.Patches
                 Player Ply = Player.Get(__instance._hub);
                 if (Ply == null) return true;
 
-                if (API.IsGhost(Ply))
+                if (API.IsGhost(Ply) && !GhostSpectator.Singleton.Config.InteractDoors)
                 {
                     return false;
                 }

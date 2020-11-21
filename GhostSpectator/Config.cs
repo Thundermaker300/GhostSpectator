@@ -14,7 +14,7 @@ namespace GhostSpectator
         public int SpawnMessageLength { get; set; } = 10;
         [Description("If set to true, ghosts can swap to spectator mode via the .spec command in the server console, and vice versa.")]
         public bool GhostSpecSwap { get; set; } = false;
-        [Description("If set to true, ghosts will be given an O5 card that they can drop to teleport to gates/checkpoints (they can't actually drop it for alive players to pick up).")]
+        [Description("If set to true, ghosts will be given a workstation that they can drop to teleport to a random door in the map.")]
         public bool GiveGhostNavigator { get; set; } = true;
         [Description("If set to true, ghosts can navigate to doors in light containment after decontamination has begun.")]
         public bool NavigateLczAfterDecon { get; set; } = false;
@@ -45,6 +45,7 @@ namespace GhostSpectator
         public bool ToggleWarhead { get; set; } = false;
         public bool InteractScp914 { get; set; } = false;
         public bool InteractIntercom { get; set; } = false;
+        public bool InteractWorkstation { get; set; } = false;
         public bool Contain106 { get; set; } = false;
         public bool EnterFemurBreaker { get; set; } = false;
 
