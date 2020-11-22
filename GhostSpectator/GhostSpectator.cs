@@ -23,8 +23,8 @@ namespace GhostSpectator
             base.OnEnabled();
 
             // Create Classes
-            Singleton = this;
-            Handler = new EventHandler();
+            Singleton = new GhostSpectator();
+            Handler = new EventHandler(this);
 
             // Create Events
             /// Server

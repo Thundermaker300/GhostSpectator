@@ -9,9 +9,13 @@ using MEC;
 
 namespace GhostSpectator
 {
-    class EventHandler
+    public class EventHandler
     {
+        private GhostSpectator Plugin;
         private static Random rng = new Random();
+
+        public EventHandler(GhostSpectator plugin) => Plugin = plugin;
+
         // Spawning
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
@@ -84,51 +88,51 @@ namespace GhostSpectator
         public void OnActivating(ActivatingEventArgs ev)
         {
             // INTERACTING W/ SCP-914
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractScp914) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractScp914) ev.IsAllowed = false;
         }
 
         public void OnStarting(StartingEventArgs ev)
         {
             // INTERACTING W/ WARHEAD
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.StartWarhead) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.StartWarhead) ev.IsAllowed = false;
         }
 
         public void OnChangingKnobStatus(ChangingKnobSettingEventArgs ev)
         {
             // INTERACTING W/ SCP-914
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractScp914) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractScp914) ev.IsAllowed = false;
         }
 
         public void OnChangingLeverStatus(ChangingLeverStatusEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.ToggleWarhead) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.ToggleWarhead) ev.IsAllowed = false;
         }
 
         public void OnDroppingItem(DroppingItemEventArgs ev)
         {
-            if (ev.Item.id == ItemType.Coin && GhostSpectator.Singleton.Config.CanGhostsTeleport == true && API.IsGhost(ev.Player))
+            if (ev.Item.id == ItemType.Coin && Plugin.Config.CanGhostsTeleport == true && API.IsGhost(ev.Player))
             {
                 // Todo: setting to allow ghosts to tp to each other
-                List<Player> PlysToTeleport = Player.List.Where(p => p.Team != Team.RIP && !API.IsGhost(p) && !GhostSpectator.Singleton.Config.TeleportBlacklist.Contains(p.Role)).ToList();
+                List<Player> PlysToTeleport = Player.List.Where(p => p.Team != Team.RIP && !API.IsGhost(p) && !Plugin.Config.TeleportBlacklist.Contains(p.Role)).ToList();
                 if (PlysToTeleport.Count == 0)
                 {
-                    ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportNoneMessage);
+                    ev.Player.ShowHint(Plugin.Config.TeleportNoneMessage);
                 }
                 else
                 {
                     Player Chosen = PlysToTeleport.ElementAt(rng.Next(PlysToTeleport.Count));
-                    if (GhostSpectator.Singleton.Config.TeleportMessage != "none")
+                    if (Plugin.Config.TeleportMessage != "none")
                     {
-                        ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportMessage.Replace("{name}", Chosen.Nickname).Replace("{class}", $"<color={Chosen.RoleColor.ToHex()}>{GhostSpectator.Singleton.Config.RoleStrings[Chosen.Role]}</color>"), 3);
+                        ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", Chosen.Nickname).Replace("{class}", $"<color={Chosen.RoleColor.ToHex()}>{Plugin.Config.RoleStrings[Chosen.Role]}</color>"), 3);
                     }
                     ev.Player.Position = Chosen.Position + new Vector3(0, 2, 0);
                 }
                 ev.IsAllowed = false;
             }
-            else if (ev.Item.id == ItemType.WeaponManagerTablet && GhostSpectator.Singleton.Config.GiveGhostNavigator == true && API.IsGhost(ev.Player))
+            else if (ev.Item.id == ItemType.WeaponManagerTablet && Plugin.Config.GiveGhostNavigator == true && API.IsGhost(ev.Player))
             {
                 List<Door> Doors;
-                if (GhostSpectator.Singleton.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
+                if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
                 {
                     Doors = Map.Doors.Where(d => d.transform.position.y < -100 || d.transform.position.y > 300).ToList();
                 }
@@ -137,96 +141,96 @@ namespace GhostSpectator
                     Doors = Map.Doors.ToList();
                 }
                 Door chosen = Doors.ElementAt(rng.Next(0, Doors.Count - 1));
-                if (GhostSpectator.Singleton.Config.NavigateMessage != "none")
+                if (Plugin.Config.NavigateMessage != "none")
                 {
-                    ev.Player.ShowHint(GhostSpectator.Singleton.Config.TeleportMessage.Replace("{name}", chosen.DoorName), 3);
+                    ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", chosen.DoorName), 3);
                 }
                 if (!PlayerMovementSync.FindSafePosition(chosen.transform.position, out Vector3 safePos))
                 {
-                    ev.Player.ShowHint(GhostSpectator.Singleton.Config.NavigateFailMessage, 3);
+                    ev.Player.ShowHint(Plugin.Config.NavigateFailMessage, 3);
                 }
                 ev.Player.Position = safePos;
                 ev.IsAllowed = false;
             }
             else
             {
-                if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.DropItems) ev.IsAllowed = false;
+                if (API.IsGhost(ev.Player) && !Plugin.Config.DropItems) ev.IsAllowed = false;
             }
         }
 
         public void OnInteractingDoor(InteractingDoorEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractDoors) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractDoors) ev.IsAllowed = false;
         }
 
         public void OnInteractingElevator(InteractingElevatorEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractElevators) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractElevators) ev.IsAllowed = false;
         }
 
         public void OnInteractingLocker(InteractingLockerEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractLockers) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractLockers) ev.IsAllowed = false;
         }
 
         public void OnOpeningGenerator(OpeningGeneratorEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractGenerators) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractGenerators) ev.IsAllowed = false;
         }
 
         public void OnClosingGenerator(ClosingGeneratorEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractGenerators) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractGenerators) ev.IsAllowed = false;
         }
 
         public void OnInsertingGeneratorTablet(InsertingGeneratorTabletEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractGenerators) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractGenerators) ev.IsAllowed = false;
         }
 
         public void OnEjectingGeneratorTablet(EjectingGeneratorTabletEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractGenerators) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractGenerators) ev.IsAllowed = false;
         }
 
         public void OnTriggeringTesla(TriggeringTeslaEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.TriggerTeslas) ev.IsTriggerable = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.TriggerTeslas) ev.IsTriggerable = false;
         }
 
         public void OnIntercomSpeaking(IntercomSpeakingEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractIntercom) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractIntercom) ev.IsAllowed = false;
         }
 
         public void OnActivatingWorkstation(ActivatingWorkstationEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractWorkstation) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractWorkstation) ev.IsAllowed = false;
         }
 
         public void OnDeactivatingWorkstation(DeactivatingWorkstationEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.InteractWorkstation) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractWorkstation) ev.IsAllowed = false;
         }
 
         public void OnPickingUpItem(PickingUpItemEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.PickupItems) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.PickupItems) ev.IsAllowed = false;
         }
 
         public void OnStopping(StoppingEventArgs ev)
         {
             // INTERACTING W/ WARHEAD
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.StopWarhead) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.StopWarhead) ev.IsAllowed = false;
         }
 
         public void On106Containing(ContainingEventArgs ev)
         {
-            if (API.IsGhost(ev.ButtonPresser) && !GhostSpectator.Singleton.Config.Contain106) ev.IsAllowed = false;
+            if (API.IsGhost(ev.ButtonPresser) && !Plugin.Config.Contain106) ev.IsAllowed = false;
         }
         public void OnFemurEnter(EnteringFemurBreakerEventArgs ev)
         {
-            if (API.IsGhost(ev.Player) && !GhostSpectator.Singleton.Config.EnterFemurBreaker) ev.IsAllowed = false;
+            if (API.IsGhost(ev.Player) && !Plugin.Config.EnterFemurBreaker) ev.IsAllowed = false;
         }
     }
 }
