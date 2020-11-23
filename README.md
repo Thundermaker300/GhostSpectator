@@ -1,10 +1,15 @@
 ## Ghost Spectator
 An SCP:SL Exiled plugin that turns users into ghosts when they die. Ghosts cannot be seen by alive players (including SCPs), cannot die, and can noclip.
 
+## REQUIREMENTS
+* Exiled: V2.1.18
+* SCP:SL Server: V10.1.2
+
 ## Config
 What ghosts can interact with is not shown on this list but is configurable and will be generated along with the rest of these settings.
 | Configuration              | Value Type | Description                                                                                                                                                        |
 |----------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ghost\_role                | RoleType   | Determines the role to use for ghosts. Chaos Insurgency is used by default so that ghosts are not targets to SCPs. If you set to an SCP, they can still attack!!   |
 | spawn\_message             | string     | Message to show to ghosts upon spawning\. Set to none to disable\.                                                                                                 |
 | spawn\_message\_length     | integer    | Sets the length of time in seconds the spawn message is visible\.                                                                                                  |
 | ghost\_spec\_swap          | bool       | If set to true, ghosts can swap to spectator mode via the \.spec command in the server console, and vice versa\.                                                   |
