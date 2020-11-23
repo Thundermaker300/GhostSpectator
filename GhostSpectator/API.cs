@@ -13,7 +13,6 @@ namespace GhostSpectator
     {
         public static Vector3 FindSpawnPosition(Player Ply, PlayerStats.HitInfo info)
         {
-            Log.Info(info.GetDamageName());
             if (Ply.Role == RoleType.Scp106 && info.GetDamageType() == DamageTypes.RagdollLess)
             {
                 return Ply.Position + new Vector3(0, 5, 0);
@@ -41,7 +40,8 @@ namespace GhostSpectator
         {
             if (GhostSpectator.Ghosts.Contains(Ply)) return;
 
-            Ply.SetRole(RoleType.Tutorial);
+            Ply.SetRole(GhostSpectator.Singleton.Config.GhostRole);
+            Ply.ClearInventory();
             GhostSpectator.Ghosts.Add(Ply);
 
             Timing.CallDelayed(0.1f, () =>
@@ -89,14 +89,12 @@ namespace GhostSpectator
             if (!GhostSpectator.Ghosts.Contains(Ply)) return;
 
             GhostSpectator.Ghosts.Remove(Ply);
-            Ply.ClearInventory();
 
             Timing.CallDelayed(0.1f, () =>
             {
                 Ply.NoClipEnabled = false;
                 Ply.IsGodModeEnabled = false;
                 Ply.IsInvisible = false;
-                //Ply.ClearInventory();
             });
             if (GhostSpectator.Singleton.Config.TriggerScps == false)
             {

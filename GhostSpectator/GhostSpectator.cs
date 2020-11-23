@@ -39,6 +39,8 @@ namespace GhostSpectator
             Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker += Handler.OnFemurEnter;
+
+            Events.Player.SpawningRagdoll += Handler.OnSpawningRagdoll;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall += Handler.OnFinishingRecall;
             /// SCP-914
@@ -87,6 +89,8 @@ namespace GhostSpectator
             Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker -= Handler.OnFemurEnter;
+
+            Events.Player.SpawningRagdoll -= Handler.OnSpawningRagdoll;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall -= Handler.OnFinishingRecall;
             /// SCP-914

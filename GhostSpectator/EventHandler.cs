@@ -11,7 +11,7 @@ namespace GhostSpectator
 {
     public class EventHandler
     {
-        private GhostSpectator Plugin;
+        public GhostSpectator Plugin { get; private set; }
         private static Random rng = new Random();
 
         public EventHandler(GhostSpectator plugin) => Plugin = plugin;
@@ -21,23 +21,24 @@ namespace GhostSpectator
         {
             if (API.IsGhost(ev.Player))
             {
-                // Do not un-ghost them or clear inventory if they are becoming a ghost.
+                Log.Debug($"Turning {ev.Player.Nickname} into {ev.NewRole}.");
+                if (ev.NewRole == RoleType.Spectator)
+                {
+                    ev.Player.ClearInventory();
+                }
                 if (!GhostSpectator.SpawnPositions.ContainsKey(ev.Player))
                 {
-                    // Clear items from ghost so they don't drop them if they become a spectator.
-                    ev.Player.ClearInventory();
-                    // Remove ghost effects
-                    API.UnGhostPlayer(ev.Player);
                     // Teleport to a new spawn point (eliminate potential issues with noclipping directly after spawning)
                     if (ev.NewRole != RoleType.Tutorial && ev.NewRole != RoleType.Spectator)
                     {
                         Vector3 spawnPoint = Map.GetRandomSpawnPoint(ev.NewRole);
-                        Timing.CallDelayed(0.2f, () =>
+                        Timing.CallDelayed(0.1f, () =>
                         {
                             ev.Player.Position = spawnPoint;
                         });
                     }
                 }
+                API.UnGhostPlayer(ev.Player);
             }
         }
 
@@ -45,14 +46,22 @@ namespace GhostSpectator
         {
             if (API.IsGhost(ev.Target))
             {
-                ev.Target.ClearInventory();
                 API.UnGhostPlayer(ev.Target);
             }
         }
 
         public void Joined(JoinedEventArgs ev)
         {
-            API.GhostPlayer(ev.Player);
+            if (Round.IsStarted)
+            {
+                Timing.CallDelayed(0.1f, () =>
+                {
+                    if (ev.Player.Role == RoleType.Spectator)
+                    {
+                        API.GhostPlayer(ev.Player);
+                    }
+                });
+            }
         }
 
         public void Left(LeftEventArgs ev)
@@ -65,15 +74,34 @@ namespace GhostSpectator
 
         public void OnDying(DyingEventArgs ev)
         {
-            GhostSpectator.SpawnPositions[ev.Target] = API.FindSpawnPosition(ev.Target, ev.HitInformation);
+            if (API.IsGhost(ev.Target))
+            {
+                ev.Target.ClearInventory();
+            }
+            else
+            {
+                GhostSpectator.SpawnPositions[ev.Target] = API.FindSpawnPosition(ev.Target, ev.HitInformation);
+            }
         }
 
         public void OnDied(DiedEventArgs ev)
         {
-            Timing.CallDelayed(0.2f, () =>
+            if (!API.IsGhost(ev.Target))
             {
-                API.GhostPlayer(ev.Target);
-            });
+                Log.Debug($"Turning {ev.Target.Nickname} into ghost.");
+                Timing.CallDelayed(0.1f, () =>
+                {
+                    API.GhostPlayer(ev.Target);
+                });
+            }
+        }
+
+        public void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
+        {
+            if (API.IsGhost(ev.Owner))
+            {
+                ev.IsAllowed = false;
+            }
         }
 
         public void OnRespawningTeam(RespawningTeamEventArgs ev)

@@ -8,6 +8,8 @@ namespace GhostSpectator
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
+        [Description("Determines the role to use for ghosts. Chaos Insurgency is used by default so that ghosts are not targets to SCPs. If you set to an SCP, they can still attack!!")]
+        public RoleType GhostRole { get; set; } = RoleType.ChaosInsurgency;
         [Description("Message to show to ghosts upon spawning. Set to none to disable.")]
         public string SpawnMessage { get; set; } = "<size=25><color=#5EFF29>You are a ghost!\n- You can <b>noclip</b> by pressing I.\n- You <b>cannot</b> interact with doors, elevators, generators, etc.\n- Drop your <b>Weapon Manager Tablet</b> to teleport to a random door.\n- Drop your <b>Coin</b> to teleport to a random player.\n- You cannot enrage 096 or freeze 173.</color></size>";
         [Description("Sets the length of time in seconds the spawn message is visible.")]
