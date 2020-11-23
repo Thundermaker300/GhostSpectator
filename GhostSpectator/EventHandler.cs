@@ -46,6 +46,7 @@ namespace GhostSpectator
         {
             if (API.IsGhost(ev.Target))
             {
+                ev.Target.ClearInventory();
                 API.UnGhostPlayer(ev.Target);
             }
         }
