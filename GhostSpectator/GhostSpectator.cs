@@ -39,7 +39,6 @@ namespace GhostSpectator
             Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker += Handler.OnFemurEnter;
-
             Events.Player.SpawningRagdoll += Handler.OnSpawningRagdoll;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall += Handler.OnFinishingRecall;
@@ -56,6 +55,7 @@ namespace GhostSpectator
             /// SCP-106
             Events.Scp106.Containing += Handler.On106Containing;
             /// Other (nothing here rn)
+            Events.Server.EndingRound += Handler.OnEndingRound;
 
             // Patching
             try
@@ -106,6 +106,7 @@ namespace GhostSpectator
             /// SCP-106
             Events.Scp106.Containing -= Handler.On106Containing;
             /// Other (nothing here rn)
+            Events.Server.EndingRound -= Handler.OnEndingRound;
 
             // Unpatch
             HarmonyPatch.UnpatchAll(PatchId);
@@ -117,7 +118,7 @@ namespace GhostSpectator
 
         public override string Name => "GhostSpectator";
         public override string Author => "Thunder";
-        public override Version Version => new Version(1, 1, 0);
+        public override Version Version => new Version(1, 1, 1);
         public override Version RequiredExiledVersion => new Version(2, 1, 18);
         public override PluginPriority Priority => PluginPriority.High;
     }

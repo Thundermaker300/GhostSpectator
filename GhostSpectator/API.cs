@@ -27,6 +27,29 @@ namespace GhostSpectator
             }
         }
 
+        public static bool AreAllAlly(List<Player> List)
+        {
+            bool flag1 = true;
+            bool flag2 = true;
+            bool flag3 = true;
+            foreach (Player Ply in List)
+            {
+                if (Ply.Team != Team.CDP && Ply.Team != Team.CHI && Ply.Team != Team.TUT && Ply.Team != Team.RIP)
+                {
+                    flag1 = false;
+                }
+                if (Ply.Team != Team.SCP && Ply.Team != Team.CHI && Ply.Team != Team.TUT && Ply.Team != Team.RIP)
+                {
+                    flag2 = false;
+                }
+                if (Ply.Team != Team.MTF && Ply.Team != Team.RSC && Ply.Team != Team.TUT && Ply.Team != Team.RIP)
+                {
+                    flag3 = false;
+                }
+            }
+            return (flag1 || flag2 || flag3);
+        }
+
         public static bool IsGhost(Player Ply)
         {
             if (GhostSpectator.Ghosts.Contains(Ply))

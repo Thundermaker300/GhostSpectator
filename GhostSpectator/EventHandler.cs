@@ -137,6 +137,12 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player) && !Plugin.Config.ToggleWarhead) ev.IsAllowed = false;
         }
 
+        public void OnEndingRound(EndingRoundEventArgs ev)
+        {
+            List<Player> AlivePlayers = Player.List.Where(Ply => !API.IsGhost(Ply)).ToList();
+            ev.IsRoundEnded = API.AreAllAlly(AlivePlayers); ;
+        }
+
         public void OnDroppingItem(DroppingItemEventArgs ev)
         {
             if (ev.Item.id == ItemType.Coin && Plugin.Config.CanGhostsTeleport == true && API.IsGhost(ev.Player))
