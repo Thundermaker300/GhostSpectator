@@ -50,14 +50,7 @@ namespace GhostSpectator
             return (flag1 || flag2 || flag3);
         }
 
-        public static bool IsGhost(Player Ply)
-        {
-            if (GhostSpectator.Ghosts.Contains(Ply))
-            {
-                return true;
-            }
-            return false;
-        }
+        public static bool IsGhost(Player Ply) => GhostSpectator.Ghosts.Contains(Ply);
 
         public static void GhostPlayer(Player Ply)
         {
