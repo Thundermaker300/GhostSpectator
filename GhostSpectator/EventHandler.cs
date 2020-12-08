@@ -19,6 +19,19 @@ namespace GhostSpectator
         // Spawning
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
+            // Determining visibility
+            foreach (Player Ply in GhostSpectator.Ghosts)
+            {
+                if ((ev.NewRole == RoleType.Spectator || API.IsGhost(ev.Player)) && ev.Player.TargetGhostsHashSet.Contains(Ply.Id))
+                {
+                    ev.Player.TargetGhostsHashSet.Remove(Ply.Id);
+                }
+                else if (!ev.Player.TargetGhostsHashSet.Contains(Ply.Id))
+                {
+                    ev.Player.TargetGhostsHashSet.Add(Ply.Id);
+                }
+            }
+
             if (API.IsGhost(ev.Player))
             {
                 Log.Debug($"Turning {ev.Player.Nickname} into {ev.NewRole}.");

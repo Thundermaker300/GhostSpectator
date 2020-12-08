@@ -6,6 +6,7 @@ using Exiled.API.Features;
 using Exiled.API.Enums;
 using MEC;
 using UnityEngine;
+using Assets._Scripts.Dissonance;
 
 namespace GhostSpectator
 {
@@ -15,7 +16,14 @@ namespace GhostSpectator
         {
             if (Ply.Role == RoleType.Scp106 && info.GetDamageType() == DamageTypes.RagdollLess)
             {
-                return Ply.Position + new Vector3(0, 5, 0);
+                if (PlayerMovementSync.FindSafePosition(Ply.Position, out Vector3 safePos))
+                {
+                    return safePos;
+                }
+                else
+                {
+                    return Ply.Position + new Vector3(0, 5, 0);
+                }
             }
             else if (Ply.CurrentRoom.Type == RoomType.Pocket)
             {
@@ -60,11 +68,14 @@ namespace GhostSpectator
             Ply.ClearInventory();
             GhostSpectator.Ghosts.Add(Ply);
 
+            Ply.ReferenceHub.nicknameSync.CustomPlayerInfo = "GHOST";
+            Ply.ReferenceHub.nicknameSync.ShownPlayerInfo &= ~PlayerInfoArea.Role;
+
             Timing.CallDelayed(0.1f, () =>
             {
                 Ply.NoClipEnabled = true;
                 Ply.IsGodModeEnabled = true;
-                Ply.IsInvisible = true;
+                //Ply.TargetGhostsHashSet.UnionWith(Player.List.Where(P => P.IsAlive == true).Select(P => P.Id).ToList());
             });
             if (GhostSpectator.Singleton.Config.GiveGhostNavigator == true)
             {
@@ -106,11 +117,14 @@ namespace GhostSpectator
 
             GhostSpectator.Ghosts.Remove(Ply);
 
+            Ply.ReferenceHub.nicknameSync.CustomPlayerInfo = string.Empty;
+            Ply.ReferenceHub.nicknameSync.ShownPlayerInfo |= PlayerInfoArea.Role;
+
             Timing.CallDelayed(0.1f, () =>
             {
                 Ply.NoClipEnabled = false;
                 Ply.IsGodModeEnabled = false;
-                Ply.IsInvisible = false;
+                //Ply.TargetGhostsHashSet.Clear();
             });
             if (GhostSpectator.Singleton.Config.TriggerScps == false)
             {
