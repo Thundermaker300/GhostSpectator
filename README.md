@@ -15,6 +15,7 @@ What ghosts can interact with is not shown on this list but is configurable and 
 | ghost\_spec\_swap          | bool       | If set to true, ghosts can swap to spectator mode via the \.spec command in the server console, and vice versa\.                                                   |
 | give\_ghost\_navigator     | bool       | If set to true, ghosts will be given a workstation that they can drop to teleport to a random door in the map.                                                     |
 | navigate\_lcz\_after\_decon| bool       | If set to true, ghosts can navigate to doors in light containment after decontamination has begun\.                                                                |
+| remove\_items\_after\_nuke | bool       | If set to true, ghosts will lose items after the nuke has detonated (they will also be teleported to the surface).
 | navigate\_message          | string     | Set the message to show when a ghost navigates\. Set to none to disable navigate messages\.                                                                        |
 | navigate\_fail\_message    | string     | The message to show if the teleport fails\.                                                                                                                        |
 | can\_ghosts\_teleport      | bool       | If set to true, ghosts will be given a coin that they can drop to teleport to a random alive player\.                                                              |

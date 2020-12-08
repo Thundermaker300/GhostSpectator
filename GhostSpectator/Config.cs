@@ -20,7 +20,7 @@ namespace GhostSpectator
         public bool GiveGhostNavigator { get; set; } = true;
         [Description("If set to true, ghosts can navigate to doors in light containment after decontamination has begun.")]
         public bool NavigateLczAfterDecon { get; set; } = false;
-        [Description("If set to true, ghosts will lose their coin and their workstation tablet after the nuke has detonated (they will also be teleported to the surface).")]
+        [Description("If set to true, ghosts will lose their items after the nuke has detonated (they will also be teleported to the surface).")]
         public bool RemoveItemsAfterNuke { get; set; } = true;
         [Description("Set the message to show when a ghost navigates. Set to none to disable navigate messages.")]
         public string NavigateMessage { get; set; } = "You've navigated to <b>{name}</b>.";
