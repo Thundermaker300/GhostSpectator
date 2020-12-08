@@ -6,7 +6,6 @@ using Exiled.API.Features;
 using Exiled.API.Enums;
 using MEC;
 using UnityEngine;
-using Assets._Scripts.Dissonance;
 
 namespace GhostSpectator
 {
