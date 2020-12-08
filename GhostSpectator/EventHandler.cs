@@ -7,6 +7,8 @@ using Exiled.Events.EventArgs;
 using UnityEngine;
 using MEC;
 
+using GhostSpectator.Extensions;
+
 namespace GhostSpectator
 {
     public class EventHandler
@@ -20,8 +22,9 @@ namespace GhostSpectator
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
             // Determining visibility
-            foreach (Player Ply in GhostSpectator.Ghosts)
+            /*foreach (Player Ply in GhostSpectator.Ghosts)
             {
+                // TODO: FIX
                 if ((ev.NewRole == RoleType.Spectator || API.IsGhost(ev.Player)) && ev.Player.TargetGhostsHashSet.Contains(Ply.Id))
                 {
                     ev.Player.TargetGhostsHashSet.Remove(Ply.Id);
@@ -30,7 +33,7 @@ namespace GhostSpectator
                 {
                     ev.Player.TargetGhostsHashSet.Add(Ply.Id);
                 }
-            }
+            }*/
 
             if (API.IsGhost(ev.Player))
             {

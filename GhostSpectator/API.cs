@@ -75,8 +75,15 @@ namespace GhostSpectator
             {
                 Ply.NoClipEnabled = true;
                 Ply.IsGodModeEnabled = true;
-                //Ply.TargetGhostsHashSet.UnionWith(Player.List.Where(P => P.IsAlive == true).Select(P => P.Id).ToList());
+                Ply.IsInvisible = true;
             });
+            /*foreach (Player AlivePly in Player.List.Where(P => P.IsAlive == true && !IsGhost(P)))
+            {
+                if (!AlivePly.TargetGhostsHashSet.Contains(Ply.Id))
+                {
+                    AlivePly.TargetGhostsHashSet.Add(Ply.Id);
+                }
+            }*/
             if (GhostSpectator.Singleton.Config.GiveGhostNavigator == true)
             {
                 Ply.Inventory.AddNewItem(ItemType.WeaponManagerTablet);
@@ -124,8 +131,15 @@ namespace GhostSpectator
             {
                 Ply.NoClipEnabled = false;
                 Ply.IsGodModeEnabled = false;
-                //Ply.TargetGhostsHashSet.Clear();
+                Ply.IsInvisible = false;
             });
+            /*foreach (Player AlivePly in Player.List)
+            {
+                if (Ply.TargetGhostsHashSet.Contains(AlivePly.Id))
+                {
+                    Ply.TargetGhostsHashSet.Remove(AlivePly.Id);
+                }
+            }*/
             if (GhostSpectator.Singleton.Config.TriggerScps == false)
             {
                 if (Scp173.TurnedPlayers.Contains(Ply))
