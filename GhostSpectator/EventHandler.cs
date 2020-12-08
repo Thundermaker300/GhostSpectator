@@ -3,6 +3,8 @@ using System.Linq;
 using Random = System.Random;
 
 using Exiled.API.Features;
+using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.Events.EventArgs;
 using UnityEngine;
 using MEC;
@@ -275,6 +277,21 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player) && !Plugin.Config.StopWarhead) ev.IsAllowed = false;
         }
 
+        public void OnDetonated()
+        {
+            foreach (Player Ply in Player.List.Where(P => API.IsGhost(P)))
+            {
+                if (Plugin.Config.RemoveItemsAfterNuke)
+                {
+                    Ply.ClearInventory();
+                    if (Ply.CurrentRoom.Zone != ZoneType.Surface)
+                    {
+                        Ply.Position = new Vector3(0, 1003, 7);
+                    }
+                }
+            }
+        }
+
         public void On106Containing(ContainingEventArgs ev)
         {
             if (API.IsGhost(ev.ButtonPresser) && !Plugin.Config.Contain106) ev.IsAllowed = false;
@@ -282,6 +299,22 @@ namespace GhostSpectator
         public void OnFemurEnter(EnteringFemurBreakerEventArgs ev)
         {
             if (API.IsGhost(ev.Player) && !Plugin.Config.EnterFemurBreaker) ev.IsAllowed = false;
+        }
+
+        public void OnFailingEscapePocketDimension(FailingEscapePocketDimensionEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player))
+            {
+                if (PlayerMovementSync.FindSafePosition(Map.Doors.FirstOrDefault(d => d.Type() == DoorType.Scp106Primary).transform.position, out Vector3 safePos))
+                {
+                    ev.Player.Position = safePos;
+                }
+                else
+                {
+                    ev.Player.Position = new Vector3(0, 1003, 7);
+                }
+                ev.IsAllowed = false;
+            }
         }
     }
 }

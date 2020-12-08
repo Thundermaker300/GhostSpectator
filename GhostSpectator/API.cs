@@ -26,7 +26,7 @@ namespace GhostSpectator
             }
             else if (Ply.CurrentRoom.Type == RoomType.Pocket)
             {
-                return Map.GetRandomSpawnPoint(RoleType.Scp106);
+                return new Vector3(0, -1998.67f, 2);
             }
             else
             {

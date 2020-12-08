@@ -40,6 +40,7 @@ namespace GhostSpectator
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker += Handler.OnFemurEnter;
             Events.Player.SpawningRagdoll += Handler.OnSpawningRagdoll;
+            Events.Player.FailingEscapePocketDimension -= Handler.OnFailingEscapePocketDimension;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall += Handler.OnFinishingRecall;
             /// SCP-914
@@ -52,9 +53,10 @@ namespace GhostSpectator
             Events.Warhead.Starting += Handler.OnStarting;
             Events.Warhead.Stopping += Handler.OnStopping;
             Events.Warhead.ChangingLeverStatus += Handler.OnChangingLeverStatus;
+            Events.Warhead.Detonated += Handler.OnDetonated;
             /// SCP-106
             Events.Scp106.Containing += Handler.On106Containing;
-            /// Other (nothing here rn)
+            /// Other
             Events.Server.EndingRound += Handler.OnEndingRound;
 
             // Patching
@@ -89,8 +91,8 @@ namespace GhostSpectator
             Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
             Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker -= Handler.OnFemurEnter;
-
             Events.Player.SpawningRagdoll -= Handler.OnSpawningRagdoll;
+            Events.Player.FailingEscapePocketDimension -= Handler.OnFailingEscapePocketDimension;
             /// SCP-049 FIX
             Events.Scp049.FinishingRecall -= Handler.OnFinishingRecall;
             /// SCP-914
@@ -103,9 +105,10 @@ namespace GhostSpectator
             Events.Warhead.Starting -= Handler.OnStarting;
             Events.Warhead.Stopping -= Handler.OnStopping;
             Events.Warhead.ChangingLeverStatus -= Handler.OnChangingLeverStatus;
+            Events.Warhead.Detonated -= Handler.OnDetonated;
             /// SCP-106
             Events.Scp106.Containing -= Handler.On106Containing;
-            /// Other (nothing here rn)
+            /// Other
             Events.Server.EndingRound -= Handler.OnEndingRound;
 
             // Unpatch
