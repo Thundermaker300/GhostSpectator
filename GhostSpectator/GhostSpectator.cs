@@ -23,7 +23,7 @@ namespace GhostSpectator
             base.OnEnabled();
 
             // Create Classes
-            Singleton = new GhostSpectator();
+            Singleton = this;
             Handler = new EventHandler(this);
 
             // Create Events
