@@ -33,6 +33,11 @@ namespace GhostSpectator.Commands
             }
             else
             {
+                if (Ply.IsAlive)
+                {
+                    response = "This command cannot be used to change from an alive player to a ghost.";
+                    return false;
+                }
                 API.GhostPlayer(Ply);
             }
             response = "Success";
