@@ -69,18 +69,23 @@ namespace GhostSpectator
             }
         }
 
-        public void Joined(JoinedEventArgs ev)
+        public void OnJoined(JoinedEventArgs ev)
         {
             if (Round.IsStarted)
             {
-                Timing.CallDelayed(0.1f, () =>
+                CoroutineHandle ch = Timing.RunCoroutine(JoinedWait(ev.Player));
+                Timing.CallDelayed(30f, () =>
                 {
-                    if (ev.Player.Role == RoleType.Spectator)
-                    {
-                        API.GhostPlayer(ev.Player);
-                    }
+                    Timing.KillCoroutines(ch);
                 });
             }
+        }
+
+        private IEnumerator<float> JoinedWait(Player Ply)
+        {
+            yield return Timing.WaitUntilTrue(() => Ply.Role == RoleType.Spectator);
+            yield return Timing.WaitForSeconds(1f);
+            API.GhostPlayer(Ply);
         }
 
         public void Left(LeftEventArgs ev)
@@ -88,6 +93,14 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player))
             {
                 API.UnGhostPlayer(ev.Player);
+            }
+        }
+
+        public void OnHurting(HurtingEventArgs ev)
+        {
+            if (ev.Attacker != null && API.IsGhost(ev.Attacker))
+            {
+                ev.IsAllowed = false;
             }
         }
 

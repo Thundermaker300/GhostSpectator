@@ -30,8 +30,10 @@ namespace GhostSpectator
             /// Server
             Events.Server.RespawningTeam += Handler.OnRespawningTeam;
             /// Player
+            Events.Player.Joined += Handler.OnJoined;
             Events.Player.Dying += Handler.OnDying;
             Events.Player.Died += Handler.OnDied;
+            Events.Player.Hurting += Handler.OnHurting;
             Events.Player.ChangingRole += Handler.OnChangingRole;
             Events.Player.DroppingItem += Handler.OnDroppingItem;
             Events.Player.PickingUpItem += Handler.OnPickingUpItem;
@@ -82,8 +84,10 @@ namespace GhostSpectator
             /// Server
             Events.Server.RespawningTeam -= Handler.OnRespawningTeam;
             /// Player
+            Events.Player.Joined -= Handler.OnJoined;
             Events.Player.Dying -= Handler.OnDying;
             Events.Player.Died -= Handler.OnDied;
+            Events.Player.Hurting -= Handler.OnHurting;
             Events.Player.ChangingRole -= Handler.OnChangingRole;
             Events.Player.DroppingItem -= Handler.OnDroppingItem;
             Events.Player.PickingUpItem -= Handler.OnPickingUpItem;

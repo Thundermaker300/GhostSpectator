@@ -28,6 +28,10 @@ namespace GhostSpectator
             {
                 return new Vector3(0, -1998.67f, 2);
             }
+            else if (Ply.Role == RoleType.Spectator || Ply.Role == RoleType.None)
+            {
+                return new Vector3(0, 1001, 8);
+            }
             else
             {
                 return Ply.Position;
@@ -64,7 +68,6 @@ namespace GhostSpectator
             if (GhostSpectator.Ghosts.Contains(Ply)) return;
 
             Ply.SetRole(GhostSpectator.Singleton.Config.GhostRole);
-            Ply.ClearInventory();
             GhostSpectator.Ghosts.Add(Ply);
 
             Ply.ReferenceHub.nicknameSync.CustomPlayerInfo = "GHOST";
@@ -83,14 +86,18 @@ namespace GhostSpectator
                     AlivePly.TargetGhostsHashSet.Add(Ply.Id);
                 }
             }*/
-            if (GhostSpectator.Singleton.Config.GiveGhostNavigator == true)
+            Timing.CallDelayed(2.2f, () => // Prevent other plugins from giving items to ghosts
             {
-                Ply.Inventory.AddNewItem(ItemType.WeaponManagerTablet);
-            }
-            if (GhostSpectator.Singleton.Config.CanGhostsTeleport == true)
-            {
-                Ply.Inventory.AddNewItem(ItemType.Coin);
-            }
+                Ply.ClearInventory();
+                if (GhostSpectator.Singleton.Config.GiveGhostNavigator == true)
+                {
+                    Ply.Inventory.AddNewItem(ItemType.WeaponManagerTablet);
+                }
+                if (GhostSpectator.Singleton.Config.CanGhostsTeleport == true)
+                {
+                    Ply.Inventory.AddNewItem(ItemType.Coin);
+                }
+            });
             if (GhostSpectator.Singleton.Config.TriggerScps == false)
             {
                 if (!Scp173.TurnedPlayers.Contains(Ply))
