@@ -305,6 +305,11 @@ namespace GhostSpectator
             }
         }
 
+        public void OnAddingTarget(AddingTargetEventArgs ev)
+        {
+            if (API.IsGhost(ev.Target) && !Plugin.Config.TriggerScps) ev.IsAllowed = false;
+        }
+
         public void On106Containing(ContainingEventArgs ev)
         {
             if (API.IsGhost(ev.ButtonPresser) && !Plugin.Config.Contain106) ev.IsAllowed = false;

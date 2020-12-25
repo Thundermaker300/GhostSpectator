@@ -98,7 +98,7 @@ namespace GhostSpectator
                     Ply.Inventory.AddNewItem(ItemType.Coin);
                 }
             });
-            if (GhostSpectator.Singleton.Config.TriggerScps == false)
+            if (!GhostSpectator.Singleton.Config.TriggerScps)
             {
                 if (!Scp173.TurnedPlayers.Contains(Ply))
                 {

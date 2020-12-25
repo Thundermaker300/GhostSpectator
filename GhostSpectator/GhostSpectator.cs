@@ -63,6 +63,8 @@ namespace GhostSpectator
             Events.Warhead.Stopping += Handler.OnStopping;
             Events.Warhead.ChangingLeverStatus += Handler.OnChangingLeverStatus;
             Events.Warhead.Detonated += Handler.OnDetonated;
+            /// SCP-096
+            Events.Scp096.AddingTarget += Handler.OnAddingTarget;
             /// SCP-106
             Events.Scp106.Containing += Handler.On106Containing;
             /// Other
@@ -124,6 +126,8 @@ namespace GhostSpectator
             Events.Warhead.Stopping -= Handler.OnStopping;
             Events.Warhead.ChangingLeverStatus -= Handler.OnChangingLeverStatus;
             Events.Warhead.Detonated -= Handler.OnDetonated;
+            /// SCP-096
+            Events.Scp096.AddingTarget -= Handler.OnAddingTarget;
             /// SCP-106
             Events.Scp106.Containing -= Handler.On106Containing;
             /// Other
