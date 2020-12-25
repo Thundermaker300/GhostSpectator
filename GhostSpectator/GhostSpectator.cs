@@ -125,7 +125,7 @@ namespace GhostSpectator
 
         public override string Name => "GhostSpectator";
         public override string Author => "Thunder";
-        public override Version Version => new Version(1, 1, 3);
+        public override Version Version => new Version(1, 1, 4);
         public override Version RequiredExiledVersion => new Version(2, 1, 21);
         public override PluginPriority Priority => PluginPriority.High;
     }
