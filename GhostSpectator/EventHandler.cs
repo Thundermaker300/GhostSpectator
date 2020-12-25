@@ -88,7 +88,7 @@ namespace GhostSpectator
             API.GhostPlayer(Ply);
         }
 
-        public void Left(LeftEventArgs ev)
+        public void OnLeft(LeftEventArgs ev)
         {
             if (API.IsGhost(ev.Player))
             {

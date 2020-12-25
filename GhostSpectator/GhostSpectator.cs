@@ -31,14 +31,21 @@ namespace GhostSpectator
             Events.Server.RespawningTeam += Handler.OnRespawningTeam;
             /// Player
             Events.Player.Joined += Handler.OnJoined;
+            Events.Player.Left += Handler.OnLeft;
             Events.Player.Dying += Handler.OnDying;
             Events.Player.Died += Handler.OnDied;
             Events.Player.Hurting += Handler.OnHurting;
             Events.Player.ChangingRole += Handler.OnChangingRole;
             Events.Player.DroppingItem += Handler.OnDroppingItem;
             Events.Player.PickingUpItem += Handler.OnPickingUpItem;
+            Events.Player.InteractingDoor += Handler.OnInteractingDoor;
+            Events.Player.InteractingLocker += Handler.OnInteractingLocker;
             Events.Player.InteractingElevator += Handler.OnInteractingElevator;
             Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
+            Events.Player.OpeningGenerator += Handler.OnOpeningGenerator;
+            Events.Player.ClosingGenerator += Handler.OnClosingGenerator;
+            Events.Player.InsertingGeneratorTablet += Handler.OnInsertingGeneratorTablet;
+            Events.Player.EjectingGeneratorTablet += Handler.OnEjectingGeneratorTablet;
             Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker += Handler.OnFemurEnter;
             Events.Player.SpawningRagdoll += Handler.OnSpawningRagdoll;
@@ -85,14 +92,21 @@ namespace GhostSpectator
             Events.Server.RespawningTeam -= Handler.OnRespawningTeam;
             /// Player
             Events.Player.Joined -= Handler.OnJoined;
+            Events.Player.Left -= Handler.OnLeft;
             Events.Player.Dying -= Handler.OnDying;
             Events.Player.Died -= Handler.OnDied;
             Events.Player.Hurting -= Handler.OnHurting;
             Events.Player.ChangingRole -= Handler.OnChangingRole;
             Events.Player.DroppingItem -= Handler.OnDroppingItem;
             Events.Player.PickingUpItem -= Handler.OnPickingUpItem;
+            Events.Player.InteractingDoor -= Handler.OnInteractingDoor;
+            Events.Player.InteractingLocker -= Handler.OnInteractingLocker;
             Events.Player.InteractingElevator -= Handler.OnInteractingElevator;
             Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
+            Events.Player.OpeningGenerator -= Handler.OnOpeningGenerator;
+            Events.Player.ClosingGenerator -= Handler.OnClosingGenerator;
+            Events.Player.InsertingGeneratorTablet -= Handler.OnInsertingGeneratorTablet;
+            Events.Player.EjectingGeneratorTablet -= Handler.OnEjectingGeneratorTablet;
             Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker -= Handler.OnFemurEnter;
             Events.Player.SpawningRagdoll -= Handler.OnSpawningRagdoll;
