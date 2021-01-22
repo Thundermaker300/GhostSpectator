@@ -1,10 +1,11 @@
 ﻿using System;
 using HarmonyLib;
 using Exiled.API.Features;
+using Interactables.Interobjects.DoorUtils;
 
 namespace GhostSpectator.Patches
 {
-    [HarmonyPatch(typeof(PlayerInteract), nameof(PlayerInteract.CallCmdOpenDoor))]
+    [HarmonyPatch(typeof(DoorVariant), nameof(DoorVariant.ServerInteract), typeof(ReferenceHub), typeof(byte))]
     class InteractingDoorPatch
     {
         [HarmonyPriority(Priority.High)]

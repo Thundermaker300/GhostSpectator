@@ -7,6 +7,7 @@ using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.Events.EventArgs;
 using UnityEngine;
+using Interactables.Interobjects.DoorUtils;
 using MEC;
 
 using GhostSpectator.Extensions;
@@ -197,7 +198,7 @@ namespace GhostSpectator
             }
             else if (ev.Item.id == ItemType.WeaponManagerTablet && Plugin.Config.GiveGhostNavigator == true && API.IsGhost(ev.Player))
             {
-                List<Door> Doors;
+                List<DoorVariant> Doors;
                 if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
                 {
                     Doors = Map.Doors.Where(d => d.transform.position.y < -100 || d.transform.position.y > 300).ToList();
@@ -206,10 +207,10 @@ namespace GhostSpectator
                 {
                     Doors = Map.Doors.ToList();
                 }
-                Door chosen = Doors.ElementAt(rng.Next(0, Doors.Count - 1));
-                if (Plugin.Config.NavigateMessage != "none")
+                DoorVariant chosen = Doors.ElementAt(rng.Next(0, Doors.Count - 1));
+                if (Plugin.Config.NavigateMessage != "none" && chosen.TryGetComponent(out DoorNametagExtension ext))
                 {
-                    ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", chosen.DoorName), 3);
+                    ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", ext.GetName), 3);
                 }
                 if (!PlayerMovementSync.FindSafePosition(chosen.transform.position, out Vector3 safePos))
                 {
