@@ -5,21 +5,17 @@ using Exiled.API.Features;
 namespace GhostSpectator.Patches
 {
     [HarmonyPatch(typeof(PlayerInteract), nameof(PlayerInteract.CallCmdUseLocker))]
-    class InteractingLockerPatch
+    internal static class InteractingLockerPatch
     {
         [HarmonyPriority(Priority.High)]
-        public static bool Prefix(PlayerInteract __instance, byte lockerId, byte chamberNumber)
+        private static bool Prefix(PlayerInteract __instance, byte lockerId, byte chamberNumber)
         {
             try
             {
-                Player Ply = Player.Get(__instance._hub);
-                if (Ply == null) return true;
+                Player ply = Player.Get(__instance._hub);
+                if (ply == null) return true;
 
-                if (API.IsGhost(Ply) && !GhostSpectator.Singleton.Config.InteractLockers)
-                {
-                    return false;
-                }
-                return true;
+                return !API.IsGhost(ply) || GhostSpectator.Singleton.Config.InteractLockers;
             }
             catch (Exception e)
             {

@@ -6,11 +6,11 @@ using CommandSystem;
 namespace GhostSpectator.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
-    class spec : ICommand
+    public class Spec : ICommand
     {
         public string Command => "spec";
 
-        public string[] Aliases => new string[] { };
+        public string[] Aliases => Array.Empty<string>();
 
         public string Description => "Switches from ghost to normal spectator mode and vice versa.";
 
@@ -21,25 +21,29 @@ namespace GhostSpectator.Commands
                 response = "This command is disabled.";
                 return false;
             }
-            Player Ply = Player.Get(((CommandSender)sender).Nickname);
-            if (Ply == null)
+
+            Player ply = Player.Get(((CommandSender) sender).Nickname);
+            if (ply == null)
             {
                 response = "The command speaker is not a player.";
                 return false;
             }
-            if (API.IsGhost(Ply))
+
+            if (API.IsGhost(ply))
             {
-                Ply.SetRole(RoleType.Spectator);
+                ply.SetRole(RoleType.Spectator);
             }
             else
             {
-                if (Ply.IsAlive)
+                if (ply.IsAlive)
                 {
                     response = "This command cannot be used to change from an alive player to a ghost.";
                     return false;
                 }
-                API.GhostPlayer(Ply);
+
+                API.GhostPlayer(ply);
             }
+
             response = "Success";
             return true;
         }

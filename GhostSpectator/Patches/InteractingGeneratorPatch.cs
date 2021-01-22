@@ -5,21 +5,18 @@ using Exiled.API.Features;
 namespace GhostSpectator.Patches
 {
     [HarmonyPatch(typeof(PlayerInteract), nameof(PlayerInteract.CallCmdUseGenerator))]
-    class InteractingGeneratorPatch
+    internal static class InteractingGeneratorPatch
     {
         [HarmonyPriority(Priority.High)]
-        public static bool Prefix(PlayerInteract __instance, PlayerInteract.Generator079Operations command, UnityEngine.GameObject go)
+        private static bool Prefix(PlayerInteract __instance, PlayerInteract.Generator079Operations command,
+            UnityEngine.GameObject go)
         {
             try
             {
-                Player Ply = Player.Get(__instance._hub);
-                if (Ply == null) return true;
+                Player ply = Player.Get(__instance._hub);
+                if (ply == null) return true;
 
-                if (API.IsGhost(Ply) && !GhostSpectator.Singleton.Config.InteractGenerators)
-                {
-                    return false;
-                }
-                return true;
+                return !API.IsGhost(ply) || GhostSpectator.Singleton.Config.InteractGenerators;
             }
             catch (Exception e)
             {

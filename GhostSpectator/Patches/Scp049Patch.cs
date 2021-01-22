@@ -1,6 +1,4 @@
-﻿using System;
-
-using HarmonyLib;
+﻿using HarmonyLib;
 using UnityEngine;
 using PlayableScps;
 using Exiled.API.Features;
@@ -10,10 +8,10 @@ using Mirror;
 namespace GhostSpectator.Patches
 {
     [HarmonyPatch(typeof(Scp049), nameof(Scp049.BodyCmd_ByteAndGameObject))]
-    class Scp049Patch
+    internal static class Scp049Patch
     {
         [HarmonyPriority(Priority.High)]
-        public static bool Prefix(Scp049 __instance, byte num, GameObject go)
+        private static bool Prefix(Scp049 __instance, byte num, GameObject go)
         {
             if (num == 2)
             {
@@ -47,12 +45,14 @@ namespace GhostSpectator.Patches
                     return false;
                 }
 
-                if (referenceHub.characterClassManager.CurClass != RoleType.Spectator && !API.IsGhost(Player.Get(referenceHub)))
+                if (referenceHub.characterClassManager.CurClass != RoleType.Spectator &&
+                    !API.IsGhost(Player.Get(referenceHub)))
                 {
                     return false;
                 }
 
-                var ev = new FinishingRecallEventArgs(Player.Get(referenceHub.gameObject), Player.Get(__instance.Hub.gameObject));
+                var ev = new FinishingRecallEventArgs(Player.Get(referenceHub.gameObject),
+                    Player.Get(__instance.Hub.gameObject));
 
                 Exiled.Events.Handlers.Scp049.OnFinishingRecall(ev);
 
