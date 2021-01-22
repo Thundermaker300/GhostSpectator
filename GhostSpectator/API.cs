@@ -11,73 +11,76 @@ namespace GhostSpectator
 {
     public class API
     {
-        public static Vector3 FindSpawnPosition(Player Ply, PlayerStats.HitInfo info)
+        public static Vector3 FindSpawnPosition(Player ply, PlayerStats.HitInfo info)
         {
-            if (Ply.Role == RoleType.Scp106 && info.GetDamageType() == DamageTypes.RagdollLess)
+            if (ply.Role == RoleType.Scp106 && info.GetDamageType() == DamageTypes.RagdollLess)
             {
-                if (PlayerMovementSync.FindSafePosition(Ply.Position, out Vector3 safePos))
+                if (PlayerMovementSync.FindSafePosition(ply.Position, out Vector3 safePos))
                 {
                     return safePos;
                 }
                 else
                 {
-                    return Ply.Position + new Vector3(0, 5, 0);
+                    return ply.Position + new Vector3(0, 5, 0);
                 }
             }
-            else if (Ply.CurrentRoom.Type == RoomType.Pocket)
+            else if (ply.CurrentRoom.Type == RoomType.Pocket)
             {
                 return new Vector3(0, -1998.67f, 2);
             }
-            else if (Ply.Role == RoleType.Spectator || Ply.Role == RoleType.None)
+            else if (ply.Role == RoleType.Spectator || ply.Role == RoleType.None)
             {
                 return new Vector3(0, 1001, 8);
             }
             else
             {
-                return Ply.Position;
+                return ply.Position;
             }
         }
 
-        public static bool AreAllAlly(List<Player> List)
+        public static bool AreAllAlly(List<Player> list)
         {
             bool flag1 = true;
             bool flag2 = true;
             bool flag3 = true;
-            foreach (Player Ply in List)
+            foreach (Player ply in list)
             {
-                if (Ply.Team != Team.CDP && Ply.Team != Team.CHI && Ply.Team != Team.TUT && Ply.Team != Team.RIP)
+                if (ply.Team != Team.CDP && ply.Team != Team.CHI && ply.Team != Team.TUT && ply.Team != Team.RIP)
                 {
                     flag1 = false;
                 }
-                if (Ply.Team != Team.SCP && Ply.Team != Team.CHI && Ply.Team != Team.TUT && Ply.Team != Team.RIP)
+
+                if (ply.Team != Team.SCP && ply.Team != Team.CHI && ply.Team != Team.TUT && ply.Team != Team.RIP)
                 {
                     flag2 = false;
                 }
-                if (Ply.Team != Team.MTF && Ply.Team != Team.RSC && Ply.Team != Team.TUT && Ply.Team != Team.RIP)
+
+                if (ply.Team != Team.MTF && ply.Team != Team.RSC && ply.Team != Team.TUT && ply.Team != Team.RIP)
                 {
                     flag3 = false;
                 }
             }
-            return (flag1 || flag2 || flag3);
+
+            return flag1 || flag2 || flag3;
         }
 
-        public static bool IsGhost(Player Ply) => GhostSpectator.Ghosts.Contains(Ply);
+        public static bool IsGhost(Player ply) => GhostSpectator.Ghosts.Contains(ply);
 
-        public static void GhostPlayer(Player Ply)
+        public static void GhostPlayer(Player ply)
         {
-            if (GhostSpectator.Ghosts.Contains(Ply)) return;
+            if (GhostSpectator.Ghosts.Contains(ply)) return;
 
-            Ply.SetRole(GhostSpectator.Singleton.Config.GhostRole);
-            GhostSpectator.Ghosts.Add(Ply);
+            ply.SetRole(GhostSpectator.Singleton.Config.GhostRole);
+            GhostSpectator.Ghosts.Add(ply);
 
-            Ply.ReferenceHub.nicknameSync.CustomPlayerInfo = "GHOST";
-            Ply.ReferenceHub.nicknameSync.ShownPlayerInfo &= ~PlayerInfoArea.Role;
+            ply.ReferenceHub.nicknameSync.CustomPlayerInfo = "GHOST";
+            ply.ReferenceHub.nicknameSync.ShownPlayerInfo &= ~PlayerInfoArea.Role;
 
             Timing.CallDelayed(0.1f, () =>
             {
-                Ply.NoClipEnabled = true;
-                Ply.IsGodModeEnabled = true;
-                Ply.IsInvisible = true;
+                ply.NoClipEnabled = true;
+                ply.IsGodModeEnabled = true;
+                ply.IsInvisible = true;
             });
             /*foreach (Player AlivePly in Player.List.Where(P => P.IsAlive == true && !IsGhost(P)))
             {
@@ -88,56 +91,62 @@ namespace GhostSpectator
             }*/
             Timing.CallDelayed(2.2f, () => // Prevent other plugins from giving items to ghosts
             {
-                Ply.ClearInventory();
+                ply.ClearInventory();
                 if (GhostSpectator.Singleton.Config.GiveGhostNavigator == true)
                 {
-                    Ply.Inventory.AddNewItem(ItemType.WeaponManagerTablet);
+                    ply.Inventory.AddNewItem(ItemType.WeaponManagerTablet);
                 }
+
                 if (GhostSpectator.Singleton.Config.CanGhostsTeleport == true)
                 {
-                    Ply.Inventory.AddNewItem(ItemType.Coin);
+                    ply.Inventory.AddNewItem(ItemType.Coin);
                 }
             });
             if (!GhostSpectator.Singleton.Config.TriggerScps)
             {
-                if (!Scp173.TurnedPlayers.Contains(Ply))
+                if (!Scp173.TurnedPlayers.Contains(ply))
                 {
-                    Scp173.TurnedPlayers.Add(Ply);
+                    Scp173.TurnedPlayers.Add(ply);
                 }
-                if (!Scp096.TurnedPlayers.Contains(Ply))
+
+                if (!Scp096.TurnedPlayers.Contains(ply))
                 {
-                    Scp096.TurnedPlayers.Add(Ply);
+                    Scp096.TurnedPlayers.Add(ply);
                 }
             }
-            if (GhostSpectator.SpawnPositions.ContainsKey(Ply))
+
+            if (GhostSpectator.SpawnPositions.ContainsKey(ply))
             {
                 Timing.CallDelayed(0.2f, () =>
                 {
-                    Ply.Position = GhostSpectator.SpawnPositions[Ply];
-                    GhostSpectator.SpawnPositions.Remove(Ply);
+                    ply.Position = GhostSpectator.SpawnPositions[ply];
+                    GhostSpectator.SpawnPositions.Remove(ply);
                 });
             }
-            if (GhostSpectator.Singleton.Config.SpawnMessage != "none" && GhostSpectator.Singleton.Config.SpawnMessageLength > 0)
+
+            if (GhostSpectator.Singleton.Config.SpawnMessage != "none" &&
+                GhostSpectator.Singleton.Config.SpawnMessageLength > 0)
             {
-                Ply.ClearBroadcasts();
-                Ply.Broadcast((ushort)GhostSpectator.Singleton.Config.SpawnMessageLength, GhostSpectator.Singleton.Config.SpawnMessage);
+                ply.ClearBroadcasts();
+                ply.Broadcast((ushort) GhostSpectator.Singleton.Config.SpawnMessageLength,
+                    GhostSpectator.Singleton.Config.SpawnMessage);
             }
         }
 
-        public static void UnGhostPlayer(Player Ply)
+        public static void UnGhostPlayer(Player ply)
         {
-            if (!GhostSpectator.Ghosts.Contains(Ply)) return;
+            if (!GhostSpectator.Ghosts.Contains(ply)) return;
 
-            GhostSpectator.Ghosts.Remove(Ply);
+            GhostSpectator.Ghosts.Remove(ply);
 
-            Ply.ReferenceHub.nicknameSync.CustomPlayerInfo = string.Empty;
-            Ply.ReferenceHub.nicknameSync.ShownPlayerInfo |= PlayerInfoArea.Role;
+            ply.CustomInfo = string.Empty;
+            ply.ReferenceHub.nicknameSync.ShownPlayerInfo |= PlayerInfoArea.Role;
 
             Timing.CallDelayed(0.1f, () =>
             {
-                Ply.NoClipEnabled = false;
-                Ply.IsGodModeEnabled = false;
-                Ply.IsInvisible = false;
+                ply.NoClipEnabled = false;
+                ply.IsGodModeEnabled = false;
+                ply.IsInvisible = false;
             });
             /*foreach (Player AlivePly in Player.List)
             {
@@ -146,16 +155,15 @@ namespace GhostSpectator
                     Ply.TargetGhostsHashSet.Remove(AlivePly.Id);
                 }
             }*/
-            if (GhostSpectator.Singleton.Config.TriggerScps == false)
+            if (GhostSpectator.Singleton.Config.TriggerScps) return;
+            if (Scp173.TurnedPlayers.Contains(ply))
             {
-                if (Scp173.TurnedPlayers.Contains(Ply))
-                {
-                    Scp173.TurnedPlayers.Remove(Ply);
-                }
-                if (Scp096.TurnedPlayers.Contains(Ply))
-                {
-                    Scp096.TurnedPlayers.Remove(Ply);
-                }
+                Scp173.TurnedPlayers.Remove(ply);
+            }
+
+            if (Scp096.TurnedPlayers.Contains(ply))
+            {
+                Scp096.TurnedPlayers.Remove(ply);
             }
         }
 
@@ -165,39 +173,44 @@ namespace GhostSpectator
             {
                 return Player.List.ToList();
             }
-            else if (data.Contains("%"))
+
+            if (data.Contains("%"))
             {
                 string searchFor = data.Remove(0, 1);
-                if (!Enum.TryParse(searchFor, true, out RoleType role))
-                {
-                    return new List<Player> { };
-                }
-                return Player.List.Where(Ply => Ply.Role == role).ToList();
+                return !Enum.TryParse(searchFor, true, out RoleType role)
+                    ? new List<Player>()
+                    : Player.Get(role).ToList();
             }
-            else if (data.Contains("*"))
+
+            if (data.Contains("*"))
             {
                 string searchFor = data.Remove(0, 1);
-                ZoneType zone = (searchFor.ToLower() == "light" ? ZoneType.LightContainment : (searchFor.ToLower() == "heavy" ? ZoneType.HeavyContainment : (searchFor.ToLower() == "entrance" ? ZoneType.Entrance : (searchFor.ToLower() == "surface" ? ZoneType.Surface : ZoneType.Unspecified))));
-                if (zone == ZoneType.Unspecified)
-                {
-                    return new List<Player> { };
-                }
-                return Player.List.Where(Ply => Ply.CurrentRoom.Zone == zone).ToList();
+                ZoneType zone = searchFor.ToLower() == "light"
+                    ? ZoneType.LightContainment
+                    : searchFor.ToLower() == "heavy"
+                        ? ZoneType.HeavyContainment
+                        : searchFor.ToLower() == "entrance"
+                            ? ZoneType.Entrance
+                            : searchFor.ToLower() == "surface"
+                                ? ZoneType.Surface
+                                : ZoneType.Unspecified;
+                return zone == ZoneType.Unspecified
+                    ? new List<Player>()
+                    : Player.List.Where(ply => ply.CurrentRoom.Zone == zone).ToList();
             }
-            else
+
+            List<Player> returnValue = new List<Player>();
+            string[] ids = data.Split((".").ToCharArray());
+            foreach (string id in ids)
             {
-                List<Player> returnValue = new List<Player> { };
-                string[] IDs = data.Split((".").ToCharArray());
-                foreach (string id in IDs)
+                Player ply = Player.Get(id);
+                if (ply != null)
                 {
-                    Player Ply = Player.Get(id);
-                    if (Ply != null)
-                    {
-                        returnValue.Add(Ply);
-                    }
+                    returnValue.Add(ply);
                 }
-                return returnValue;
             }
+
+            return returnValue;
         }
     }
 }

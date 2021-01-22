@@ -13,69 +13,67 @@ namespace GhostSpectator
     public class GhostSpectator : Plugin<Config>
     {
         public static GhostSpectator Singleton;
-        public static List<Player> Ghosts = new List<Player> { };
-        public static Dictionary<Player, Vector3> SpawnPositions = new Dictionary<Player, Vector3> { };
-        private EventHandler Handler;
-        private Harmony HarmonyPatch;
-        private string PatchId = nameof(GhostSpectator).ToLowerInvariant();
+        public static readonly List<Player> Ghosts = new List<Player>();
+        public static readonly Dictionary<Player, Vector3> SpawnPositions = new Dictionary<Player, Vector3>();
+        private EventHandler _handler;
+        private Harmony _harmonyPatch;
+
         public override void OnEnabled()
         {
-            base.OnEnabled();
-
             // Create Classes
             Singleton = this;
-            Handler = new EventHandler(this);
+            _handler = new EventHandler(this);
 
             // Create Events
-            /// Server
-            Events.Server.RespawningTeam += Handler.OnRespawningTeam;
-            /// Player
-            Events.Player.Joined += Handler.OnJoined;
-            Events.Player.Left += Handler.OnLeft;
-            Events.Player.Dying += Handler.OnDying;
-            Events.Player.Died += Handler.OnDied;
-            Events.Player.Hurting += Handler.OnHurting;
-            Events.Player.ChangingRole += Handler.OnChangingRole;
-            Events.Player.DroppingItem += Handler.OnDroppingItem;
-            Events.Player.PickingUpItem += Handler.OnPickingUpItem;
-            Events.Player.InteractingDoor += Handler.OnInteractingDoor;
-            Events.Player.InteractingLocker += Handler.OnInteractingLocker;
-            Events.Player.InteractingElevator += Handler.OnInteractingElevator;
-            Events.Player.TriggeringTesla += Handler.OnTriggeringTesla;
-            Events.Player.OpeningGenerator += Handler.OnOpeningGenerator;
-            Events.Player.ClosingGenerator += Handler.OnClosingGenerator;
-            Events.Player.InsertingGeneratorTablet += Handler.OnInsertingGeneratorTablet;
-            Events.Player.EjectingGeneratorTablet += Handler.OnEjectingGeneratorTablet;
-            Events.Player.IntercomSpeaking += Handler.OnIntercomSpeaking;
-            Events.Player.EnteringFemurBreaker += Handler.OnFemurEnter;
-            Events.Player.SpawningRagdoll += Handler.OnSpawningRagdoll;
-            Events.Player.FailingEscapePocketDimension -= Handler.OnFailingEscapePocketDimension;
-            /// SCP-049 FIX
-            Events.Scp049.FinishingRecall += Handler.OnFinishingRecall;
-            /// SCP-914
-            Events.Scp914.Activating += Handler.OnActivating;
-            Events.Scp914.ChangingKnobSetting += Handler.OnChangingKnobStatus;
-            /// Workstation
-            Events.Player.ActivatingWorkstation += Handler.OnActivatingWorkstation;
-            Events.Player.DeactivatingWorkstation += Handler.OnDeactivatingWorkstation;
-            /// Warhead
-            Events.Warhead.Starting += Handler.OnStarting;
-            Events.Warhead.Stopping += Handler.OnStopping;
-            Events.Warhead.ChangingLeverStatus += Handler.OnChangingLeverStatus;
-            Events.Warhead.Detonated += Handler.OnDetonated;
-            /// SCP-096
-            Events.Scp096.AddingTarget += Handler.OnAddingTarget;
-            /// SCP-106
-            Events.Scp106.Containing += Handler.On106Containing;
-            /// Other
-            Events.Server.EndingRound += Handler.OnEndingRound;
+            // Server
+            Events.Server.RespawningTeam += _handler.OnRespawningTeam;
+            // Player
+            Events.Player.Joined += _handler.OnJoined;
+            Events.Player.Left += _handler.OnLeft;
+            Events.Player.Dying += _handler.OnDying;
+            Events.Player.Died += _handler.OnDied;
+            Events.Player.Hurting += _handler.OnHurting;
+            Events.Player.ChangingRole += _handler.OnChangingRole;
+            Events.Player.DroppingItem += _handler.OnDroppingItem;
+            Events.Player.PickingUpItem += _handler.OnPickingUpItem;
+            Events.Player.InteractingDoor += _handler.OnInteractingDoor;
+            Events.Player.InteractingLocker += _handler.OnInteractingLocker;
+            Events.Player.InteractingElevator += _handler.OnInteractingElevator;
+            Events.Player.TriggeringTesla += _handler.OnTriggeringTesla;
+            Events.Player.OpeningGenerator += _handler.OnOpeningGenerator;
+            Events.Player.ClosingGenerator += _handler.OnClosingGenerator;
+            Events.Player.InsertingGeneratorTablet += _handler.OnInsertingGeneratorTablet;
+            Events.Player.EjectingGeneratorTablet += _handler.OnEjectingGeneratorTablet;
+            Events.Player.IntercomSpeaking += _handler.OnIntercomSpeaking;
+            Events.Player.EnteringFemurBreaker += _handler.OnFemurEnter;
+            Events.Player.SpawningRagdoll += _handler.OnSpawningRagdoll;
+            Events.Player.FailingEscapePocketDimension -= _handler.OnFailingEscapePocketDimension;
+            // SCP-049 FIX
+            Events.Scp049.FinishingRecall += _handler.OnFinishingRecall;
+            // SCP-914
+            Events.Scp914.Activating += _handler.OnActivating;
+            Events.Scp914.ChangingKnobSetting += _handler.OnChangingKnobStatus;
+            // Workstation
+            Events.Player.ActivatingWorkstation += _handler.OnActivatingWorkstation;
+            Events.Player.DeactivatingWorkstation += _handler.OnDeactivatingWorkstation;
+            // Warhead
+            Events.Warhead.Starting += _handler.OnStarting;
+            Events.Warhead.Stopping += _handler.OnStopping;
+            Events.Warhead.ChangingLeverStatus += _handler.OnChangingLeverStatus;
+            Events.Warhead.Detonated += _handler.OnDetonated;
+            // SCP-096
+            Events.Scp096.AddingTarget += _handler.OnAddingTarget;
+            // SCP-106
+            Events.Scp106.Containing += _handler.On106Containing;
+            // Other
+            Events.Server.EndingRound += _handler.OnEndingRound;
 
             // Patching
             try
             {
-                HarmonyPatch = new Harmony(PatchId);
+                _harmonyPatch = new Harmony(nameof(GhostSpectator).ToLowerInvariant());
                 Harmony.DEBUG = true;
-                HarmonyPatch.PatchAll();
+                _harmonyPatch.PatchAll();
 
                 Log.Info("Harmony patching complete.");
             }
@@ -83,62 +81,64 @@ namespace GhostSpectator
             {
                 Log.Error($"Harmony patching failed! {e}");
             }
+
+            base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            base.OnDisabled();
-
             // Create Events
-            /// Server
-            Events.Server.RespawningTeam -= Handler.OnRespawningTeam;
-            /// Player
-            Events.Player.Joined -= Handler.OnJoined;
-            Events.Player.Left -= Handler.OnLeft;
-            Events.Player.Dying -= Handler.OnDying;
-            Events.Player.Died -= Handler.OnDied;
-            Events.Player.Hurting -= Handler.OnHurting;
-            Events.Player.ChangingRole -= Handler.OnChangingRole;
-            Events.Player.DroppingItem -= Handler.OnDroppingItem;
-            Events.Player.PickingUpItem -= Handler.OnPickingUpItem;
-            Events.Player.InteractingDoor -= Handler.OnInteractingDoor;
-            Events.Player.InteractingLocker -= Handler.OnInteractingLocker;
-            Events.Player.InteractingElevator -= Handler.OnInteractingElevator;
-            Events.Player.TriggeringTesla -= Handler.OnTriggeringTesla;
-            Events.Player.OpeningGenerator -= Handler.OnOpeningGenerator;
-            Events.Player.ClosingGenerator -= Handler.OnClosingGenerator;
-            Events.Player.InsertingGeneratorTablet -= Handler.OnInsertingGeneratorTablet;
-            Events.Player.EjectingGeneratorTablet -= Handler.OnEjectingGeneratorTablet;
-            Events.Player.IntercomSpeaking -= Handler.OnIntercomSpeaking;
-            Events.Player.EnteringFemurBreaker -= Handler.OnFemurEnter;
-            Events.Player.SpawningRagdoll -= Handler.OnSpawningRagdoll;
-            Events.Player.FailingEscapePocketDimension -= Handler.OnFailingEscapePocketDimension;
-            /// SCP-049 FIX
-            Events.Scp049.FinishingRecall -= Handler.OnFinishingRecall;
-            /// SCP-914
-            Events.Scp914.Activating -= Handler.OnActivating;
-            Events.Scp914.ChangingKnobSetting -= Handler.OnChangingKnobStatus;
-            /// Workstation
-            Events.Player.ActivatingWorkstation -= Handler.OnActivatingWorkstation;
-            Events.Player.DeactivatingWorkstation -= Handler.OnDeactivatingWorkstation;
-            /// Warhead
-            Events.Warhead.Starting -= Handler.OnStarting;
-            Events.Warhead.Stopping -= Handler.OnStopping;
-            Events.Warhead.ChangingLeverStatus -= Handler.OnChangingLeverStatus;
-            Events.Warhead.Detonated -= Handler.OnDetonated;
-            /// SCP-096
-            Events.Scp096.AddingTarget -= Handler.OnAddingTarget;
-            /// SCP-106
-            Events.Scp106.Containing -= Handler.On106Containing;
-            /// Other
-            Events.Server.EndingRound -= Handler.OnEndingRound;
+            // Server
+            Events.Server.RespawningTeam -= _handler.OnRespawningTeam;
+            // Player
+            Events.Player.Joined -= _handler.OnJoined;
+            Events.Player.Left -= _handler.OnLeft;
+            Events.Player.Dying -= _handler.OnDying;
+            Events.Player.Died -= _handler.OnDied;
+            Events.Player.Hurting -= _handler.OnHurting;
+            Events.Player.ChangingRole -= _handler.OnChangingRole;
+            Events.Player.DroppingItem -= _handler.OnDroppingItem;
+            Events.Player.PickingUpItem -= _handler.OnPickingUpItem;
+            Events.Player.InteractingDoor -= _handler.OnInteractingDoor;
+            Events.Player.InteractingLocker -= _handler.OnInteractingLocker;
+            Events.Player.InteractingElevator -= _handler.OnInteractingElevator;
+            Events.Player.TriggeringTesla -= _handler.OnTriggeringTesla;
+            Events.Player.OpeningGenerator -= _handler.OnOpeningGenerator;
+            Events.Player.ClosingGenerator -= _handler.OnClosingGenerator;
+            Events.Player.InsertingGeneratorTablet -= _handler.OnInsertingGeneratorTablet;
+            Events.Player.EjectingGeneratorTablet -= _handler.OnEjectingGeneratorTablet;
+            Events.Player.IntercomSpeaking -= _handler.OnIntercomSpeaking;
+            Events.Player.EnteringFemurBreaker -= _handler.OnFemurEnter;
+            Events.Player.SpawningRagdoll -= _handler.OnSpawningRagdoll;
+            Events.Player.FailingEscapePocketDimension -= _handler.OnFailingEscapePocketDimension;
+            // SCP-049 FIX
+            Events.Scp049.FinishingRecall -= _handler.OnFinishingRecall;
+            // SCP-914
+            Events.Scp914.Activating -= _handler.OnActivating;
+            Events.Scp914.ChangingKnobSetting -= _handler.OnChangingKnobStatus;
+            // Workstation
+            Events.Player.ActivatingWorkstation -= _handler.OnActivatingWorkstation;
+            Events.Player.DeactivatingWorkstation -= _handler.OnDeactivatingWorkstation;
+            // Warhead
+            Events.Warhead.Starting -= _handler.OnStarting;
+            Events.Warhead.Stopping -= _handler.OnStopping;
+            Events.Warhead.ChangingLeverStatus -= _handler.OnChangingLeverStatus;
+            Events.Warhead.Detonated -= _handler.OnDetonated;
+            // SCP-096
+            Events.Scp096.AddingTarget -= _handler.OnAddingTarget;
+            // SCP-106
+            Events.Scp106.Containing -= _handler.On106Containing;
+            // Other
+            Events.Server.EndingRound -= _handler.OnEndingRound;
 
             // Unpatch
-            HarmonyPatch.UnpatchAll(PatchId);
+            _harmonyPatch.UnpatchAll(_harmonyPatch.Id);
 
             // Destroy Classes
             Singleton = null;
-            Handler = null;
+            _handler = null;
+
+            base.OnDisabled();
         }
 
         public override string Name => "GhostSpectator";

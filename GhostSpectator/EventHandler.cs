@@ -11,14 +11,12 @@ using Interactables.Interobjects.DoorUtils;
 using MEC;
 using NorthwoodLib.Pools;
 
-using GhostSpectator.Extensions;
-
 namespace GhostSpectator
 {
     public class EventHandler
     {
-        public GhostSpectator Plugin { get; private set; }
-        private static Random rng = new Random();
+        private GhostSpectator Plugin { get; }
+        private static readonly Random Rng = new Random();
 
         public EventHandler(GhostSpectator plugin) => Plugin = plugin;
 
@@ -39,55 +37,45 @@ namespace GhostSpectator
                 }
             }*/
 
-            if (API.IsGhost(ev.Player))
+            if (!API.IsGhost(ev.Player)) return;
+            Log.Debug($"Turning {ev.Player.Nickname} into {ev.NewRole}.");
+            if (ev.NewRole == RoleType.Spectator)
             {
-                Log.Debug($"Turning {ev.Player.Nickname} into {ev.NewRole}.");
-                if (ev.NewRole == RoleType.Spectator)
-                {
-                    ev.Player.ClearInventory();
-                }
-                if (!GhostSpectator.SpawnPositions.ContainsKey(ev.Player))
-                {
-                    // Teleport to a new spawn point (eliminate potential issues with noclipping directly after spawning)
-                    if (ev.NewRole != RoleType.Tutorial && ev.NewRole != RoleType.Spectator)
-                    {
-                        Vector3 spawnPoint = Map.GetRandomSpawnPoint(ev.NewRole);
-                        Timing.CallDelayed(0.1f, () =>
-                        {
-                            ev.Player.Position = spawnPoint;
-                        });
-                    }
-                }
-                API.UnGhostPlayer(ev.Player);
+                ev.Player.ClearInventory();
             }
+
+            if (!GhostSpectator.SpawnPositions.ContainsKey(ev.Player))
+            {
+                // Teleport to a new spawn point (eliminate potential issues with noclipping directly after spawning)
+                if (ev.NewRole != RoleType.Tutorial && ev.NewRole != RoleType.Spectator)
+                {
+                    Vector3 spawnPoint = ev.NewRole.GetRandomSpawnPoint();
+                    Timing.CallDelayed(0.1f, () => { ev.Player.Position = spawnPoint; });
+                }
+            }
+
+            API.UnGhostPlayer(ev.Player);
         }
 
         public void OnFinishingRecall(FinishingRecallEventArgs ev)
         {
-            if (API.IsGhost(ev.Target))
-            {
-                ev.Target.ClearInventory();
-                API.UnGhostPlayer(ev.Target);
-            }
+            if (!API.IsGhost(ev.Target)) return;
+            ev.Target.ClearInventory();
+            API.UnGhostPlayer(ev.Target);
         }
 
         public void OnJoined(JoinedEventArgs ev)
         {
-            if (Round.IsStarted)
-            {
-                CoroutineHandle ch = Timing.RunCoroutine(JoinedWait(ev.Player));
-                Timing.CallDelayed(30f, () =>
-                {
-                    Timing.KillCoroutines(ch);
-                });
-            }
+            if (!Round.IsStarted) return;
+            CoroutineHandle ch = Timing.RunCoroutine(JoinedWait(ev.Player));
+            Timing.CallDelayed(30f, () => { Timing.KillCoroutines(ch); });
         }
 
-        private IEnumerator<float> JoinedWait(Player Ply)
+        private IEnumerator<float> JoinedWait(Player ply)
         {
-            yield return Timing.WaitUntilTrue(() => Ply.Role == RoleType.Spectator);
+            yield return Timing.WaitUntilTrue(() => ply.Role == RoleType.Spectator);
             yield return Timing.WaitForSeconds(1f);
-            API.GhostPlayer(Ply);
+            API.GhostPlayer(ply);
         }
 
         public void OnLeft(LeftEventArgs ev)
@@ -120,14 +108,9 @@ namespace GhostSpectator
 
         public void OnDied(DiedEventArgs ev)
         {
-            if (!API.IsGhost(ev.Target))
-            {
-                Log.Debug($"Turning {ev.Target.Nickname} into ghost.");
-                Timing.CallDelayed(0.1f, () =>
-                {
-                    API.GhostPlayer(ev.Target);
-                });
-            }
+            if (API.IsGhost(ev.Target)) return;
+            Log.Debug($"Turning {ev.Target.Nickname} into ghost.");
+            Timing.CallDelayed(0.1f, () => { API.GhostPlayer(ev.Target); });
         }
 
         public void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
@@ -140,9 +123,9 @@ namespace GhostSpectator
 
         public void OnRespawningTeam(RespawningTeamEventArgs ev)
         {
-            foreach (Player Ply in GhostSpectator.Ghosts)
+            foreach (Player ply in GhostSpectator.Ghosts)
             {
-                ev.Players.Add(Ply);
+                ev.Players.Add(ply);
             }
         }
 
@@ -172,58 +155,78 @@ namespace GhostSpectator
 
         public void OnEndingRound(EndingRoundEventArgs ev)
         {
-            List<Player> AlivePlayers = Player.List.Where(Ply => !API.IsGhost(Ply)).ToList();
-            ev.IsRoundEnded = API.AreAllAlly(AlivePlayers); ;
+            List<Player> alivePlayers = Player.List.Where(ply => !API.IsGhost(ply)).ToList();
+            ev.IsRoundEnded = API.AreAllAlly(alivePlayers);
         }
 
         public void OnDroppingItem(DroppingItemEventArgs ev)
         {
-            if (ev.Item.id == ItemType.Coin && Plugin.Config.CanGhostsTeleport == true && API.IsGhost(ev.Player))
+            switch (ev.Item.id)
             {
-                // Todo: setting to allow ghosts to tp to each other
-                List<Player> PlysToTeleport = Player.List.Where(p => p.Team != Team.RIP && !API.IsGhost(p) && !Plugin.Config.TeleportBlacklist.Contains(p.Role)).ToList();
-                if (PlysToTeleport.Count == 0)
+                case ItemType.Coin when Plugin.Config.CanGhostsTeleport && API.IsGhost(ev.Player):
                 {
-                    ev.Player.ShowHint(Plugin.Config.TeleportNoneMessage);
-                }
-                else
-                {
-                    Player Chosen = PlysToTeleport.ElementAt(rng.Next(PlysToTeleport.Count));
-                    if (Plugin.Config.TeleportMessage != "none")
+                    // Todo: setting to allow ghosts to tp to each other
+                    List<Player> PlysToTeleport = Player.List.Where(p =>
+                            p.Team != Team.RIP && !API.IsGhost(p) && !Plugin.Config.TeleportBlacklist.Contains(p.Role))
+                        .ToList();
+                    if (PlysToTeleport.Count == 0)
                     {
-                        ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", Chosen.Nickname).Replace("{class}", $"<color={Chosen.RoleColor.ToHex()}>{Plugin.Config.RoleStrings[Chosen.Role]}</color>"), 3);
+                        ev.Player.ShowHint(Plugin.Config.TeleportNoneMessage);
                     }
-                    ev.Player.Position = Chosen.Position + new Vector3(0, 2, 0);
+                    else
+                    {
+                        Player chosen = PlysToTeleport.ElementAt(Rng.Next(PlysToTeleport.Count));
+                        if (Plugin.Config.TeleportMessage != "none")
+                        {
+                            ev.Player.ShowHint(
+                                Plugin.Config.TeleportMessage.Replace("{name}", chosen.Nickname).Replace("{class}",
+                                    $"<color={chosen.RoleColor.ToHex()}>{Plugin.Config.RoleStrings[chosen.Role]}</color>"),
+                                3);
+                        }
+
+                        ev.Player.Position = chosen.Position + new Vector3(0, 2, 0);
+                    }
+
+                    ev.IsAllowed = false;
+                    break;
                 }
-                ev.IsAllowed = false;
-            }
-            else if (ev.Item.id == ItemType.WeaponManagerTablet && Plugin.Config.GiveGhostNavigator == true && API.IsGhost(ev.Player))
-            {
-                List<DoorVariant> Doors;
-                if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
+                case ItemType.WeaponManagerTablet when Plugin.Config.GiveGhostNavigator && API.IsGhost(ev.Player):
                 {
-                    Doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.Where(d => d.transform.position.y < -100 || d.transform.position.y > 300));
+                    List<DoorVariant> doors;
+                    if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
+                    {
+                        doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.Where(d =>
+                        {
+                            Vector3 position;
+                            return (position = d.transform.position).y < -100 || position.y > 300;
+                        }));
+                    }
+                    else
+                    {
+                        doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.ToList());
+                    }
+
+                    DoorVariant chosen = doors.ElementAt(Rng.Next(0, doors.Count - 1));
+                    if (Plugin.Config.NavigateMessage != "none" && chosen.TryGetComponent(out DoorNametagExtension ext))
+                    {
+                        ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", ext.GetName), 3);
+                    }
+
+                    if (!PlayerMovementSync.FindSafePosition(chosen.transform.position, out Vector3 safePos))
+                    {
+                        ev.Player.ShowHint(Plugin.Config.NavigateFailMessage, 3);
+                    }
+
+                    ev.Player.Position = safePos;
+                    ev.IsAllowed = false;
+                    ListPool<DoorVariant>.Shared.Return(doors);
+                    break;
                 }
-                else
+                default:
                 {
-                    Doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.ToList());
+                    if (API.IsGhost(ev.Player) && !Plugin.Config.DropItems) ev.IsAllowed = false;
+                    break;
                 }
-                DoorVariant chosen = Doors.ElementAt(rng.Next(0, Doors.Count - 1));
-                if (Plugin.Config.NavigateMessage != "none" && chosen.TryGetComponent(out DoorNametagExtension ext))
-                {
-                    ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", ext.GetName), 3);
-                }
-                if (!PlayerMovementSync.FindSafePosition(chosen.transform.position, out Vector3 safePos))
-                {
-                    ev.Player.ShowHint(Plugin.Config.NavigateFailMessage, 3);
-                }
-                ev.Player.Position = safePos;
-                ev.IsAllowed = false;
-                ListPool<DoorVariant>.Shared.Return(Doors);
-            }
-            else
-            {
-                if (API.IsGhost(ev.Player) && !Plugin.Config.DropItems) ev.IsAllowed = false;
             }
         }
 
@@ -295,15 +298,13 @@ namespace GhostSpectator
 
         public void OnDetonated()
         {
-            foreach (Player Ply in Player.List.Where(P => API.IsGhost(P)))
+            foreach (Player ply in Player.List.Where(API.IsGhost))
             {
-                if (Plugin.Config.RemoveItemsAfterNuke)
+                if (!Plugin.Config.RemoveItemsAfterNuke) continue;
+                ply.ClearInventory();
+                if (ply.CurrentRoom.Zone != ZoneType.Surface)
                 {
-                    Ply.ClearInventory();
-                    if (Ply.CurrentRoom.Zone != ZoneType.Surface)
-                    {
-                        Ply.Position = new Vector3(0, 1003, 7);
-                    }
+                    ply.Position = new Vector3(0, 1003, 7);
                 }
             }
         }
@@ -317,6 +318,7 @@ namespace GhostSpectator
         {
             if (API.IsGhost(ev.ButtonPresser) && !Plugin.Config.Contain106) ev.IsAllowed = false;
         }
+
         public void OnFemurEnter(EnteringFemurBreakerEventArgs ev)
         {
             if (API.IsGhost(ev.Player) && !Plugin.Config.EnterFemurBreaker) ev.IsAllowed = false;
@@ -324,18 +326,14 @@ namespace GhostSpectator
 
         public void OnFailingEscapePocketDimension(FailingEscapePocketDimensionEventArgs ev)
         {
-            if (API.IsGhost(ev.Player))
-            {
-                if (PlayerMovementSync.FindSafePosition(Map.Doors.FirstOrDefault(d => d.Type() == DoorType.Scp106Primary).transform.position, out Vector3 safePos))
-                {
-                    ev.Player.Position = safePos;
-                }
-                else
-                {
-                    ev.Player.Position = new Vector3(0, 1003, 7);
-                }
-                ev.IsAllowed = false;
-            }
+            if (!API.IsGhost(ev.Player)) return;
+            ev.Player.Position = PlayerMovementSync.FindSafePosition(
+                Map.Doors.FirstOrDefault(d => d.Type() == DoorType.Scp106Primary).transform.position,
+                out Vector3 safePos)
+                ? safePos
+                : new Vector3(0, 1003, 7);
+
+            ev.IsAllowed = false;
         }
     }
 }
