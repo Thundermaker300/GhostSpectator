@@ -9,6 +9,7 @@ using Exiled.Events.EventArgs;
 using UnityEngine;
 using Interactables.Interobjects.DoorUtils;
 using MEC;
+using NorthwoodLib.Pools;
 
 using GhostSpectator.Extensions;
 
@@ -201,11 +202,11 @@ namespace GhostSpectator
                 List<DoorVariant> Doors;
                 if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
                 {
-                    Doors = Map.Doors.Where(d => d.transform.position.y < -100 || d.transform.position.y > 300).ToList();
+                    Doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.Where(d => d.transform.position.y < -100 || d.transform.position.y > 300));
                 }
                 else
                 {
-                    Doors = Map.Doors.ToList();
+                    Doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.ToList());
                 }
                 DoorVariant chosen = Doors.ElementAt(rng.Next(0, Doors.Count - 1));
                 if (Plugin.Config.NavigateMessage != "none" && chosen.TryGetComponent(out DoorNametagExtension ext))
@@ -218,6 +219,7 @@ namespace GhostSpectator
                 }
                 ev.Player.Position = safePos;
                 ev.IsAllowed = false;
+                ListPool<DoorVariant>.Shared.Return(Doors);
             }
             else
             {
