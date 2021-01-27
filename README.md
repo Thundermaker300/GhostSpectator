@@ -2,8 +2,8 @@
 An SCP:SL Exiled plugin that turns users into ghosts when they die. Ghosts cannot be seen by alive players (including SCPs), cannot die, and can noclip.
 
 ## REQUIREMENTS
-* Exiled: V2.1.18
-* SCP:SL Server: V10.1.2
+* Exiled: V2.1.29
+* SCP:SL Server: V10.2.1
 
 ## Config
 What ghosts can interact with is not shown on this list but is configurable and will be generated along with the rest of these settings.
