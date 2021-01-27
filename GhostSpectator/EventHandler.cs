@@ -64,7 +64,7 @@ namespace GhostSpectator
             API.UnGhostPlayer(ev.Target);
         }
 
-        public void OnJoined(JoinedEventArgs ev)
+        public void OnVerified(VerifiedEventArgs ev)
         {
             if (!Round.IsStarted) return;
             CoroutineHandle ch = Timing.RunCoroutine(JoinedWait(ev.Player));
@@ -78,7 +78,7 @@ namespace GhostSpectator
             API.GhostPlayer(ply);
         }
 
-        public void OnLeft(LeftEventArgs ev)
+        public void OnDestroying(DestroyingEventArgs ev)
         {
             if (API.IsGhost(ev.Player))
             {
