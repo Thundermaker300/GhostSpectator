@@ -110,7 +110,6 @@ namespace GhostSpectator.Patches
                         referenceHub2.characterClassManager.NetworkCurUnitName = text;
                     }
 
-                    SCP_2536_Controller.singleton.TotalSpawnedPlayersByUnitName.Add(text, list2.Count);
                     unitNamingRule.PlayEntranceAnnouncement(text);
                 }
 
