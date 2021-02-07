@@ -116,7 +116,6 @@
     <Compile Include="Commands\spec.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="EventHandler.cs" />
-    <Compile Include="Extensions\PlayerGhostExtensions.cs" />
     <Compile Include="GhostSpectator.cs" />
     <Compile Include="Patches\DrawRandomTeamPatch.cs" />
     <Compile Include="Patches\InteractingDoorPatch.cs" />
