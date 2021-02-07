@@ -9,14 +9,14 @@ namespace GhostSpectator.Patches
     internal static class InteractingDoorPatch
     {
         [HarmonyPriority(Priority.High)]
-        private static bool Prefix(PlayerInteract __instance)
+        private static bool Prefix(PlayerInteract __instance, ReferenceHub ply, byte colliderId)
         {
             try
             {
-                Player ply = Player.Get(__instance._hub);
-                if (ply == null) return true;
+                Player player = Player.Get(ply);
+                if (player == null) return true;
 
-                return !API.IsGhost(ply) || GhostSpectator.Singleton.Config.InteractDoors;
+                return !API.IsGhost(player) || GhostSpectator.Singleton.Config.InteractDoors;
             }
             catch (Exception e)
             {
