@@ -46,7 +46,8 @@ namespace GhostSpectator
             Events.Player.IntercomSpeaking += _handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker += _handler.OnFemurEnter;
             Events.Player.SpawningRagdoll += _handler.OnSpawningRagdoll;
-            Events.Player.FailingEscapePocketDimension -= _handler.OnFailingEscapePocketDimension;
+            Events.Player.FailingEscapePocketDimension += _handler.OnFailingEscapePocketDimension;
+            Events.Player.RemovingHandcuffs += _handler.OnRemovingHandcuffs;
             // SCP-049 FIX
             Events.Scp049.FinishingRecall += _handler.OnFinishingRecall;
             // SCP-914
@@ -109,6 +110,7 @@ namespace GhostSpectator
             Events.Player.EnteringFemurBreaker -= _handler.OnFemurEnter;
             Events.Player.SpawningRagdoll -= _handler.OnSpawningRagdoll;
             Events.Player.FailingEscapePocketDimension -= _handler.OnFailingEscapePocketDimension;
+            Events.Player.RemovingHandcuffs -= _handler.OnRemovingHandcuffs;
             // SCP-049 FIX
             Events.Scp049.FinishingRecall -= _handler.OnFinishingRecall;
             // SCP-914

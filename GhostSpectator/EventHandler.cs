@@ -330,5 +330,10 @@ namespace GhostSpectator
 
             ev.IsAllowed = false;
         }
+
+        public void OnRemovingHandcuffs(RemovingHandcuffsEventArgs ev)
+        {
+            if (API.IsGhost(ev.Cuffer) && !Plugin.Config.FreeDisarmed) ev.IsAllowed = false;
+        }
     }
 }
