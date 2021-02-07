@@ -230,11 +230,6 @@ namespace GhostSpectator
             }
         }
 
-        public void OnInteractingDoor(InteractingDoorEventArgs ev)
-        {
-            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractDoors) ev.IsAllowed = false;
-        }
-
         public void OnInteractingElevator(InteractingElevatorEventArgs ev)
         {
             if (API.IsGhost(ev.Player) && !Plugin.Config.InteractElevators) ev.IsAllowed = false;
