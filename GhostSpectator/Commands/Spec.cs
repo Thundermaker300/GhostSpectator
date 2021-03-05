@@ -22,8 +22,8 @@ namespace GhostSpectator.Commands
                 return false;
             }
 
-            Player ply = Player.Get(((CommandSender) sender).Nickname);
-            if (ply == null)
+            Player ply = Player.Get(((CommandSender) sender).SenderId);
+            if (ply == null || ply.IsHost)
             {
                 response = "The command speaker is not a player.";
                 return false;
