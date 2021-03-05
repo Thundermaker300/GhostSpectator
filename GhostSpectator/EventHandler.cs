@@ -102,12 +102,20 @@ namespace GhostSpectator
             }
             else
             {
+                if (Plugin.Config.StartAsSpectator)
+                {
+                    return;
+                }
                 GhostSpectator.SpawnPositions[ev.Target] = API.FindSpawnPosition(ev.Target, ev.HitInformation);
             }
         }
 
         public void OnDied(DiedEventArgs ev)
         {
+            if (Plugin.Config.StartAsSpectator)
+            {
+                return;
+            }
             if (API.IsGhost(ev.Target)) return;
             Log.Debug($"Turning {ev.Target.Nickname} into ghost.");
             Timing.CallDelayed(0.1f, () => { API.GhostPlayer(ev.Target); });

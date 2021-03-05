@@ -23,6 +23,8 @@ namespace GhostSpectator
         [Description(
             "If set to true, ghosts can swap to spectator mode via the .spec command in the server console, and vice versa.")]
         public bool GhostSpecSwap { get; set; } = false;
+        [Description("If set to true, players will become spectators when they die, rather than ghosts. If this is true, ghost_spec_swap should also be true so that players can choose to become ghosts.")]
+        public bool StartAsSpectator { get; set; } = false;
 
         [Description(
             "If set to true, ghosts will be given a weapon manager tablet that they can drop to teleport to a random door in the map.")]
