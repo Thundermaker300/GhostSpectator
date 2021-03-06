@@ -67,6 +67,10 @@ namespace GhostSpectator
         public void OnVerified(VerifiedEventArgs ev)
         {
             if (!Round.IsStarted) return;
+
+            if (Plugin.Config.StartAsSpectator)
+                return;
+
             CoroutineHandle ch = Timing.RunCoroutine(JoinedWait(ev.Player));
             Timing.CallDelayed(30f, () => { Timing.KillCoroutines(ch); });
         }
