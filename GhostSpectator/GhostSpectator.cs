@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Exiled.API.Enums;
@@ -52,6 +52,7 @@ namespace GhostSpectator
             Events.Scp049.FinishingRecall += _handler.OnFinishingRecall;
             // SCP-914
             Events.Scp914.Activating += _handler.OnActivating;
+            Events.Scp914.UpgradingItems += _handler.OnUpgrading;
             Events.Scp914.ChangingKnobSetting += _handler.OnChangingKnobStatus;
             // Workstation
             Events.Player.ActivatingWorkstation += _handler.OnActivatingWorkstation;
