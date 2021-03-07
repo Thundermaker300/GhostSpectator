@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 using CommandSystem;
 
 namespace GhostSpectator.Commands
@@ -16,6 +17,11 @@ namespace GhostSpectator.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
+            if (!sender.CheckPermission("gs.spectate"))
+            {
+                response = "You don't have permission to use that command.";
+                return false;
+            }
             if (GhostSpectator.Singleton.Config.GhostSpecSwap == false)
             {
                 response = "This command is disabled.";
