@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Random = System.Random;
 
@@ -9,6 +9,7 @@ using Exiled.Events.EventArgs;
 using UnityEngine;
 using Interactables.Interobjects.DoorUtils;
 using MEC;
+using GameCore;
 using NorthwoodLib.Pools;
 
 namespace GhostSpectator
@@ -38,7 +39,7 @@ namespace GhostSpectator
             }*/
 
             if (!API.IsGhost(ev.Player)) return;
-            Log.Debug($"Turning {ev.Player.Nickname} into {ev.NewRole}.");
+            Exiled.API.Features.Log.Debug($"Turning {ev.Player.Nickname} into {ev.NewRole}.");
             if (ev.NewRole == RoleType.Spectator)
             {
                 ev.Player.ClearInventory();
@@ -121,9 +122,63 @@ namespace GhostSpectator
                 return;
             }
             if (API.IsGhost(ev.Target)) return;
-            Log.Debug($"Turning {ev.Target.Nickname} into ghost.");
+            Exiled.API.Features.Log.Debug($"Turning {ev.Target.Nickname} into ghost.");
             Timing.CallDelayed(0.1f, () => { API.GhostPlayer(ev.Target); });
         }
+
+        public void OnUpgrading(UpgradingItemsEventArgs ev)
+        {
+            if (Plugin.Config.UpgradeInventory914)
+            {
+                return;
+            }
+            string configmode = ConfigFile.ServerConfig.GetString("914_mode");
+            bool ghostfound = false;
+            List<Player> ToUpgrade = new List<Player>();
+            List<CharacterClassManager> characterClassManagers = new List<CharacterClassManager>();
+            foreach(Player ply in ev.Players)
+            {
+                if (API.IsGhost(ply))
+                {
+                    ghostfound = true;
+                }
+                else
+                {
+                    ToUpgrade.Add(ply);
+                    characterClassManagers.Add(ply.ReferenceHub.characterClassManager);
+                }
+            }
+            if (ghostfound)
+            {
+                ev.IsAllowed = false;
+                if(configmode == "DroppedAndPlayerTeleport" || configmode == "DroppedAndInventory" || configmode == "DroppedAndHeld" || configmode == "Dropped")
+                foreach (Pickup pickup in ev.Items)
+                {
+                    ev.Scp914.UpgradeItem(pickup);
+                }
+                if (configmode == "DroppedAndInventory" || configmode == "inventory")
+                {
+                    foreach (Player upgrade in ToUpgrade)
+                    {
+                        ev.Scp914.UpgradePlayer(upgrade.Inventory, upgrade.ReferenceHub.characterClassManager, characterClassManagers);
+                    }
+                }
+                if (configmode == "Held" || configmode == "DroppedAndHeld")
+                {
+                    foreach (Player upgrade in ToUpgrade)
+                    {
+                        ev.Scp914.UpgradeHeldItem(upgrade.Inventory, upgrade.ReferenceHub.characterClassManager, characterClassManagers);
+                    }
+                }
+            }
+            else
+            {
+                ev.IsAllowed = true;
+            }
+            return;
+        }
+
+
 
         public void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
         {
