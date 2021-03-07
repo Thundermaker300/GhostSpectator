@@ -15,6 +15,7 @@ What ghosts can interact with is not shown on this list but is configurable and 
 | spawn\_message             | string     | Message to show to ghosts upon spawning\. Set to none to disable\.                                                                                                 |
 | spawn\_message\_length     | integer    | Sets the length of time in seconds the spawn message is visible\.                                                                                                  |
 | ghost\_spec\_swap          | bool       | If set to true, ghosts can swap to spectator mode via the \.spec command in the server console, and vice versa\.                                                   |
+| ghost\_spec\_permission    | bool       | If set to true, the gs.spectate permission will be required to use the .spec command. If this is true, ghost_spec_swap should also be true.                        |
 | start\_as\_spectator       | bool       | If set to true, players will become spectators when they die. If this is true, ghost_spec_swap should also be true (otherwise the plugin is useless).              |
 | give\_ghost\_navigator     | bool       | If set to true, ghosts will be given a workstation that they can drop to teleport to a random door in the map.                                                     |
 | navigate\_lcz\_after\_decon| bool       | If set to true, ghosts can navigate to doors in light containment after decontamination has begun\.                                                                |
