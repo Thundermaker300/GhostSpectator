@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 using Exiled.API.Interfaces;
@@ -74,6 +74,7 @@ namespace GhostSpectator
         public bool StopWarhead { get; set; } = false;
         public bool ToggleWarhead { get; set; } = false;
         public bool InteractScp914 { get; set; } = false;
+        public bool UpgradeInventory914 { get; set; } = false;
         public bool InteractIntercom { get; set; } = false;
         public bool InteractWorkstation { get; set; } = false;
         public bool Contain106 { get; set; } = false;
