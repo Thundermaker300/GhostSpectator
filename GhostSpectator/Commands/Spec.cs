@@ -17,7 +17,7 @@ namespace GhostSpectator.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!sender.CheckPermission("gs.spectate"))
+            if (!sender.CheckPermission("gs.spectate") && GhostSpectator.Singleton.Config.GhostSpecPermission)
             {
                 response = "You don't have permission to use that command.";
                 return false;
