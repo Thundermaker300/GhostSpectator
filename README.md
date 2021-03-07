@@ -4,7 +4,7 @@ An SCP:SL Exiled plugin that turns users into ghosts when they die. Ghosts canno
 Current Plugin Version: V1.1.7
 
 ## REQUIREMENTS
-* Exiled: V2.1.30
+* Exiled: V2.8.0
 * SCP:SL Server: V10.2.2
 
 ## Config
