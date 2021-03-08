@@ -17,14 +17,21 @@ namespace GhostSpectator.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
+            if (GhostSpectator.Singleton.Config.GhostSpecSwap == false)
+            {
+                response = "This command is disabled.";
+                return false;
+            }
+
             if (!sender.CheckPermission("gs.spectate") && GhostSpectator.Singleton.Config.GhostSpecPermission)
             {
                 response = "You don't have permission to use that command.";
                 return false;
             }
-            if (GhostSpectator.Singleton.Config.GhostSpecSwap == false)
+
+            if (!Round.IsStarted)
             {
-                response = "This command is disabled.";
+                response = "The round has not started yet!";
                 return false;
             }
 

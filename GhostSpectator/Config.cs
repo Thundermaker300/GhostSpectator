@@ -80,6 +80,7 @@ namespace GhostSpectator
         public bool InteractWorkstation { get; set; } = false;
         public bool Contain106 { get; set; } = false;
         public bool EnterFemurBreaker { get; set; } = false;
+        public bool Disarm { get; set; } = false;
         public bool FreeDisarmed { get; set; } = false;
 
         [Description(
