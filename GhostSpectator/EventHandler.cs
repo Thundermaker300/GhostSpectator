@@ -20,6 +20,12 @@ namespace GhostSpectator
 
         public EventHandler(GhostSpectator plugin) => Plugin = plugin;
 
+        public static void LogMessage(object message)
+        {
+            if (GhostSpectator.Singleton.Config.DebugMessagesEnabled)
+                Log.Debug(message);
+        }
+
         // Spawning
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
@@ -38,7 +44,7 @@ namespace GhostSpectator
             }*/
 
             if (!API.IsGhost(ev.Player)) return;
-            Log.Debug($"Turning {ev.Player.Nickname} into {ev.NewRole}.");
+            LogMessage($"Turning {ev.Player.Nickname} into {ev.NewRole}.");
             if (ev.NewRole == RoleType.Spectator)
             {
                 ev.Player.ClearInventory();
@@ -121,7 +127,7 @@ namespace GhostSpectator
                 return;
             }
             if (API.IsGhost(ev.Target)) return;
-            Log.Debug($"Turning {ev.Target.Nickname} into ghost.");
+            LogMessage($"Turning {ev.Target.Nickname} into ghost.");
             Timing.CallDelayed(0.1f, () => { API.GhostPlayer(ev.Target); });
         }
 

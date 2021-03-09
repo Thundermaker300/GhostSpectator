@@ -8,6 +8,7 @@ namespace GhostSpectator
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
+        public bool DebugMessagesEnabled { get; set; } = false;
 
         [Description(
             "Determines the role to use for ghosts. Chaos Insurgency is used by default so that ghosts are not targets to SCPs. If you set to an SCP, they can still attack!!")]
