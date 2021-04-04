@@ -66,7 +66,6 @@ namespace GhostSpectator
         public void OnFinishingRecall(FinishingRecallEventArgs ev)
         {
             if (!API.IsGhost(ev.Target)) return;
-            ev.Target.ClearInventory();
             API.UnGhostPlayer(ev.Target);
         }
 

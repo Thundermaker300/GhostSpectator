@@ -44,7 +44,7 @@ namespace GhostSpectator.Commands
 
             if (API.IsGhost(ply))
             {
-                ply.SetRole(RoleType.Spectator);
+                API.UnGhostPlayer(ply);
             }
             else
             {
