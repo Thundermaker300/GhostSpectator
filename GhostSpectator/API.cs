@@ -138,7 +138,6 @@ namespace GhostSpectator
             if (!GhostSpectator.Ghosts.Contains(ply)) return;
 
             GhostSpectator.Ghosts.Remove(ply);
-            ply.ClearInventory();
 
             ply.CustomInfo = string.Empty;
             ply.ReferenceHub.nicknameSync.ShownPlayerInfo |= PlayerInfoArea.Role;

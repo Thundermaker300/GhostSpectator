@@ -44,7 +44,9 @@ namespace GhostSpectator.Commands
 
             if (API.IsGhost(ply))
             {
+                ply.ClearInventory();
                 API.UnGhostPlayer(ply);
+                ply.SetRole(RoleType.Spectator);
             }
             else
             {
