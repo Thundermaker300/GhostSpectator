@@ -81,13 +81,13 @@ namespace GhostSpectator
                 ply.NoClipEnabled = true;
                 ply.IsGodModeEnabled = true;
                 foreach (Player player in Player.List)
-				{
-					ply.TargetGhostsHashSet.Remove(player.Id);
-					if (!API.IsGhost(player))
-					{
-						player.TargetGhostsHashSet.Add(ply.Id);
-					}
-				}
+		{
+			ply.TargetGhostsHashSet.Remove(player.Id);
+			if (!API.IsGhost(player))
+			{
+				player.TargetGhostsHashSet.Add(ply.Id);
+			}
+		}
             });
             /*foreach (Player AlivePly in Player.List.Where(P => P.IsAlive == true && !IsGhost(P)))
             {
@@ -154,13 +154,13 @@ namespace GhostSpectator
                 ply.NoClipEnabled = false;
                 ply.IsGodModeEnabled = false;
                 foreach (Player player in Player.List)
-				{
-					player.TargetGhostsHashSet.Remove(ply.Id);
-					if (API.IsGhost(player))
-					{
-						ply.TargetGhostsHashSet.Add(player.Id);
-					}
-				}
+		{
+			player.TargetGhostsHashSet.Remove(ply.Id);
+			if (API.IsGhost(player))
+			{
+				ply.TargetGhostsHashSet.Add(player.Id);
+			}
+		}
             });
             /*foreach (Player AlivePly in Player.List)
             {
