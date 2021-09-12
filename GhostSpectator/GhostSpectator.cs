@@ -41,8 +41,6 @@ namespace GhostSpectator
             Events.Player.TriggeringTesla += _handler.OnTriggeringTesla;
             Events.Player.OpeningGenerator += _handler.OnOpeningGenerator;
             Events.Player.ClosingGenerator += _handler.OnClosingGenerator;
-            Events.Player.InsertingGeneratorTablet += _handler.OnInsertingGeneratorTablet;
-            Events.Player.EjectingGeneratorTablet += _handler.OnEjectingGeneratorTablet;
             Events.Player.IntercomSpeaking += _handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker += _handler.OnFemurEnter;
             Events.Player.SpawningRagdoll += _handler.OnSpawningRagdoll;
@@ -56,7 +54,6 @@ namespace GhostSpectator
             Events.Scp914.ChangingKnobSetting += _handler.OnChangingKnobStatus;
             // Workstation
             Events.Player.ActivatingWorkstation += _handler.OnActivatingWorkstation;
-            Events.Player.DeactivatingWorkstation += _handler.OnDeactivatingWorkstation;
             // Warhead
             Events.Warhead.Starting += _handler.OnStarting;
             Events.Warhead.Stopping += _handler.OnStopping;
@@ -105,8 +102,6 @@ namespace GhostSpectator
             Events.Player.TriggeringTesla -= _handler.OnTriggeringTesla;
             Events.Player.OpeningGenerator -= _handler.OnOpeningGenerator;
             Events.Player.ClosingGenerator -= _handler.OnClosingGenerator;
-            Events.Player.InsertingGeneratorTablet -= _handler.OnInsertingGeneratorTablet;
-            Events.Player.EjectingGeneratorTablet -= _handler.OnEjectingGeneratorTablet;
             Events.Player.IntercomSpeaking -= _handler.OnIntercomSpeaking;
             Events.Player.EnteringFemurBreaker -= _handler.OnFemurEnter;
             Events.Player.SpawningRagdoll -= _handler.OnSpawningRagdoll;
@@ -120,7 +115,6 @@ namespace GhostSpectator
             Events.Scp914.ChangingKnobSetting -= _handler.OnChangingKnobStatus;
             // Workstation
             Events.Player.ActivatingWorkstation -= _handler.OnActivatingWorkstation;
-            Events.Player.DeactivatingWorkstation -= _handler.OnDeactivatingWorkstation;
             // Warhead
             Events.Warhead.Starting -= _handler.OnStarting;
             Events.Warhead.Stopping -= _handler.OnStopping;
@@ -145,8 +139,8 @@ namespace GhostSpectator
 
         public override string Name => "GhostSpectator";
         public override string Author => "Thunder";
-        public override Version Version => new Version(1, 1, 8);
-        public override Version RequiredExiledVersion => new Version(2, 8, 0);
+        public override Version Version => new Version(1, 2, 0);
+        public override Version RequiredExiledVersion => new Version(3, 0, 0);
         public override PluginPriority Priority => PluginPriority.High;
     }
 }

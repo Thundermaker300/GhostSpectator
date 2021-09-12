@@ -12,7 +12,7 @@ namespace GhostSpectator
 
         [Description(
             "Determines the role to use for ghosts. Chaos Insurgency is used by default so that ghosts are not targets to SCPs. If you set to an SCP, they can still attack!!")]
-        public RoleType GhostRole { get; set; } = RoleType.ChaosInsurgency;
+        public RoleType GhostRole { get; set; } = RoleType.ChaosRifleman;
 
         [Description("Message to show to ghosts upon spawning. Set to none to disable.")]
         public string SpawnMessage { get; set; } =
@@ -91,11 +91,14 @@ namespace GhostSpectator
             [RoleType.ClassD] = "Class-D Personnel",
             [RoleType.Scientist] = "Scientist",
             [RoleType.FacilityGuard] = "Facility Guard",
-            [RoleType.NtfCadet] = "NTF Cadet",
-            [RoleType.NtfLieutenant] = "NTF Lieutenant",
-            [RoleType.NtfScientist] = "NTF Scientist",
-            [RoleType.NtfCommander] = "NTF Commander",
-            [RoleType.ChaosInsurgency] = "Chaos Insurgency",
+            [RoleType.NtfCaptain] = "NTF Captain",
+            [RoleType.NtfPrivate] = "NTF Private",
+            [RoleType.NtfSergeant] = "NTF Sergeant",
+            [RoleType.NtfSpecialist] = "NTF Specialist",
+            [RoleType.ChaosRifleman] = "Chaos Rifleman",
+            [RoleType.ChaosRepressor] = "Chaos Repressor",
+            [RoleType.ChaosMarauder] = "Chaos Marauder",
+            [RoleType.ChaosConscript] = "Chaos Conscript",
             [RoleType.Scp049] = "SCP-049",
             [RoleType.Scp0492] = "SCP-049-2",
             [RoleType.Scp079] = "SCP-079",

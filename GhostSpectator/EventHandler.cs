@@ -55,7 +55,7 @@ namespace GhostSpectator
                 // Teleport to a new spawn point (eliminate potential issues with noclipping directly after spawning)
                 if (ev.NewRole != RoleType.Tutorial && ev.NewRole != RoleType.Spectator)
                 {
-                    Vector3 spawnPoint = ev.NewRole.GetRandomSpawnPoint();
+                    Vector3 spawnPoint = ev.NewRole.GetRandomSpawnProperties().Item1;
                     Timing.CallDelayed(0.1f, () => { ev.Player.Position = spawnPoint; });
                 }
             }
@@ -178,7 +178,7 @@ namespace GhostSpectator
 
         public void OnDroppingItem(DroppingItemEventArgs ev)
         {
-            switch (ev.Item.id)
+            switch (ev.Item.Type)
             {
                 case ItemType.Coin when Plugin.Config.CanGhostsTeleport && API.IsGhost(ev.Player):
                 {
@@ -207,36 +207,36 @@ namespace GhostSpectator
                     ev.IsAllowed = false;
                     break;
                 }
-                case ItemType.WeaponManagerTablet when Plugin.Config.GiveGhostNavigator && API.IsGhost(ev.Player):
+                case ItemType.Flashlight when Plugin.Config.GiveGhostNavigator && API.IsGhost(ev.Player):
                 {
-                    List<DoorVariant> doors;
-                    if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLCZDecontaminated)
+                    List<Door> doors;
+                    if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLczDecontaminated)
                     {
-                        doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.Where(d =>
+                        doors = ListPool<Door>.Shared.Rent(Map.Doors.Where(d =>
                         {
                             Vector3 position;
-                            return (position = d.transform.position).y < -100 || position.y > 300;
+                            return (position = d.Position).y < -100 || position.y > 300;
                         }));
                     }
                     else
                     {
-                        doors = ListPool<DoorVariant>.Shared.Rent(Map.Doors.ToList());
+                        doors = ListPool<Door>.Shared.Rent(Map.Doors.ToList());
                     }
 
-                    DoorVariant chosen = doors.ElementAt(Rng.Next(0, doors.Count - 1));
-                    if (Plugin.Config.NavigateMessage != "none" && chosen.TryGetComponent(out DoorNametagExtension ext))
+                    Door chosen = doors.ElementAt(Rng.Next(0, doors.Count - 1));
+                    if (Plugin.Config.NavigateMessage != "none")
                     {
-                        ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", ext.GetName), 3);
+                        ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", chosen.Nametag), 3);
                     }
 
-                    if (!PlayerMovementSync.FindSafePosition(chosen.transform.position, out Vector3 safePos))
+                    if (!PlayerMovementSync.FindSafePosition(chosen.Position, out Vector3 safePos))
                     {
                         ev.Player.ShowHint(Plugin.Config.NavigateFailMessage, 3);
                     }
 
                     ev.Player.Position = safePos;
                     ev.IsAllowed = false;
-                    ListPool<DoorVariant>.Shared.Return(doors);
+                    ListPool<Door>.Shared.Return(doors);
                     break;
                 }
                 default:
@@ -267,16 +267,6 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player) && !Plugin.Config.InteractGenerators) ev.IsAllowed = false;
         }
 
-        public void OnInsertingGeneratorTablet(InsertingGeneratorTabletEventArgs ev)
-        {
-            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractGenerators) ev.IsAllowed = false;
-        }
-
-        public void OnEjectingGeneratorTablet(EjectingGeneratorTabletEventArgs ev)
-        {
-            if (API.IsGhost(ev.Player) && !Plugin.Config.InteractGenerators) ev.IsAllowed = false;
-        }
-
         public void OnTriggeringTesla(TriggeringTeslaEventArgs ev)
         {
             if (API.IsGhost(ev.Player) && !Plugin.Config.TriggerTeslas) ev.IsTriggerable = false;
@@ -292,10 +282,10 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player) && !Plugin.Config.InteractWorkstation) ev.IsAllowed = false;
         }
 
-        public void OnDeactivatingWorkstation(DeactivatingWorkstationEventArgs ev)
+        /*public void OnDeactivatingWorkstation(DeactivatingWorkstationEventArgs ev)
         {
             if (API.IsGhost(ev.Player) && !Plugin.Config.InteractWorkstation) ev.IsAllowed = false;
-        }
+        }*/
 
         public void OnPickingUpItem(PickingUpItemEventArgs ev)
         {
@@ -340,7 +330,7 @@ namespace GhostSpectator
         {
             if (!API.IsGhost(ev.Player)) return;
             ev.Player.Position = PlayerMovementSync.FindSafePosition(
-                Map.Doors.FirstOrDefault(d => d.Type() == DoorType.Scp106Primary).transform.position,
+                Map.Doors.FirstOrDefault(d => d.Type == DoorType.Scp106Primary).Position,
                 out Vector3 safePos)
                 ? safePos
                 : new Vector3(0, 1003, 7);

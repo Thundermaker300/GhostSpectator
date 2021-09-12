@@ -59,7 +59,7 @@ namespace GhostSpectator.Patches
                 if (!ev.IsAllowed)
                     return false;
                 RoundSummary.changed_into_zombies++;
-                referenceHub.characterClassManager.SetClassID(RoleType.Scp0492);
+                referenceHub.characterClassManager.SetClassID(RoleType.Scp0492, CharacterClassManager.SpawnReason.Revived);
                 referenceHub.GetComponent<PlayerStats>().Health =
                     referenceHub.characterClassManager.Classes.Get(RoleType.Scp0492).maxHP;
                 if (component.CompareTag("Ragdoll"))

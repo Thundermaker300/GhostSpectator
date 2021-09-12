@@ -13,7 +13,7 @@ namespace GhostSpectator
     {
         public static Vector3 FindSpawnPosition(Player ply, PlayerStats.HitInfo info)
         {
-            if (ply.Role == RoleType.Scp106 && info.GetDamageType() == DamageTypes.RagdollLess)
+            if (ply.Role == RoleType.Scp106 && info.Tool == DamageTypes.RagdollLess)
             {
                 if (PlayerMovementSync.FindSafePosition(ply.Position, out Vector3 safePos))
                 {
@@ -94,12 +94,12 @@ namespace GhostSpectator
                 ply.ClearInventory();
                 if (GhostSpectator.Singleton.Config.GiveGhostNavigator == true)
                 {
-                    ply.Inventory.AddNewItem(ItemType.WeaponManagerTablet);
+                    ply.AddItem(ItemType.Flashlight);
                 }
 
                 if (GhostSpectator.Singleton.Config.CanGhostsTeleport == true)
                 {
-                    ply.Inventory.AddNewItem(ItemType.Coin);
+                    ply.AddItem(ItemType.Coin);
                 }
             });
             if (!GhostSpectator.Singleton.Config.TriggerScps)
