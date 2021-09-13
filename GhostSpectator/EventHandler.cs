@@ -296,6 +296,11 @@ namespace GhostSpectator
         {
             if (API.IsGhost(ev.Player) && !Plugin.Config.PickupItems) ev.IsAllowed = false;
         }
+
+        public void OnUpgradingInventoryItem(UpgradingInventoryItemEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player)) ev.IsAllowed = false;
+        }
         
         public void OnPickingUpArmor(PickingUpArmorEventArgs ev)
         {

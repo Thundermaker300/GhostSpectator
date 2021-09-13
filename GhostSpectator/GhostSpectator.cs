@@ -49,6 +49,7 @@ namespace GhostSpectator
             Events.Player.FailingEscapePocketDimension += _handler.OnFailingEscapePocketDimension;
             Events.Player.Handcuffing += _handler.OnHandcuffing;
             Events.Player.RemovingHandcuffs += _handler.OnRemovingHandcuffs;
+            Events.Scp914.UpgradingInventoryItem += _handler.OnUpgradingInventoryItem;
             // SCP-049 FIX
             Events.Scp049.FinishingRecall += _handler.OnFinishingRecall;
             // SCP-914
@@ -112,6 +113,7 @@ namespace GhostSpectator
             Events.Player.FailingEscapePocketDimension -= _handler.OnFailingEscapePocketDimension;
             Events.Player.Handcuffing -= _handler.OnHandcuffing;
             Events.Player.RemovingHandcuffs -= _handler.OnRemovingHandcuffs;
+            Events.Scp914.UpgradingInventoryItem -= _handler.OnUpgradingInventoryItem;
             // SCP-049 FIX
             Events.Scp049.FinishingRecall -= _handler.OnFinishingRecall;
             // SCP-914
