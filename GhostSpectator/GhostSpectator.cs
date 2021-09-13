@@ -36,6 +36,8 @@ namespace GhostSpectator
             Events.Player.ChangingRole += _handler.OnChangingRole;
             Events.Player.DroppingItem += _handler.OnDroppingItem;
             Events.Player.PickingUpItem += _handler.OnPickingUpItem;
+            Events.Player.PickingUpAmmo += _handler.OnPickingUpAmmo;
+            Events.Player.PickingUpArmor += _handler.OnPickingUpArmor;
             Events.Player.InteractingLocker += _handler.OnInteractingLocker;
             Events.Player.InteractingElevator += _handler.OnInteractingElevator;
             Events.Player.TriggeringTesla += _handler.OnTriggeringTesla;
@@ -97,6 +99,8 @@ namespace GhostSpectator
             Events.Player.ChangingRole -= _handler.OnChangingRole;
             Events.Player.DroppingItem -= _handler.OnDroppingItem;
             Events.Player.PickingUpItem -= _handler.OnPickingUpItem;
+            Events.Player.PickingUpAmmo -= _handler.OnPickingUpAmmo;
+            Events.Player.PickingUpArmor -= _handler.OnPickingUpArmor;
             Events.Player.InteractingLocker -= _handler.OnInteractingLocker;
             Events.Player.InteractingElevator -= _handler.OnInteractingElevator;
             Events.Player.TriggeringTesla -= _handler.OnTriggeringTesla;

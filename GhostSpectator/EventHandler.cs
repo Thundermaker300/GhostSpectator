@@ -292,6 +292,16 @@ namespace GhostSpectator
             if (API.IsGhost(ev.Player) && !Plugin.Config.PickupItems) ev.IsAllowed = false;
         }
 
+        public void OnPickingUpAmmo(PickingUpAmmoEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player) && !Plugin.Config.PickupItems) ev.IsAllowed = false;
+        }
+        
+        public void OnPickingUpArmor(PickingUpArmorEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player) && !Plugin.Config.PickupItems) ev.IsAllowed = false;
+        }
+
         public void OnStopping(StoppingEventArgs ev)
         {
             // INTERACTING W/ WARHEAD
