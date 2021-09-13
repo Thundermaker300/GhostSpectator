@@ -181,69 +181,69 @@ namespace GhostSpectator
             switch (ev.Item.Type)
             {
                 case ItemType.Coin when Plugin.Config.CanGhostsTeleport && API.IsGhost(ev.Player):
-                {
-                    // Todo: setting to allow ghosts to tp to each other
-                    List<Player> PlysToTeleport = Player.List.Where(p =>
-                            p.Team != Team.RIP && !API.IsGhost(p) && !Plugin.Config.TeleportBlacklist.Contains(p.Role))
-                        .ToList();
-                    if (PlysToTeleport.Count == 0)
                     {
-                        ev.Player.ShowHint(Plugin.Config.TeleportNoneMessage);
-                    }
-                    else
-                    {
-                        Player chosen = PlysToTeleport.ElementAt(Rng.Next(PlysToTeleport.Count));
-                        if (Plugin.Config.TeleportMessage != "none")
+                        // Todo: setting to allow ghosts to tp to each other
+                        List<Player> PlysToTeleport = Player.List.Where(p =>
+                                p.Team != Team.RIP && !API.IsGhost(p) && !Plugin.Config.TeleportBlacklist.Contains(p.Role))
+                            .ToList();
+                        if (PlysToTeleport.Count == 0)
                         {
-                            ev.Player.ShowHint(
-                                Plugin.Config.TeleportMessage.Replace("{name}", chosen.Nickname).Replace("{class}",
-                                    $"<color={chosen.RoleColor.ToHex()}>{Plugin.Config.RoleStrings[chosen.Role]}</color>"),
-                                3);
+                            ev.Player.ShowHint(Plugin.Config.TeleportNoneMessage);
+                        }
+                        else
+                        {
+                            Player chosen = PlysToTeleport.ElementAt(Rng.Next(PlysToTeleport.Count));
+                            if (Plugin.Config.TeleportMessage != "none")
+                            {
+                                ev.Player.ShowHint(
+                                    Plugin.Config.TeleportMessage.Replace("{name}", chosen.Nickname).Replace("{class}",
+                                        $"<color={chosen.RoleColor.ToHex()}>{Plugin.Config.RoleStrings[chosen.Role]}</color>"),
+                                    3);
+                            }
+
+                            ev.Player.Position = chosen.Position + new Vector3(0, 2, 0);
                         }
 
-                        ev.Player.Position = chosen.Position + new Vector3(0, 2, 0);
+                        ev.IsAllowed = false;
+                        break;
                     }
-
-                    ev.IsAllowed = false;
-                    break;
-                }
                 case ItemType.Flashlight when Plugin.Config.GiveGhostNavigator && API.IsGhost(ev.Player):
-                {
-                    List<Door> doors;
-                    if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLczDecontaminated)
                     {
-                        doors = ListPool<Door>.Shared.Rent(Map.Doors.Where(d =>
+                        List<Door> doors;
+                        if (Plugin.Config.NavigateLczAfterDecon == false && Map.IsLczDecontaminated)
                         {
-                            Vector3 position;
-                            return (position = d.Position).y < -100 || position.y > 300;
-                        }));
-                    }
-                    else
-                    {
-                        doors = ListPool<Door>.Shared.Rent(Map.Doors.ToList());
-                    }
+                            doors = ListPool<Door>.Shared.Rent(Map.Doors.Where(d =>
+                            {
+                                Vector3 position;
+                                return (position = d.Position).y < -100 || position.y > 300;
+                            }));
+                        }
+                        else
+                        {
+                            doors = ListPool<Door>.Shared.Rent(Map.Doors.ToList());
+                        }
 
-                    Door chosen = doors.ElementAt(Rng.Next(0, doors.Count - 1));
-                    if (Plugin.Config.NavigateMessage != "none")
-                    {
-                        ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", chosen.Nametag), 3);
-                    }
+                        Door chosen = doors.ElementAt(Rng.Next(0, doors.Count - 1));
+                        if (Plugin.Config.NavigateMessage != "none")
+                        {
+                            ev.Player.ShowHint(Plugin.Config.TeleportMessage.Replace("{name}", chosen.Nametag), 3);
+                        }
 
-                    if (!PlayerMovementSync.FindSafePosition(chosen.Position, out Vector3 safePos))
-                    {
-                        ev.Player.ShowHint(Plugin.Config.NavigateFailMessage, 3);
-                    }
+                        if (!PlayerMovementSync.FindSafePosition(chosen.Position, out Vector3 safePos))
+                        {
+                            ev.Player.ShowHint(Plugin.Config.NavigateFailMessage, 3);
+                        }
 
-                    ev.Player.Position = safePos;
-                    ev.IsAllowed = false;
-                    ListPool<Door>.Shared.Return(doors);
-                    break;
-                }
+                        ev.Player.Position = safePos;
+                        ev.IsAllowed = false;
+                        ListPool<Door>.Shared.Return(doors);
+                        break;
+                    }
                 default:
-                {
-                    if (API.IsGhost(ev.Player) && !Plugin.Config.DropItems) ev.IsAllowed = false;
-                    break;
-                }
+                    {
+                        if (API.IsGhost(ev.Player) && !Plugin.Config.DropItems) ev.IsAllowed = false;
+                        break;
+                    }
             }
         }
 

@@ -64,13 +64,14 @@ namespace GhostSpectator
             return flag1 || flag2 || flag3;
         }
 
-        public static bool IsGhost(Player ply) => GhostSpectator.Ghosts.Contains(ply);
+        public static bool IsGhost(Player ply) => GhostSpectator.Ghosts.Contains(ply) || ply.TryGetSessionVariable<bool>("IsGhost", out _);
 
         public static void GhostPlayer(Player ply)
         {
             if (GhostSpectator.Ghosts.Contains(ply)) return;
 
             ply.SetRole(GhostSpectator.Singleton.Config.GhostRole);
+            ply.SessionVariables.Add("IsGhost", true);
             GhostSpectator.Ghosts.Add(ply);
 
             ply.ReferenceHub.nicknameSync.CustomPlayerInfo = "GHOST";
@@ -137,6 +138,7 @@ namespace GhostSpectator
         {
             if (!GhostSpectator.Ghosts.Contains(ply)) return;
 
+            ply.SessionVariables.Remove("IsGhost");
             GhostSpectator.Ghosts.Remove(ply);
 
             ply.CustomInfo = string.Empty;

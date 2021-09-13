@@ -125,8 +125,6 @@
     <Compile Include="GhostSpectator.cs" />
     <Compile Include="Patches\DrawRandomTeamPatch.cs" />
     <Compile Include="Patches\InteractingDoorPatch.cs" />
-    <Compile Include="Patches\InteractingGeneratorPatch.cs" />
-    <Compile Include="Patches\InteractingLockerPatch.cs" />
     <Compile Include="Patches\Scp049Patch.cs" />
     <Compile Include="Patches\SpawnPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
