@@ -73,7 +73,6 @@ namespace GhostSpectator
             try
             {
                 _harmonyPatch = new Harmony(nameof(GhostSpectator).ToLowerInvariant());
-                Harmony.DEBUG = true;
                 _harmonyPatch.PatchAll();
 
                 Log.Info("Harmony patching complete.");
