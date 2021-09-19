@@ -64,7 +64,12 @@ namespace GhostSpectator
             return flag1 || flag2 || flag3;
         }
 
-        public static bool IsGhost(Player ply) => GhostSpectator.Ghosts.Contains(ply) || ply.TryGetSessionVariable<bool>("IsGhost", out _);
+        public static bool IsGhost(Player ply)
+        {
+            if (ply == null)
+                return false;
+            return GhostSpectator.Ghosts.Contains(ply) || ply.TryGetSessionVariable<bool>("IsGhost", out _);
+        }
 
         public static void GhostPlayer(Player ply)
         {
