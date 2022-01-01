@@ -115,7 +115,7 @@ namespace GhostSpectator
                 {
                     return;
                 }
-                GhostSpectator.SpawnPositions[ev.Target] = API.FindSpawnPosition(ev.Target, ev.HitInformation);
+                GhostSpectator.SpawnPositions[ev.Target] = API.FindSpawnPosition(ev.Target, ev.Handler);
             }
         }
 

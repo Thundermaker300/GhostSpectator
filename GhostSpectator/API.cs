@@ -11,9 +11,9 @@ namespace GhostSpectator
 {
     public class API
     {
-        public static Vector3 FindSpawnPosition(Player ply, PlayerStats.HitInfo info)
+        public static Vector3 FindSpawnPosition(Player ply, DamageHandler info)
         {
-            if (ply.Role == RoleType.Scp106 && info.Tool == DamageTypes.RagdollLess)
+            if (ply.Role == RoleType.Scp106 && info.Type == DamageType.Recontainment)
             {
                 if (PlayerMovementSync.FindSafePosition(ply.Position, out Vector3 safePos))
                 {
