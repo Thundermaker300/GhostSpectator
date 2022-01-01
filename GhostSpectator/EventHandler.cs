@@ -172,7 +172,7 @@ namespace GhostSpectator
 
         public void OnEndingRound(EndingRoundEventArgs ev)
         {
-            List<Player> alivePlayers = Player.List.Where(ply => !API.IsGhost(ply)).ToList();
+            List<Player> alivePlayers = Player.List.Where(ply => !API.IsGhost(ply) && ply.IsAlive && ply.Role != RoleType.Tutorial).ToList();
             ev.IsRoundEnded = API.AreAllAlly(alivePlayers);
         }
 

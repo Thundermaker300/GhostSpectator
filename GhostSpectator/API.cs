@@ -40,28 +40,25 @@ namespace GhostSpectator
 
         public static bool AreAllAlly(List<Player> list)
         {
-            bool flag1 = true;
-            bool flag2 = true;
-            bool flag3 = true;
-            foreach (Player ply in list)
-            {
-                if (ply.Team != Team.CDP && ply.Team != Team.CHI && ply.Team != Team.TUT && ply.Team != Team.RIP)
-                {
-                    flag1 = false;
-                }
-
-                if (ply.Team != Team.SCP && ply.Team != Team.CHI && ply.Team != Team.TUT && ply.Team != Team.RIP)
-                {
-                    flag2 = false;
-                }
-
-                if (ply.Team != Team.MTF && ply.Team != Team.RSC && ply.Team != Team.TUT && ply.Team != Team.RIP)
-                {
-                    flag3 = false;
-                }
-            }
-
-            return flag1 || flag2 || flag3;
+            Dictionary<Team, int> amounts = Enum.GetValues(typeof(Team)).ToArray<Team>().ToDictionary(t => t, t => 0);
+            foreach (Player Ply in list)
+                amounts[Ply.Team]++;
+            
+            if (amounts[Team.CDP] != 0 && amounts[Team.MTF] != 0)
+                return false;
+            if (amounts[Team.CDP] != 0 && amounts[Team.RSC] != 0)
+                return false;
+            if (amounts[Team.CDP] != 0 && amounts[Team.SCP] != 0)
+                return false;
+            if (amounts[Team.CHI] != 0 && amounts[Team.MTF] != 0)
+                return false;
+            if (amounts[Team.CHI] != 0 && amounts[Team.RSC] != 0)
+                return false;
+            if (amounts[Team.MTF] != 0 && amounts[Team.SCP] != 0)
+                return false;
+            if (amounts[Team.RSC] != 0 && amounts[Team.SCP] != 0)
+                return false;
+            return true;
         }
 
         public static bool IsGhost(Player ply)
