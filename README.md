@@ -1,3 +1,7 @@
+![GHOSTSPECTATOR VERSION](https://img.shields.io/github/v/release/Thundermaker300/GhostSpectator?include_prereleases&style=for-the-badge)
+![GHOSTSPECTATOR LINES](https://img.shields.io/tokei/lines/github/Thundermaker300/GhostSpectator?style=for-the-badge)
+![GHOSTSPECTATOR DOWNLOADS](https://img.shields.io/github/downloads/Thundermaker300/GhostSpectator/total?style=for-the-badge)
+
 ## Ghost Spectator
 An SCP:SL Exiled plugin that turns users into ghosts when they die. Ghosts cannot be seen by alive players (including SCPs), cannot die, and can noclip.
 
