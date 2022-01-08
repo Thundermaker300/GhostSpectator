@@ -76,8 +76,8 @@ namespace GhostSpectator
             ply.SessionVariables.Add("IsGhost", true);
             GhostSpectator.Ghosts.Add(ply);
 
-            ply.ReferenceHub.nicknameSync.CustomPlayerInfo = "GHOST";
-            ply.ReferenceHub.nicknameSync.ShownPlayerInfo &= ~PlayerInfoArea.Role;
+            ply.CustomInfo = "GHOST";
+            ply.InfoArea &= ~PlayerInfoArea.Role;
 
             Timing.CallDelayed(0.1f, () =>
             {
@@ -144,7 +144,7 @@ namespace GhostSpectator
             GhostSpectator.Ghosts.Remove(ply);
 
             ply.CustomInfo = string.Empty;
-            ply.ReferenceHub.nicknameSync.ShownPlayerInfo |= PlayerInfoArea.Role;
+            ply.InfoArea |= PlayerInfoArea.Role;
 
             Timing.CallDelayed(0.1f, () =>
             {
