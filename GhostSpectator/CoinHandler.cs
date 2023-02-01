@@ -15,6 +15,7 @@ namespace GhostSpectator
         TeleportHuman,
         TeleportRoom,
         TeleportSurface,
+        SetToSpectator,
     }
 
     public static class CoinHandler
@@ -28,6 +29,7 @@ namespace GhostSpectator
             { GhostCoinType.TeleportSCP, GhostSpectator.Translations.ScpTeleportCoin },
             { GhostCoinType.TeleportRoom, GhostSpectator.Translations.RoomTeleportCoin },
             { GhostCoinType.TeleportSurface, GhostSpectator.Translations.SurfaceTeleportCoin },
+            { GhostCoinType.SetToSpectator, GhostSpectator.Translations.SetToSpectator },
         });
 
         public static Dictionary<ushort, GhostCoinType> Coins { get; } = new();
@@ -79,6 +81,11 @@ namespace GhostSpectator
             else if (type is GhostCoinType.TeleportSurface)
             {
                 ply.Teleport(SurfacePosition);
+                return;
+            }
+            else if (type is GhostCoinType.SetToSpectator)
+            {
+                ply.Role.Set(PlayerRoles.RoleTypeId.Spectator, SpawnReason.ForceClass);
                 return;
             }
 

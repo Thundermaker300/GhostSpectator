@@ -15,6 +15,7 @@ namespace GhostSpectator
         public string ScpTeleportCoin { get; set; } = "Flip this coin to teleport to a random SCP!";
         public string RoomTeleportCoin { get; set; } = "Flip this coin to teleport to a random room!";
         public string SurfaceTeleportCoin { get; set; } = "Flip this coin to teleport to the surface!";
+        public string SetToSpectator { get; set; } = "Flip this coin to turn back into a spectator!";
 
         [Description("Teleport results")]
         public string PlayerTeleport { get; set; } = "You teleported to <b>{PLAYER}</b>, who is a <color={ROLECOLOR}>{ROLE}</color>.";
