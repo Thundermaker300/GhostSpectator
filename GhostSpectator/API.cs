@@ -67,7 +67,7 @@ namespace GhostSpectator
             if (TimeSinceGhostLast.ContainsKey(ply))
                 TimeSinceGhostLast.Remove(ply);
 
-            ply.SessionVariables.Add("IsGhost", true);
+            ply.SessionVariables["IsGhost"] = true;
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
 
@@ -75,6 +75,7 @@ namespace GhostSpectator
 
             ply.EnableEffect(EffectType.MovementBoost);
             ply.ChangeEffectIntensity(EffectType.MovementBoost, 50);
+
             ply.CustomInfo = "GHOST SPECTATOR";
             ply.InfoArea &= ~PlayerInfoArea.Role;
 
@@ -99,7 +100,9 @@ namespace GhostSpectator
             else
                 TimeSinceGhostLast.Add(ply, DateTime.UtcNow);
 
-            ply.SessionVariables.Remove("IsGhost");
+            if (ply.SessionVariables.ContainsKey("IsGhost"))
+                ply.SessionVariables.Remove("IsGhost");
+
             ply.IsNoclipPermitted = false;
             ply.IsGodModeEnabled = false;
 

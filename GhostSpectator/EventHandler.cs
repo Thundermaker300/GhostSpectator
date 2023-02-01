@@ -18,7 +18,7 @@ namespace GhostSpectator
     {
         public static void CheckPlayer(Player ghost, Player ply)
         {
-            if (ghost.Role is not FpcRole fpcRole || ply.Role is not FpcRole)
+            if (ghost.Role is not FpcRole fpcRole)
                 return;
 
             if (!API.IsGhost(ghost))
