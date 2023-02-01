@@ -26,7 +26,7 @@ namespace GhostSpectator
                 return;
             }
 
-            if (ply.SessionVariables.ContainsKey("IsGhost"))
+            if (/*ply.SessionVariables.ContainsKey("IsGhost")*/ API.IsGhost(ply))
             {
                 if (fpcRole.IsInvisibleFor.Contains(ply))
                     fpcRole.IsInvisibleFor.Remove(ply);
