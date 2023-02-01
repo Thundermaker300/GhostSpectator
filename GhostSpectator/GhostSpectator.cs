@@ -7,6 +7,8 @@ using UnityEngine;
 using HarmonyLib;
 
 using PlayerHandler = Exiled.Events.Handlers.Player;
+using WarheadHandler = Exiled.Events.Handlers.Warhead;
+using Scp914Handler = Exiled.Events.Handlers.Scp914;
 
 namespace GhostSpectator
 {
@@ -49,7 +51,7 @@ namespace GhostSpectator
             PlayerHandler.InteractingLocker += Handler.GenericGhostDisallow;
             PlayerHandler.InteractingShootingTarget += Handler.GenericGhostDisallow;
             PlayerHandler.IntercomSpeaking += Handler.GenericGhostDisallow;
-            PlayerHandler.MakingNoise += Handler.GenericGhostDisallow;
+            //PlayerHandler.MakingNoise += Handler.GenericGhostDisallow;
             PlayerHandler.OpeningGenerator += Handler.GenericGhostDisallow;
             PlayerHandler.PlayerDamageWindow += Handler.GenericGhostDisallow;
             PlayerHandler.PickingUpItem += Handler.GenericGhostDisallow;
@@ -59,6 +61,13 @@ namespace GhostSpectator
             PlayerHandler.Shooting += Handler.GenericGhostDisallow;
             PlayerHandler.TriggeringTesla += Handler.GenericGhostDisallow;
             PlayerHandler.UnlockingGenerator += Handler.GenericGhostDisallow;
+
+            WarheadHandler.ChangingLeverStatus += Handler.GenericGhostDisallow;
+            WarheadHandler.Starting += Handler.GenericGhostDisallow;
+            WarheadHandler.Stopping += Handler.GenericGhostDisallow;
+
+            Scp914Handler.Activating += Handler.GenericGhostDisallow;
+            Scp914Handler.ChangingKnobSetting += Handler.GenericGhostDisallow;
 
             Exiled.Events.Handlers.Scp096.AddingTarget += Handler.OnAddingTarget;
 
@@ -103,7 +112,7 @@ namespace GhostSpectator
             PlayerHandler.InteractingLocker -= Handler.GenericGhostDisallow;
             PlayerHandler.InteractingShootingTarget -= Handler.GenericGhostDisallow;
             PlayerHandler.IntercomSpeaking -= Handler.GenericGhostDisallow;
-            PlayerHandler.MakingNoise -= Handler.GenericGhostDisallow;
+            //PlayerHandler.MakingNoise -= Handler.GenericGhostDisallow;
             PlayerHandler.OpeningGenerator -= Handler.GenericGhostDisallow;
             PlayerHandler.PlayerDamageWindow -= Handler.GenericGhostDisallow;
             PlayerHandler.PickingUpItem -= Handler.GenericGhostDisallow;
