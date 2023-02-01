@@ -43,7 +43,8 @@ namespace GhostSpectator
 
             //fpcRole.IsNoclipEnabled = true;
 
-            ply.VoiceChannel = VoiceChat.VoiceChatChannel.Spectator;
+            ply.EnableEffect(EffectType.MovementBoost);
+            ply.ChangeEffectIntensity(EffectType.MovementBoost, 50);
             ply.CustomInfo = "GHOST SPECTATOR";
             ply.InfoArea &= ~PlayerInfoArea.Role;
 
@@ -70,7 +71,7 @@ namespace GhostSpectator
 
             Scp173Role.TurnedPlayers.Remove(ply);
 
-            ply.VoiceChannel = VoiceChat.VoiceChatChannel.Proximity;
+            ply.DisableEffect(EffectType.MovementBoost);
             ply.CustomInfo = string.Empty;
             ply.InfoArea |= PlayerInfoArea.Role;
 
