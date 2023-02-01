@@ -13,6 +13,7 @@ namespace GhostSpectator
         [Description("Coin descriptions")]
         public string HumanTeleportCoin { get; set; } = "Flip this coin to teleport to a random human!";
         public string ScpTeleportCoin { get; set; } = "Flip this coin to teleport to a random SCP!";
+        public string GhostTeleportCoin { get; set; } = "Flip this coin to teleport to another ghost!";
         public string RoomTeleportCoin { get; set; } = "Flip this coin to teleport to a random room!";
         public string SurfaceTeleportCoin { get; set; } = "Flip this coin to teleport to the surface!";
         public string SetToSpectator { get; set; } = "Flip this coin to turn back into a spectator!";

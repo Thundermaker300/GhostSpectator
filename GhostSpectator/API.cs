@@ -72,7 +72,6 @@ namespace GhostSpectator
             ply.ChangeEffectIntensity(EffectType.MovementBoost, 50);
             ply.CustomInfo = "GHOST SPECTATOR";
             ply.InfoArea &= ~PlayerInfoArea.Role;
-            ply.VoiceChannel = VoiceChat.VoiceChatChannel.Spectator;
 
             if (GhostSpectator.Configs.EnableCoins)
                 CoinHandler.GiveCoins(ply);
@@ -91,19 +90,18 @@ namespace GhostSpectator
             Ghosts.Remove(ply);//ply.SessionVariables.Remove("IsGhost");
 
             ply.IsNoclipPermitted = false;
-
-            if (!ply.Role.Is(out FpcRole fpcRole))
-                return false;
-
-            fpcRole.IsNoclipEnabled = false;
             ply.IsGodModeEnabled = false;
-            ply.VoiceChannel = VoiceChat.VoiceChatChannel.Proximity;
 
             Scp173Role.TurnedPlayers.Remove(ply);
 
             ply.DisableEffect(EffectType.MovementBoost);
             ply.CustomInfo = string.Empty;
             ply.InfoArea |= PlayerInfoArea.Role;
+
+            if (!ply.Role.Is(out FpcRole fpcRole))
+                return true;
+
+            fpcRole.IsNoclipEnabled = false;
 
             return true;
         }

@@ -14,6 +14,7 @@ namespace GhostSpectator
     {
         TeleportSCP,
         TeleportHuman,
+        TeleportGhost,
         TeleportRoom,
         TeleportSurface,
         SetToSpectator,
@@ -27,6 +28,7 @@ namespace GhostSpectator
         {
             { GhostCoinType.TeleportHuman, GhostSpectator.Translations.HumanTeleportCoin },
             { GhostCoinType.TeleportSCP, GhostSpectator.Translations.ScpTeleportCoin },
+            { GhostCoinType.TeleportGhost, GhostSpectator.Translations.GhostTeleportCoin },
             { GhostCoinType.TeleportRoom, GhostSpectator.Translations.RoomTeleportCoin },
             { GhostCoinType.TeleportSurface, GhostSpectator.Translations.SurfaceTeleportCoin },
             { GhostCoinType.SetToSpectator, GhostSpectator.Translations.SetToSpectator },
@@ -64,6 +66,10 @@ namespace GhostSpectator
             else if (type is GhostCoinType.TeleportSCP)
             {
                 list = Player.Get(pl => pl.IsScp && !API.IsGhost(pl)).ToList();
+            }
+            else if (type is GhostCoinType.TeleportGhost)
+            {
+                list = Player.Get(pl => API.IsGhost(pl)).ToList();
             }
             else if (type is GhostCoinType.TeleportRoom)
             {
