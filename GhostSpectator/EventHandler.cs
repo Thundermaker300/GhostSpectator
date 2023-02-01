@@ -46,6 +46,9 @@ namespace GhostSpectator
             // Refresh all visibility (because why not)
             foreach (var player in Player.List)
             {
+                if (!API.IsGhost(player))
+                    continue;
+
                 foreach (var player2 in Player.List)
                 {
                     if (player == player2)
