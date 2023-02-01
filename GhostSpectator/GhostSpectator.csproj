@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="API.cs" />
     <Compile Include="CoinHandler.cs" />
+    <Compile Include="Commands\ForceGhostCommand.cs" />
     <Compile Include="Commands\GsCommand.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="EventHandler.cs" />
