@@ -107,7 +107,7 @@ namespace GhostSpectator
                 ply.ShowHint(GhostSpectator.Translations.PlayerTeleport
                     .Replace("{PLAYER}", random.Nickname)
                     .Replace("{ROLE}", random.Role.Name)
-                    .Replace("{ROLECOLOR}", random.Role.Color.ToString()));
+                    .Replace("{ROLECOLOR}", random.Role.Color.ToHex()));
             }
             else
             {
