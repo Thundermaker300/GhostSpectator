@@ -69,7 +69,7 @@ namespace GhostSpectator
             }
             else if (type is GhostCoinType.TeleportGhost)
             {
-                list = Player.Get(pl => API.IsGhost(pl)).ToList();
+                list = Player.Get(pl => API.IsGhost(pl) && pl != ply).ToList();
             }
             else if (type is GhostCoinType.TeleportRoom)
             {
