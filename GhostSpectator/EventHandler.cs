@@ -43,7 +43,13 @@ namespace GhostSpectator
 
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (!ev.IsAllowed || ev.Reason is not Exiled.API.Enums.SpawnReason.Died)
+            if (!ev.IsAllowed)
+                return;
+
+            if (API.IsGhost(ev.Player)) // Remove coins before they drop!!!
+                ev.Player.ClearInventory();
+
+            if (ev.Reason is not Exiled.API.Enums.SpawnReason.Died)
                 return;
 
             API.LastDiedPosition[ev.Player] = ev.Player.Position;
