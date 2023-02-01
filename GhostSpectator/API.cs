@@ -41,6 +41,8 @@ namespace GhostSpectator
             fpcRole.IsNoclipEnabled = true;
 
             ply.VoiceChannel = VoiceChat.VoiceChatChannel.Spectator;
+            ply.CustomInfo = "GHOST SPECTATOR";
+            ply.InfoArea &= ~PlayerInfoArea.Role;
 
             if (GhostSpectator.Configs.EnableCoins)
                 CoinHandler.GiveCoins(ply);
@@ -64,6 +66,8 @@ namespace GhostSpectator
             ply.IsGodModeEnabled = false;
 
             ply.VoiceChannel = VoiceChat.VoiceChatChannel.Proximity;
+            ply.CustomInfo = string.Empty;
+            ply.InfoArea |= PlayerInfoArea.Role;
 
             return true;
         }
