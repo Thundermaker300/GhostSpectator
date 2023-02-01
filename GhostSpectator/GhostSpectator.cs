@@ -9,6 +9,7 @@ using HarmonyLib;
 using PlayerHandler = Exiled.Events.Handlers.Player;
 using WarheadHandler = Exiled.Events.Handlers.Warhead;
 using Scp914Handler = Exiled.Events.Handlers.Scp914;
+using ServerHandler = Exiled.Events.Handlers.Server;
 
 namespace GhostSpectator
 {
@@ -33,6 +34,8 @@ namespace GhostSpectator
             PlayerHandler.Spawned += Handler.OnSpawned;
             PlayerHandler.ChangingItem += Handler.OnChangingItem;
             PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
+
+            ServerHandler.RespawningTeam += Handler.OnRespawningTeam;
 
             // Interaction Disabling
             PlayerHandler.ActivatingGenerator += Handler.GenericGhostDisallow;
@@ -95,6 +98,8 @@ namespace GhostSpectator
             PlayerHandler.ChangingItem -= Handler.OnChangingItem;
             PlayerHandler.FlippingCoin -= Handler.OnFlippingCoin;
 
+            ServerHandler.RespawningTeam -= Handler.OnRespawningTeam;
+
             // Interaction Disabling
             PlayerHandler.ActivatingGenerator -= Handler.GenericGhostDisallow;
             PlayerHandler.ActivatingWarheadPanel -= Handler.GenericGhostDisallow;
@@ -131,6 +136,7 @@ namespace GhostSpectator
             // Destroy Classes
             Singleton = null;
             Handler = null;
+            Harmony = null;
 
             base.OnDisabled();
         }

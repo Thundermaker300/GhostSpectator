@@ -40,7 +40,7 @@ namespace GhostSpectator
             if (!ply.Role.Is(out FpcRole fpcRole))
                 return false;
 
-            fpcRole.IsNoclipEnabled = true;
+            //fpcRole.IsNoclipEnabled = true;
 
             ply.VoiceChannel = VoiceChat.VoiceChatChannel.Spectator;
             ply.CustomInfo = "GHOST SPECTATOR";

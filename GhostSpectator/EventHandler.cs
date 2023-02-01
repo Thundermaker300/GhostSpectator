@@ -4,6 +4,7 @@ using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Interfaces;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp096;
+using Exiled.Events.EventArgs.Server;
 using Exiled.Permissions.Extensions;
 using MEC;
 using PlayerRoles;
@@ -105,6 +106,11 @@ namespace GhostSpectator
             {
                 CoinHandler.Execute(ev.Player, ev.Player.CurrentItem);
             }
+        }
+
+        public void OnRespawningTeam(RespawningTeamEventArgs ev)
+        {
+            ev.Players.AddRange(Player.Get(API.IsGhost));
         }
 
         // Deny ghost actions
