@@ -60,13 +60,12 @@ namespace GhostSpectator
             if (GhostSpectator.Configs.GhostBroadcast is not null)
                 ply.Broadcast(GhostSpectator.Configs.GhostBroadcast);
 
-            Ghosts.Add(ply);//ply.SessionVariables["IsGhost"] = true;
+            Ghosts.Add(ply);
+            ply.SessionVariables.Add("IsGhost", true);
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
 
             Scp173Role.TurnedPlayers.Add(ply);
-
-            //fpcRole.IsNoclipEnabled = true;
 
             ply.EnableEffect(EffectType.MovementBoost);
             ply.ChangeEffectIntensity(EffectType.MovementBoost, 50);
@@ -87,8 +86,9 @@ namespace GhostSpectator
             if (!IsGhost(ply)) return false;
 
             Log.Debug($"Unghosting: {ply.Nickname}");
-            Ghosts.Remove(ply);//ply.SessionVariables.Remove("IsGhost");
+            Ghosts.Remove(ply);
 
+            ply.SessionVariables.Remove("IsGhost");
             ply.IsNoclipPermitted = false;
             ply.IsGodModeEnabled = false;
 
