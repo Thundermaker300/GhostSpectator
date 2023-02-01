@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
+using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -38,8 +39,13 @@ namespace GhostSpectator
         {
             for (int i = 0; i < CoinAmount; i++)
             {
+                GhostCoinType type = (GhostCoinType)Enum.GetValues(typeof(GhostCoinType)).GetValue(i);
+
+                if (type is GhostCoinType.SetToSpectator && GhostSpectator.Configs.RequirePermission && !ply.CheckPermission("gs.mode"))
+                    continue;
+
                 Item coin = ply.AddItem(ItemType.Coin);
-                Coins.Add(coin.Serial, (GhostCoinType)Enum.GetValues(typeof(GhostCoinType)).GetValue(i));
+                Coins.Add(coin.Serial, type);
             }
         }
 
