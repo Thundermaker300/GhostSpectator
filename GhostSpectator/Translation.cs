@@ -21,6 +21,7 @@ namespace GhostSpectator
         [Description("Teleport results")]
         public string PlayerTeleport { get; set; } = "You teleported to <b>{PLAYER}</b>, who is a <b><color={ROLECOLOR}>{ROLE}</color></b>.";
         public string NoPlayerToTeleport { get; set; } = "No players that could be teleported to were found!";
+        public string RoomTeleport { get; set; } = "Room: <b>{ROOM}</b>";
         public string NukeDisable { get; set; } = "This coin cannot be used after the nuke has detonated.";
     }
 }

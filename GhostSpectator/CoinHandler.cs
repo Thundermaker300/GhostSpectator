@@ -85,8 +85,12 @@ namespace GhostSpectator
                 {
                     rooms.RemoveAll(r => r.Zone == ZoneType.LightContainment);
                 }
+                Room r = rooms.RandomItem();
 
-                ply.Teleport(rooms.RandomItem());
+                ply.Teleport(r);
+                ply.ShowHint(GhostSpectator.Translations.RoomTeleport
+                    .Replace("{ROOM}", r.Type.ToString()));
+
                 return true;
             }
             else if (type is GhostCoinType.TeleportSurface)
