@@ -61,6 +61,7 @@ namespace GhostSpectator
                     ply.ShowHint(GhostSpectator.Translations.NukeDisable);
                     return;
                 }
+
                 var rooms = Room.List.Where(r => r.Type is not RoomType.Pocket).ToList();
 
                 if (!GhostSpectator.Configs.LczTeleportAfterDecon && Map.IsLczDecontaminated)
