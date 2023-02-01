@@ -68,6 +68,7 @@ namespace GhostSpectator
                 TimeSinceGhostLast.Remove(ply);
 
             ply.SessionVariables["IsGhost"] = true;
+            ply.IsUsingStamina = false;
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
 
@@ -103,6 +104,7 @@ namespace GhostSpectator
             if (ply.SessionVariables.ContainsKey("IsGhost"))
                 ply.SessionVariables.Remove("IsGhost");
 
+            ply.IsUsingStamina = true;
             ply.IsNoclipPermitted = false;
             ply.IsGodModeEnabled = false;
 
