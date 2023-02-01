@@ -13,10 +13,11 @@ namespace GhostSpectator
 {
     public static class API
     {
-        public static List<Player> Ghosts { get; } = new();
-        public static List<Player> IsBecomingGhost { get; } = new();
+        public static List<Player> Ghosts { get; } = new List<Player>();
+        public static List<Player> IsBecomingGhost { get; } = new List<Player>();
 
         public static bool IsGhost(Player player) => Ghosts.Contains(player); //player.SessionVariables.ContainsKey("IsGhost");
+        public static bool IsGhost(ReferenceHub player) => IsGhost(Player.Get(player)); //player.SessionVariables.ContainsKey("IsGhost");
 
         public static bool Ghostify(Player ply, bool ignoreChecks = false)
         {
