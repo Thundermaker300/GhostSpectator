@@ -107,7 +107,7 @@ namespace GhostSpectator
         {
             if (API.IsGhost(ev.Player) && ev.IsAllowed)
             {
-                CoinHandler.Execute(ev.Player, ev.Player.CurrentItem);
+                ev.IsAllowed = CoinHandler.Execute(ev.Player, ev.Player.CurrentItem);
             }
         }
 

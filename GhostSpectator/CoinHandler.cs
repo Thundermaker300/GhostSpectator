@@ -48,13 +48,13 @@ namespace GhostSpectator
             }
         }
 
-        public static void Execute(Player ply, Item coin)
+        public static bool Execute(Player ply, Item coin)
         {
             if (ply is null || coin is null)
-                return;
+                return false;
 
             if (!Coins.TryGetValue(coin.Serial, out GhostCoinType type))
-                return;
+                return false;
 
             List<Player> list = null;
             if (type is GhostCoinType.TeleportHuman)
@@ -70,7 +70,7 @@ namespace GhostSpectator
                 if (Warhead.IsDetonated && GhostSpectator.Configs.DisableRoomTeleportAfterNuke)
                 {
                     ply.ShowHint(GhostSpectator.Translations.NukeDisable);
-                    return;
+                    return false;
                 }
 
                 var rooms = Room.List.Where(r => r.Type is not RoomType.Pocket).ToList();
@@ -81,17 +81,17 @@ namespace GhostSpectator
                 }
 
                 ply.Teleport(rooms.RandomItem());
-                return;
+                return true;
             }
             else if (type is GhostCoinType.TeleportSurface)
             {
                 ply.Teleport(SurfacePosition);
-                return;
+                return true;
             }
             else if (type is GhostCoinType.SetToSpectator)
             {
                 ply.Role.Set(PlayerRoles.RoleTypeId.Spectator, SpawnReason.ForceClass);
-                return;
+                return false;
             }
 
             if (list is not null && list.Count > 0)
@@ -107,6 +107,8 @@ namespace GhostSpectator
             {
                 ply.ShowHint(GhostSpectator.Translations.NoPlayerToTeleport);
             }
+
+            return list.Count > 0;
         }
     }
 }
