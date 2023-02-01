@@ -27,6 +27,8 @@ namespace GhostSpectator
 
         [Description("Determines how the plugin will operate. Options: GhostByDefault, SpectatorByDefault")]
         public Mode SpectatorMode { get; set; } = Mode.GhostByDefault;
+
+        public Exiled.API.Features.Broadcast GhostBroadcast { get; set; } = new("You are a ghost! You can noclip, cannot die, and have various abilities in your inventory!", 10, true);
     }
 
     public enum Mode

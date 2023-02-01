@@ -47,6 +47,9 @@ namespace GhostSpectator
                 });
             }
 
+            if (GhostSpectator.Configs.GhostBroadcast is not null)
+                ply.Broadcast(GhostSpectator.Configs.GhostBroadcast);
+
             Ghosts.Add(ply);//ply.SessionVariables["IsGhost"] = true;
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
