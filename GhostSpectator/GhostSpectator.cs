@@ -26,11 +26,41 @@ namespace GhostSpectator
             Translations = Translation;
             Handler = new EventHandler();
 
+            // Important Events
             PlayerHandler.ChangingRole += Handler.OnChangingRole;
             PlayerHandler.Spawned += Handler.OnSpawned;
             PlayerHandler.ChangingItem += Handler.OnChangingItem;
-            PlayerHandler.DroppingItem += Handler.OnDroppingItem;
             PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
+
+            // Interaction Disabling
+            PlayerHandler.ActivatingGenerator += Handler.GenericGhostDisallow;
+            PlayerHandler.ActivatingWarheadPanel += Handler.GenericGhostDisallow;
+            PlayerHandler.ActivatingWorkstation += Handler.GenericGhostDisallow;
+            PlayerHandler.ClosingGenerator += Handler.GenericGhostDisallow;
+            PlayerHandler.DeactivatingWorkstation += Handler.GenericGhostDisallow;
+            PlayerHandler.DroppingAmmo += Handler.GenericGhostDisallow;
+            PlayerHandler.DroppingItem += Handler.GenericGhostDisallow;
+            PlayerHandler.DroppingNothing += Handler.GenericGhostDisallow;
+            PlayerHandler.EnteringEnvironmentalHazard += Handler.GenericGhostDisallow;
+            PlayerHandler.Escaping += Handler.GenericGhostDisallow;
+            PlayerHandler.Handcuffing += Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingDoor += Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingElevator += Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingLocker += Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingShootingTarget += Handler.GenericGhostDisallow;
+            PlayerHandler.IntercomSpeaking += Handler.GenericGhostDisallow;
+            PlayerHandler.MakingNoise += Handler.GenericGhostDisallow;
+            PlayerHandler.OpeningGenerator += Handler.GenericGhostDisallow;
+            PlayerHandler.PlayerDamageWindow += Handler.GenericGhostDisallow;
+            PlayerHandler.PickingUpItem += Handler.GenericGhostDisallow;
+            PlayerHandler.ReloadingWeapon += Handler.GenericGhostDisallow;
+            PlayerHandler.RemovingHandcuffs += Handler.GenericGhostDisallow;
+            PlayerHandler.SearchingPickup += Handler.GenericGhostDisallow;
+            PlayerHandler.Shooting += Handler.GenericGhostDisallow;
+            PlayerHandler.TriggeringTesla += Handler.GenericGhostDisallow;
+            PlayerHandler.UnlockingGenerator += Handler.GenericGhostDisallow;
+
+            Exiled.Events.Handlers.Scp096.AddingTarget += Handler.OnAddingTarget;
 
             // Patching
             try
@@ -50,11 +80,41 @@ namespace GhostSpectator
 
         public override void OnDisabled()
         {
+            // Important Events
             PlayerHandler.ChangingRole -= Handler.OnChangingRole;
             PlayerHandler.Spawned -= Handler.OnSpawned;
             PlayerHandler.ChangingItem -= Handler.OnChangingItem;
-            PlayerHandler.DroppingItem -= Handler.OnDroppingItem;
             PlayerHandler.FlippingCoin -= Handler.OnFlippingCoin;
+
+            // Interaction Disabling
+            PlayerHandler.ActivatingGenerator -= Handler.GenericGhostDisallow;
+            PlayerHandler.ActivatingWarheadPanel -= Handler.GenericGhostDisallow;
+            PlayerHandler.ActivatingWorkstation -= Handler.GenericGhostDisallow;
+            PlayerHandler.ClosingGenerator -= Handler.GenericGhostDisallow;
+            PlayerHandler.DeactivatingWorkstation -= Handler.GenericGhostDisallow;
+            PlayerHandler.DroppingAmmo -= Handler.GenericGhostDisallow;
+            PlayerHandler.DroppingItem -= Handler.GenericGhostDisallow;
+            PlayerHandler.DroppingNothing -= Handler.GenericGhostDisallow;
+            PlayerHandler.EnteringEnvironmentalHazard -= Handler.GenericGhostDisallow;
+            PlayerHandler.Escaping -= Handler.GenericGhostDisallow;
+            PlayerHandler.Handcuffing -= Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingDoor -= Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingElevator -= Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingLocker -= Handler.GenericGhostDisallow;
+            PlayerHandler.InteractingShootingTarget -= Handler.GenericGhostDisallow;
+            PlayerHandler.IntercomSpeaking -= Handler.GenericGhostDisallow;
+            PlayerHandler.MakingNoise -= Handler.GenericGhostDisallow;
+            PlayerHandler.OpeningGenerator -= Handler.GenericGhostDisallow;
+            PlayerHandler.PlayerDamageWindow -= Handler.GenericGhostDisallow;
+            PlayerHandler.PickingUpItem -= Handler.GenericGhostDisallow;
+            PlayerHandler.ReloadingWeapon -= Handler.GenericGhostDisallow;
+            PlayerHandler.RemovingHandcuffs -= Handler.GenericGhostDisallow;
+            PlayerHandler.SearchingPickup -= Handler.GenericGhostDisallow;
+            PlayerHandler.Shooting -= Handler.GenericGhostDisallow;
+            PlayerHandler.TriggeringTesla -= Handler.GenericGhostDisallow;
+            PlayerHandler.UnlockingGenerator -= Handler.GenericGhostDisallow;
+
+            Exiled.Events.Handlers.Scp096.AddingTarget -= Handler.OnAddingTarget;
 
             // Unpatch
             Harmony.UnpatchAll(Harmony.Id);

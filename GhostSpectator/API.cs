@@ -35,6 +35,8 @@ namespace GhostSpectator
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
 
+            Scp173Role.TurnedPlayers.Add(ply);
+
             if (!ply.Role.Is(out FpcRole fpcRole))
                 return false;
 
@@ -64,6 +66,8 @@ namespace GhostSpectator
 
             fpcRole.IsNoclipEnabled = false;
             ply.IsGodModeEnabled = false;
+
+            Scp173Role.TurnedPlayers.Remove(ply);
 
             ply.VoiceChannel = VoiceChat.VoiceChatChannel.Proximity;
             ply.CustomInfo = string.Empty;

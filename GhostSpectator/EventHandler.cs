@@ -1,7 +1,9 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
+using Exiled.Events.EventArgs.Interfaces;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Scp096;
 using Exiled.Permissions.Extensions;
 using MEC;
 using PlayerRoles;
@@ -106,9 +108,23 @@ namespace GhostSpectator
         }
 
         // Deny ghost actions
-        public void OnDroppingItem(DroppingItemEventArgs ev)
+        public void GenericGhostDisallow(IPlayerEvent ev)
         {
+            if (ev is not IDeniableEvent deny)
+            {
+                Log.Error($"Event {ev.GetType().Name} cannot be used as a generic ghost disallow event. Show this error message to plugin developer.");
+                return;
+            }
+
             if (API.IsGhost(ev.Player))
+            {
+                deny.IsAllowed = false;
+            }
+        } 
+
+        public void OnAddingTarget(AddingTargetEventArgs ev)
+        {
+            if (API.IsGhost(ev.Target))
                 ev.IsAllowed = false;
         }
     }
