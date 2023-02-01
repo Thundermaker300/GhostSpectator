@@ -40,6 +40,7 @@ namespace GhostSpectator
             PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
 
             ServerHandler.RespawningTeam += Handler.OnRespawningTeam;
+            WarheadHandler.Detonated += Handler.OnDetonated;
 
             // Interaction Disabling
             PlayerHandler.ActivatingGenerator += Handler.GenericGhostDisallow;
@@ -103,6 +104,7 @@ namespace GhostSpectator
             PlayerHandler.FlippingCoin -= Handler.OnFlippingCoin;
 
             ServerHandler.RespawningTeam -= Handler.OnRespawningTeam;
+            WarheadHandler.Detonated -= Handler.OnDetonated;
 
             // Interaction Disabling
             PlayerHandler.ActivatingGenerator -= Handler.GenericGhostDisallow;

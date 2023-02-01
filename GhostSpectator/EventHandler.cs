@@ -114,6 +114,17 @@ namespace GhostSpectator
             ev.Players.AddRange(Player.Get(API.IsGhost));
         }
 
+        public void OnDetonated()
+        {
+            if (!GhostSpectator.Configs.DisableRoomTeleportAfterNuke)
+                return;
+
+            foreach (Player ply in Player.Get(API.IsGhost))
+            {
+                ply.Teleport(RoomType.Surface); // Todo: Set fixed position on the surface here
+            }
+        }
+
         // Deny ghost actions
         public void GenericGhostDisallow(IPlayerEvent ev)
         {

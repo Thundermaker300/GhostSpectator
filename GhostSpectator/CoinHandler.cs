@@ -48,15 +48,26 @@ namespace GhostSpectator
             List<Player> list = null;
             if (type is GhostCoinType.TeleportHuman)
             {
-                list = Player.Get(ply => ply.IsHuman && !API.IsGhost(ply)).ToList();
+                list = Player.Get(pl => pl.IsHuman && !API.IsGhost(pl)).ToList();
             }
             else if (type is GhostCoinType.TeleportSCP)
             {
-                list = Player.Get(ply => ply.IsScp && !API.IsGhost(ply)).ToList();
+                list = Player.Get(pl => pl.IsScp && !API.IsGhost(pl)).ToList();
             }
             else if (type is GhostCoinType.TeleportRoom)
             {
+                if (Warhead.IsDetonated && GhostSpectator.Configs.DisableRoomTeleportAfterNuke)
+                {
+                    ply.ShowHint(GhostSpectator.Translations.NukeDisable);
+                    return;
+                }
                 var rooms = Room.List.Where(r => r.Type is not RoomType.Pocket).ToList();
+
+                if (!GhostSpectator.Configs.LczTeleportAfterDecon && Map.IsLczDecontaminated)
+                {
+                    rooms.RemoveAll(r => r.Zone == ZoneType.LightContainment);
+                }
+
                 ply.Teleport(rooms.RandomItem());
                 return;
             }
