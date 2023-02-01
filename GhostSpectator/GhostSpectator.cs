@@ -10,9 +10,11 @@ using PlayerHandler = Exiled.Events.Handlers.Player;
 
 namespace GhostSpectator
 {
-    public class GhostSpectator : Plugin<Config>
+    public class GhostSpectator : Plugin<Config, Translation>
     {
         public static GhostSpectator Singleton { get; private set; }
+        public static Config Configs { get; private set; }
+        public static Translation Translations { get; private set; }
         public static EventHandler Handler { get; private set; }
         public static Harmony Harmony { get; private set; }
 
@@ -20,10 +22,15 @@ namespace GhostSpectator
         {
             // Create Classes
             Singleton = this;
+            Configs = Config;
+            Translations = Translation;
             Handler = new EventHandler();
 
             PlayerHandler.ChangingRole += Handler.OnChangingRole;
             PlayerHandler.Spawned += Handler.OnSpawned;
+            PlayerHandler.ChangingItem += Handler.OnChangingItem;
+            PlayerHandler.DroppingItem += Handler.OnDroppingItem;
+            PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
 
             // Patching
             try
@@ -45,6 +52,9 @@ namespace GhostSpectator
         {
             PlayerHandler.ChangingRole -= Handler.OnChangingRole;
             PlayerHandler.Spawned -= Handler.OnSpawned;
+            PlayerHandler.ChangingItem -= Handler.OnChangingItem;
+            PlayerHandler.DroppingItem -= Handler.OnDroppingItem;
+            PlayerHandler.FlippingCoin -= Handler.OnFlippingCoin;
 
             // Unpatch
             Harmony.UnpatchAll(Harmony.Id);

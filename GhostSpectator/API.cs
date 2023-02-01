@@ -13,21 +13,25 @@ namespace GhostSpectator
 {
     public static class API
     {
+        public static List<Player> Ghosts { get; } = new();
         public static List<Player> IsBecomingGhost { get; } = new();
 
-        public static bool IsGhost(Player player) => player.SessionVariables.ContainsKey("IsGhost");
+        public static bool IsGhost(Player player) => Ghosts.Contains(player); //player.SessionVariables.ContainsKey("IsGhost");
 
         public static bool Ghostify(Player ply, bool ignoreChecks = false)
         {
+            if (IsGhost(ply)) return false;
+
             if (!ignoreChecks)
             {
-                if (!ply.IsDead || ply.IsOverwatchEnabled)
+                if (ply.IsOverwatchEnabled)
                     return false;
             }
 
+            Log.Debug($"Ghosting: {ply.Nickname}");
             IsBecomingGhost.Add(ply);
 
-            ply.SessionVariables["IsGhost"] = true;
+            Ghosts.Add(ply);//ply.SessionVariables["IsGhost"] = true;
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
 
@@ -38,13 +42,18 @@ namespace GhostSpectator
 
             ply.VoiceChannel = VoiceChat.VoiceChatChannel.Spectator;
 
+            if (GhostSpectator.Configs.EnableCoins)
+                CoinHandler.GiveCoins(ply);
+
             return true;
         }
 
         public static bool UnGhostify(Player ply, bool ignoreChecks = false)
         {
-            if (ply.SessionVariables.ContainsKey("IsGhost"))
-                ply.SessionVariables.Remove("IsGhost");
+            if (!IsGhost(ply)) return false;
+
+            Log.Debug($"Unghosting: {ply.Nickname}");
+            Ghosts.Remove(ply);//ply.SessionVariables.Remove("IsGhost");
 
             ply.IsNoclipPermitted = false;
 

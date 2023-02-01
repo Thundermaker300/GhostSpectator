@@ -2,6 +2,7 @@
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Permissions.Extensions;
 using MEC;
 using PlayerRoles;
 using UnityEngine;
@@ -15,6 +16,12 @@ namespace GhostSpectator
             if (ghost.Role is not FpcRole fpcRole || ply.Role is not FpcRole)
                 return;
 
+            if (!API.IsGhost(ghost))
+            {
+                fpcRole.IsInvisibleFor.Clear();
+                return;
+            }
+
             if (ply.SessionVariables.ContainsKey("IsGhost"))
             {
                 if (fpcRole.IsInvisibleFor.Contains(ply))
@@ -22,6 +29,9 @@ namespace GhostSpectator
             }
             else
             {
+                if (ply.CheckPermission("gs.see"))
+                    return;
+
                 if (!fpcRole.IsInvisibleFor.Contains(ply))
                     fpcRole.IsInvisibleFor.Add(ply);
             }
@@ -47,7 +57,10 @@ namespace GhostSpectator
                     });
                 }
 
-                ev.Player.Position = pos;
+                Timing.CallDelayed(0.1f, () =>
+                {
+                    ev.Player.Teleport(pos);
+                });
 
                 API.Ghostify(ev.Player);
 
@@ -61,18 +74,42 @@ namespace GhostSpectator
             if (ev.Player is null || ev.Player.Role.SpawnReason is PlayerRoles.RoleChangeReason.Destroyed)
                 return;
 
-            if (API.IsBecomingGhost.Contains(ev.Player))
+            if (API.IsBecomingGhost.Contains(ev.Player) && ev.Player.Role.Type is RoleTypeId.Tutorial)
             {
                 API.IsBecomingGhost.Remove(ev.Player);
                 return;
             }
 
-            foreach (var ghost in Player.Get(API.IsGhost))
+            API.UnGhostify(ev.Player);
+
+            foreach (var ghost in Player.List)
             {
                 CheckPlayer(ghost, ev.Player);
             }
+        }
 
-            API.UnGhostify(ev.Player);
+        public void OnChangingItem(ChangingItemEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player) && ev.IsAllowed && ev.NewItem is not null && ev.NewItem.Type is ItemType.Coin && CoinHandler.Coins.TryGetValue(ev.NewItem.Serial, out GhostCoinType type))
+            {
+                var translation = CoinHandler.CoinTranslation[type];
+                ev.Player.ShowHint(translation, 5f);
+            }
+        }
+
+        public void OnFlippingCoin(FlippingCoinEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player) && ev.IsAllowed)
+            {
+                CoinHandler.Execute(ev.Player, ev.Player.CurrentItem);
+            }
+        }
+
+        // Deny ghost actions
+        public void OnDroppingItem(DroppingItemEventArgs ev)
+        {
+            if (API.IsGhost(ev.Player))
+                ev.IsAllowed = false;
         }
     }
 }
