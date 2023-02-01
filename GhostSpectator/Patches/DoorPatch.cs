@@ -9,8 +9,10 @@ namespace GhostSpectator.Patches
     {
         public static bool Check(ReferenceHub ply, ref bool __result)
         {
-            Player player = Player.Get(ply);
-            if (player is not null && API.IsGhost(player))
+            if (ply is null)
+                return true;
+
+            if (API.IsGhost(ply))
             {
                 __result = false;
                 return false;
