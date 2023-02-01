@@ -43,10 +43,13 @@ namespace GhostSpectator
 
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (!ev.IsAllowed || ev.Reason is not Exiled.API.Enums.SpawnReason.Died || GhostSpectator.Configs.SpectatorMode is Mode.SpectatorByDefault)
+            if (!ev.IsAllowed || ev.Reason is not Exiled.API.Enums.SpawnReason.Died)
                 return;
 
             API.LastDiedPosition[ev.Player] = ev.Player.Position;
+
+            if (GhostSpectator.Configs.SpectatorMode is Mode.SpectatorByDefault)
+                return;
 
             Timing.CallDelayed(0.5f, () =>
             {
