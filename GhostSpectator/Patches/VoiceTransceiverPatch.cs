@@ -1,5 +1,7 @@
-﻿using HarmonyLib;
+﻿using Exiled.API.Features;
+using HarmonyLib;
 using Mirror;
+using PlayerRoles;
 using PlayerRoles.Voice;
 using System;
 using System.Collections.Generic;
@@ -11,12 +13,12 @@ using VoiceChat.Networking;
 
 namespace GhostSpectator.Patches
 {
+    [HarmonyPatch(nameof(VoiceTransceiver), nameof(VoiceTransceiver.ServerReceiveMessage))]
     public class VoiceTransceiverPatch
     {
-        [HarmonyPatch(nameof(VoiceTransceiver), nameof(VoiceTransceiver.ServerReceiveMessage))]
         public static bool Prefix(NetworkConnection conn, VoiceMessage msg)
         {
-            if (msg.SpeakerNull || msg.Speaker.netId != conn.identity.netId || !(msg.Speaker.roleManager.CurrentRole is IVoiceRole voiceRole) || !voiceRole.VoiceModule.CheckRateLimit())
+            if (msg.SpeakerNull || msg.Speaker.netId != conn.identity.netId || msg.Speaker.roleManager.CurrentRole is not IVoiceRole voiceRole || !voiceRole.VoiceModule.CheckRateLimit())
             {
                 return false;
             }
@@ -31,14 +33,10 @@ namespace GhostSpectator.Patches
             {
                 foreach (var hub in ReferenceHub.AllHubs)
                 {
-                    if (hub.roleManager.CurrentRole is IVoiceRole voiceRole2)
+                    if (hub != msg.Speaker && API.IsGhost(hub) || hub.roleManager.CurrentRole.RoleTypeId is RoleTypeId.Spectator or RoleTypeId.Overwatch)
                     {
-                        VoiceChatChannel voiceChatChannel2 = voiceRole2.VoiceModule.ValidateReceive(msg.Speaker, VoiceChatChannel.Spectator);
-                        if (voiceChatChannel2 != 0)
-                        {
-                            msg.Channel = voiceChatChannel2;
-                            hub.connectionToClient.Send(msg);
-                        }
+                        msg.Channel = VoiceChatChannel.RoundSummary;
+                        hub.connectionToClient.Send(msg);
                     }
                 }
                 return false;
