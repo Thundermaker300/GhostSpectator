@@ -18,8 +18,8 @@ namespace GhostSpectator
     public class GhostSpectator : Plugin<Config, Translation>
     {
         public static GhostSpectator Singleton { get; private set; }
-        public static Config Configs { get; private set; }
-        public static Translation Translations { get; private set; }
+        public static Config Configs => Singleton?.Config;
+        public static Translation Translations => Singleton.Translation;
         public static EventHandler Handler { get; private set; }
         public static Harmony Harmony { get; private set; }
 
@@ -29,8 +29,6 @@ namespace GhostSpectator
 
             // Create Classes
             Singleton = this;
-            Configs = Config;
-            Translations = Translation;
             Handler = new EventHandler();
 
             // Important Events
