@@ -19,7 +19,7 @@ namespace GhostSpectator
         public string SetToSpectator { get; set; } = "Flip this coin to turn back into a spectator!";
 
         [Description("Teleport results")]
-        public string PlayerTeleport { get; set; } = "You teleported to <b>{PLAYER}</b>, who is a <color={ROLECOLOR}>{ROLE}</color>.";
+        public string PlayerTeleport { get; set; } = "You teleported to <b>{PLAYER}</b>, who is a <b><color={ROLECOLOR}>{ROLE}</color></b>.";
         public string NoPlayerToTeleport { get; set; } = "No players that could be teleported to were found!";
         public string NukeDisable { get; set; } = "This coin cannot be used after the nuke has detonated.";
     }
