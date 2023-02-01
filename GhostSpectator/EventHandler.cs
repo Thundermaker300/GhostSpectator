@@ -9,6 +9,7 @@ using Exiled.Events.EventArgs.Server;
 using Exiled.Permissions.Extensions;
 using MEC;
 using PlayerRoles;
+using System;
 using UnityEngine;
 
 namespace GhostSpectator
@@ -109,6 +110,26 @@ namespace GhostSpectator
             {
                 ev.IsAllowed = CoinHandler.Execute(ev.Player, ev.Player.CurrentItem);
             }
+        }
+
+        public void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
+        {
+            if (!ev.IsAllowed || ev.Player is null) return;
+
+            if (API.IsGhost(ev.Player))
+                ev.IsAllowed = false;
+
+            else if (API.TimeSinceGhostLast.TryGetValue(ev.Player, out DateTime dt) && (DateTime.UtcNow - dt).TotalSeconds < 3)
+                ev.IsAllowed = false;
+        }
+
+        public void OnRestartingRound()
+        {
+            API.Ghosts.Clear();
+            API.IsBecomingGhost.Clear();
+            API.TimeSinceGhostLast.Clear();
+
+            CoinHandler.Coins.Clear();
         }
 
         public void OnRespawningTeam(RespawningTeamEventArgs ev)

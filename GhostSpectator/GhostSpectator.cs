@@ -36,7 +36,9 @@ namespace GhostSpectator
             PlayerHandler.Spawned += Handler.OnSpawned;
             PlayerHandler.ChangingItem += Handler.OnChangingItem;
             PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
+            PlayerHandler.SpawningRagdoll += Handler.OnSpawningRagdoll;
 
+            ServerHandler.RestartingRound += Handler.OnRestartingRound;
             ServerHandler.RespawningTeam += Handler.OnRespawningTeam;
             WarheadHandler.Detonated += Handler.OnDetonated;
 
@@ -100,7 +102,9 @@ namespace GhostSpectator
             PlayerHandler.Spawned -= Handler.OnSpawned;
             PlayerHandler.ChangingItem -= Handler.OnChangingItem;
             PlayerHandler.FlippingCoin -= Handler.OnFlippingCoin;
+            PlayerHandler.SpawningRagdoll -= Handler.OnSpawningRagdoll;
 
+            ServerHandler.RestartingRound -= Handler.OnRestartingRound;
             ServerHandler.RespawningTeam -= Handler.OnRespawningTeam;
             WarheadHandler.Detonated -= Handler.OnDetonated;
 

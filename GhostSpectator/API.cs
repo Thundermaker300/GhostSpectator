@@ -18,6 +18,8 @@ namespace GhostSpectator
         public static List<Player> IsBecomingGhost { get; } = new List<Player>();
         public static Dictionary<Player, Vector3> LastDiedPosition { get; } = new();
 
+        public static Dictionary<Player, DateTime> TimeSinceGhostLast { get; } = new();
+
         public static bool IsGhost(Player player) => Ghosts.Contains(player); //player.SessionVariables.ContainsKey("IsGhost");
         public static bool IsGhost(ReferenceHub player) => IsGhost(Player.Get(player)); //player.SessionVariables.ContainsKey("IsGhost");
 
@@ -61,6 +63,10 @@ namespace GhostSpectator
                 ply.Broadcast(GhostSpectator.Configs.GhostBroadcast);
 
             Ghosts.Add(ply);
+
+            if (TimeSinceGhostLast.ContainsKey(ply))
+                TimeSinceGhostLast.Remove(ply);
+
             ply.SessionVariables.Add("IsGhost", true);
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
@@ -87,6 +93,11 @@ namespace GhostSpectator
 
             Log.Debug($"Unghosting: {ply.Nickname}");
             Ghosts.Remove(ply);
+
+            if (TimeSinceGhostLast.ContainsKey(ply))
+                TimeSinceGhostLast[ply] = DateTime.UtcNow;
+            else
+                TimeSinceGhostLast.Add(ply, DateTime.UtcNow);
 
             ply.SessionVariables.Remove("IsGhost");
             ply.IsNoclipPermitted = false;
