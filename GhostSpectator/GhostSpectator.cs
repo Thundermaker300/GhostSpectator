@@ -8,6 +8,7 @@ using HarmonyLib;
 
 using PlayerHandler = Exiled.Events.Handlers.Player;
 using WarheadHandler = Exiled.Events.Handlers.Warhead;
+using Scp049Handler = Exiled.Events.Handlers.Scp049;
 using Scp914Handler = Exiled.Events.Handlers.Scp914;
 using ServerHandler = Exiled.Events.Handlers.Server;
 using System.Reflection;
@@ -72,6 +73,8 @@ namespace GhostSpectator
             WarheadHandler.Starting += Handler.GenericGhostDisallow;
             WarheadHandler.Stopping += Handler.GenericGhostDisallow;
 
+            Scp049Handler.FinishingRecall += Handler.OnFinishingRecall;
+
             Scp914Handler.Activating += Handler.GenericGhostDisallow;
             Scp914Handler.ChangingKnobSetting += Handler.GenericGhostDisallow;
 
@@ -128,6 +131,15 @@ namespace GhostSpectator
             PlayerHandler.Shooting -= Handler.GenericGhostDisallow;
             PlayerHandler.TriggeringTesla -= Handler.GenericGhostDisallow;
             PlayerHandler.UnlockingGenerator -= Handler.GenericGhostDisallow;
+
+            WarheadHandler.ChangingLeverStatus -= Handler.GenericGhostDisallow;
+            WarheadHandler.Starting -= Handler.GenericGhostDisallow;
+            WarheadHandler.Stopping -= Handler.GenericGhostDisallow;
+
+            Scp049Handler.FinishingRecall -= Handler.OnFinishingRecall;
+
+            Scp914Handler.Activating -= Handler.GenericGhostDisallow;
+            Scp914Handler.ChangingKnobSetting -= Handler.GenericGhostDisallow;
 
             Exiled.Events.Handlers.Scp096.AddingTarget -= Handler.OnAddingTarget;
 

@@ -3,6 +3,7 @@ using Exiled.API.Features;
 using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Interfaces;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Scp049;
 using Exiled.Events.EventArgs.Scp096;
 using Exiled.Events.EventArgs.Server;
 using Exiled.Permissions.Extensions;
@@ -126,7 +127,23 @@ namespace GhostSpectator
             {
                 deny.IsAllowed = false;
             }
-        } 
+        }
+
+        public void OnFinishingRecall(FinishingRecallEventArgs ev)
+        {
+            if (!ev.IsAllowed)
+                return;
+
+            Vector3 ragdollPosition = ev.Ragdoll.Position + Vector3.up;
+
+            Timing.CallDelayed(0.25f, () =>
+            {
+                if (ev.Target.Role == RoleTypeId.Scp0492)
+                {
+                    ev.Target.Teleport(ragdollPosition);
+                }
+            });
+        }
 
         public void OnAddingTarget(AddingTargetEventArgs ev)
         {
