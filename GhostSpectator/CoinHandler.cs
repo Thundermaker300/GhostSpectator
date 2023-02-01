@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using UnityEngine;
 
 namespace GhostSpectator
 {
@@ -13,17 +14,20 @@ namespace GhostSpectator
         TeleportSCP,
         TeleportHuman,
         TeleportRoom,
+        TeleportSurface,
     }
 
     public static class CoinHandler
     {
-        public const int CoinAmount = 3;
+        public const int CoinAmount = 4;
+        public static readonly Vector3 SurfacePosition = Room.Get(RoomType.Surface).Position; // Todo: Add custom position;
 
         public static ReadOnlyDictionary<GhostCoinType, string> CoinTranslation = new(new Dictionary<GhostCoinType, string>
         {
             { GhostCoinType.TeleportHuman, GhostSpectator.Translations.HumanTeleportCoin },
             { GhostCoinType.TeleportSCP, GhostSpectator.Translations.ScpTeleportCoin },
             { GhostCoinType.TeleportRoom, GhostSpectator.Translations.RoomTeleportCoin },
+            { GhostCoinType.TeleportSurface, GhostSpectator.Translations.SurfaceTeleportCoin },
         });
 
         public static Dictionary<ushort, GhostCoinType> Coins { get; } = new();
@@ -70,6 +74,11 @@ namespace GhostSpectator
                 }
 
                 ply.Teleport(rooms.RandomItem());
+                return;
+            }
+            else if (type is GhostCoinType.TeleportSurface)
+            {
+                ply.Teleport(SurfacePosition);
                 return;
             }
 

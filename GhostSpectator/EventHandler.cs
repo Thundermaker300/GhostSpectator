@@ -121,7 +121,7 @@ namespace GhostSpectator
 
             foreach (Player ply in Player.Get(API.IsGhost))
             {
-                ply.Teleport(RoomType.Surface); // Todo: Set fixed position on the surface here
+                ply.Teleport(CoinHandler.SurfacePosition); // Todo: Set fixed position on the surface here
             }
         }
 
