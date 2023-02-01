@@ -7,6 +7,7 @@ namespace GhostSpectator.Patches
     [HarmonyPatch(typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.ServerValidateAny))]
     public class Scp049RevivePatch
     {
+        // Todo: Fix for SCP-049-2 revives
         public static bool Prefix(Scp049ResurrectAbility __instance, ref bool __result)
         {
             if (__instance.CurRagdoll == null)
