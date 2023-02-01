@@ -21,5 +21,17 @@ namespace GhostSpectator
 
         [Description("If set to true, ghosts' teleport room coin will be disabled when the nuke is detonated.")]
         public bool DisableRoomTeleportAfterNuke { get; set; } = true;
+
+        [Description("If set to true, the 'gs.mode' permission will be required to swap between Ghost Spectating and regular spectating.")]
+        public bool RequirePermission { get; set; } = false;
+
+        [Description("Determines how the plugin will operate. Options: GhostByDefault, SpectatorByDefault")]
+        public Mode SpectatorMode { get; set; } = Mode.GhostByDefault;
+    }
+
+    public enum Mode
+    {
+        GhostByDefault,
+        SpectatorByDefault,
     }
 }

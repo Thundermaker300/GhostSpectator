@@ -15,7 +15,7 @@ namespace GhostSpectator
 {
     public class EventHandler
     {
-        public void CheckPlayer(Player ghost, Player ply)
+        public static void CheckPlayer(Player ghost, Player ply)
         {
             if (ghost.Role is not FpcRole fpcRole || ply.Role is not FpcRole)
                 return;
@@ -43,33 +43,14 @@ namespace GhostSpectator
 
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (!ev.IsAllowed || ev.Reason is not Exiled.API.Enums.SpawnReason.Died)
+            if (!ev.IsAllowed || ev.Reason is not Exiled.API.Enums.SpawnReason.Died || GhostSpectator.Configs.SpectatorMode is Mode.SpectatorByDefault)
                 return;
 
-            Vector3 pos = ev.Player.Position;
+            API.LastDiedPosition[ev.Player] = ev.Player.Position;
 
             Timing.CallDelayed(0.5f, () =>
             {
-                ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
-
-                if (ev.Player.Role.Is(out FpcRole fpc))
-                {
-                    fpc.IsInvisible = true;
-                    Timing.CallDelayed(1f, () =>
-                    {
-                        fpc.IsInvisible = false;
-                    });
-                }
-
-                Timing.CallDelayed(0.1f, () =>
-                {
-                    ev.Player.Teleport(pos);
-                });
-
                 API.Ghostify(ev.Player);
-
-                foreach (var player in Player.List)
-                    CheckPlayer(ev.Player, player);
             });
         }
 
