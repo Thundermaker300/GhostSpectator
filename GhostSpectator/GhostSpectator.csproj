@@ -92,6 +92,7 @@
     <Compile Include="EventHandler.cs" />
     <Compile Include="GhostSpectator.cs" />
     <Compile Include="Patches\DoorPatch.cs" />
+    <Compile Include="Patches\GeneratorPatch.cs" />
     <Compile Include="Patches\IntercomPatch.cs" />
     <Compile Include="Patches\Scp049RevivePatch.cs" />
     <Compile Include="Patches\VoiceTransceiverPatch.cs" />
