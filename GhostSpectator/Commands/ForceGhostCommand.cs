@@ -5,6 +5,7 @@ using System;
 
 namespace GhostSpectator.Commands
 {
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class ForceGhostCommand : ICommand
     {
         public string Command => "forceghostspectate";
