@@ -61,12 +61,16 @@ namespace GhostSpectator
 
             if (API.IsGhost(ev.Player)) // Remove coins before they drop!!!
                 ev.Player.ClearInventory();
+        }
 
-            if (ev.Reason is not Exiled.API.Enums.SpawnReason.Died)
-                return;
-
+        public void OnDying(DyingEventArgs ev)
+        {
+            if (!ev.IsAllowed) return;
             API.LastDiedPosition[ev.Player] = ev.Player.Position;
+        }
 
+        public void OnDied(DiedEventArgs ev)
+        {
             if (GhostSpectator.Configs.SpectatorMode is Mode.SpectatorByDefault)
                 return;
 

@@ -33,6 +33,8 @@ namespace GhostSpectator
 
             // Important Events
             PlayerHandler.ChangingRole += Handler.OnChangingRole;
+            PlayerHandler.Dying += Handler.OnDying;
+            PlayerHandler.Died += Handler.OnDied;
             PlayerHandler.Spawned += Handler.OnSpawned;
             PlayerHandler.ChangingItem += Handler.OnChangingItem;
             PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
@@ -99,6 +101,8 @@ namespace GhostSpectator
         {
             // Important Events
             PlayerHandler.ChangingRole -= Handler.OnChangingRole;
+            PlayerHandler.Dying -= Handler.OnDying;
+            PlayerHandler.Died -= Handler.OnDied;
             PlayerHandler.Spawned -= Handler.OnSpawned;
             PlayerHandler.ChangingItem -= Handler.OnChangingItem;
             PlayerHandler.FlippingCoin -= Handler.OnFlippingCoin;
