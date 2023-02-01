@@ -26,16 +26,13 @@ namespace GhostSpectator
                 return;
             }
 
-            if (/*ply.SessionVariables.ContainsKey("IsGhost")*/ API.IsGhost(ply))
+            if (/*ply.SessionVariables.ContainsKey("IsGhost")*/ API.IsGhost(ply) || ply.CheckPermission("gs.see") || ply.Role.Type is RoleTypeId.Spectator or RoleTypeId.Overwatch)
             {
                 if (fpcRole.IsInvisibleFor.Contains(ply))
                     fpcRole.IsInvisibleFor.Remove(ply);
             }
             else
             {
-                if (ply.CheckPermission("gs.see"))
-                    return;
-
                 if (!fpcRole.IsInvisibleFor.Contains(ply))
                     fpcRole.IsInvisibleFor.Add(ply);
             }
@@ -45,6 +42,18 @@ namespace GhostSpectator
         {
             if (!ev.IsAllowed)
                 return;
+
+            // Refresh all visibility (because why not)
+            foreach (var player in Player.List)
+            {
+                foreach (var player2 in Player.List)
+                {
+                    if (player == player2)
+                        continue;
+
+                    CheckPlayer(player, player2);
+                }
+            }
 
             if (API.IsGhost(ev.Player)) // Remove coins before they drop!!!
                 ev.Player.ClearInventory();
@@ -111,7 +120,7 @@ namespace GhostSpectator
 
             foreach (Player ply in Player.Get(API.IsGhost))
             {
-                ply.Teleport(CoinHandler.SurfacePosition); // Todo: Set fixed position on the surface here
+                ply.Teleport(CoinHandler.SurfacePosition);
             }
         }
 

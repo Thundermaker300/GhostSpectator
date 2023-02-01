@@ -41,8 +41,18 @@ namespace GhostSpectator
                 fpc.IsInvisible = true;
                 Timing.CallDelayed(0.25f, () =>
                 {
-                    if (LastDiedPosition.TryGetValue(ply, out Vector3 pos))
+                    if (Warhead.IsDetonated)
+                    {
+                        ply.Teleport(CoinHandler.SurfacePosition);
+                    }
+                    else if (LastDiedPosition.TryGetValue(ply, out Vector3 pos))
+                    {
                         ply.Teleport(pos);
+                    }
+                    else
+                    {
+                        ply.Teleport(CoinHandler.SurfacePosition);
+                    }
                     fpc.IsInvisible = false;
                 });
             }
@@ -62,6 +72,7 @@ namespace GhostSpectator
             ply.ChangeEffectIntensity(EffectType.MovementBoost, 50);
             ply.CustomInfo = "GHOST SPECTATOR";
             ply.InfoArea &= ~PlayerInfoArea.Role;
+            ply.VoiceChannel = VoiceChat.VoiceChatChannel.Spectator;
 
             if (GhostSpectator.Configs.EnableCoins)
                 CoinHandler.GiveCoins(ply);
@@ -86,6 +97,7 @@ namespace GhostSpectator
 
             fpcRole.IsNoclipEnabled = false;
             ply.IsGodModeEnabled = false;
+            ply.VoiceChannel = VoiceChat.VoiceChatChannel.Proximity;
 
             Scp173Role.TurnedPlayers.Remove(ply);
 

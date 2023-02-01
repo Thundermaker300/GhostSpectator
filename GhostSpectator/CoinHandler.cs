@@ -21,8 +21,7 @@ namespace GhostSpectator
 
     public static class CoinHandler
     {
-        public const int CoinAmount = 4;
-        public static readonly Vector3 SurfacePosition = Room.Get(RoomType.Surface).Position; // Todo: Add custom position;
+        public static readonly Vector3 SurfacePosition = new Vector3(0, 1001.5f, 5.5f);
 
         public static ReadOnlyDictionary<GhostCoinType, string> CoinTranslation = new(new Dictionary<GhostCoinType, string>
         {
@@ -37,9 +36,9 @@ namespace GhostSpectator
 
         public static void GiveCoins(Player ply)
         {
-            for (int i = 0; i < CoinAmount; i++)
+            foreach (var item in CoinTranslation)
             {
-                GhostCoinType type = (GhostCoinType)Enum.GetValues(typeof(GhostCoinType)).GetValue(i);
+                GhostCoinType type = item.Key;
 
                 if (type is GhostCoinType.SetToSpectator && GhostSpectator.Configs.RequirePermission && !ply.CheckPermission("gs.mode"))
                     continue;
