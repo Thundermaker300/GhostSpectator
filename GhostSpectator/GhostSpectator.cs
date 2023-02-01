@@ -10,6 +10,7 @@ using PlayerHandler = Exiled.Events.Handlers.Player;
 using WarheadHandler = Exiled.Events.Handlers.Warhead;
 using Scp914Handler = Exiled.Events.Handlers.Scp914;
 using ServerHandler = Exiled.Events.Handlers.Server;
+using System.Reflection;
 
 namespace GhostSpectator
 {
@@ -23,6 +24,8 @@ namespace GhostSpectator
 
         public override void OnEnabled()
         {
+            base.OnEnabled();
+
             // Create Classes
             Singleton = this;
             Configs = Config;
@@ -86,8 +89,6 @@ namespace GhostSpectator
             {
                 Log.Error($"Harmony patching failed! {e}");
             }
-
-            base.OnEnabled();
         }
 
         public override void OnDisabled()
