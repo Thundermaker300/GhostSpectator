@@ -8,6 +8,7 @@ namespace GhostSpectator.Patches
     [HarmonyPatch(typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.ServerValidateAny))]
     public class Scp049RevivePatch
     {
+        // Todo: Look into zombies being revived >4 times
         public static bool Prefix(Scp049ResurrectAbility __instance, ref bool __result)
         {
             if (__instance.CurRagdoll == null)
