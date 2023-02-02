@@ -1,15 +1,11 @@
-﻿using Exiled.API.Features;
-using HarmonyLib;
-using MapGeneration.Distributors;
-using PlayerRoles.Voice;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GhostSpectator.Patches
+﻿namespace GhostSpectator.Patches
 {
+    using HarmonyLib;
+    using MapGeneration.Distributors;
+
+    /// <summary>
+    /// Patches generators so that ghosts cannot interact with them.
+    /// </summary>
     [HarmonyPatch(typeof(Scp079Generator), nameof(Scp079Generator.ServerInteract))]
     public class GeneratorPatch
     {

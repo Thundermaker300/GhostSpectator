@@ -1,18 +1,15 @@
-﻿using Exiled.API.Features;
-using HarmonyLib;
-using Mirror;
-using PlayerRoles;
-using PlayerRoles.Voice;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VoiceChat;
-using VoiceChat.Networking;
-
-namespace GhostSpectator.Patches
+﻿namespace GhostSpectator.Patches
 {
+    using HarmonyLib;
+    using Mirror;
+    using PlayerRoles;
+    using PlayerRoles.Voice;
+    using VoiceChat;
+    using VoiceChat.Networking;
+
+    /// <summary>
+    /// Patches voice chat so that ghosts can talk to each other cross-map.
+    /// </summary>
     [HarmonyPatch(nameof(VoiceTransceiver), nameof(VoiceTransceiver.ServerReceiveMessage))]
     public class VoiceTransceiverPatch
     {
@@ -33,12 +30,13 @@ namespace GhostSpectator.Patches
             {
                 foreach (var hub in ReferenceHub.AllHubs)
                 {
-                    if (hub != msg.Speaker && API.IsGhost(hub) || hub.roleManager.CurrentRole.RoleTypeId is RoleTypeId.Spectator or RoleTypeId.Overwatch)
+                    if ((hub != msg.Speaker && API.IsGhost(hub)) || hub.roleManager.CurrentRole.RoleTypeId is RoleTypeId.Spectator or RoleTypeId.Overwatch)
                     {
                         msg.Channel = VoiceChatChannel.RoundSummary;
                         hub.connectionToClient.Send(msg);
                     }
                 }
+
                 return false;
             }
 

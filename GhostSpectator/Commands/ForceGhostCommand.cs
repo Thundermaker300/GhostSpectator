@@ -1,10 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-
-namespace GhostSpectator.Commands
+﻿namespace GhostSpectator.Commands
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class ForceGhostCommand : ICommand
     {

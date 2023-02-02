@@ -1,8 +1,11 @@
-﻿using HarmonyLib;
-using InventorySystem;
-
-namespace GhostSpectator.Patches
+﻿namespace GhostSpectator.Patches
 {
+    using HarmonyLib;
+    using InventorySystem;
+
+    /// <summary>
+    /// Patches inventory so that ghosts cannot drop their coins on death.
+    /// </summary>
     [HarmonyPatch(typeof(InventoryExtensions), nameof(InventoryExtensions.ServerDropEverything))]
     public class ServerDropEverythingPatch
     {

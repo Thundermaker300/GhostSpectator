@@ -1,10 +1,13 @@
-﻿using Exiled.API.Features;
-using HarmonyLib;
-using PlayerRoles.PlayableScps.Scp049;
-using static PlayerRoles.PlayableScps.Scp049.Scp049ResurrectAbility;
-
-namespace GhostSpectator.Patches
+﻿namespace GhostSpectator.Patches
 {
+    using Exiled.API.Features;
+    using HarmonyLib;
+    using PlayerRoles.PlayableScps.Scp049;
+    using static PlayerRoles.PlayableScps.Scp049.Scp049ResurrectAbility;
+
+    /// <summary>
+    /// Patches SCP-049 resurrection ability so that ghosts can be revived.
+    /// </summary>
     [HarmonyPatch(typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.ServerValidateAny))]
     public class Scp049RevivePatch
     {

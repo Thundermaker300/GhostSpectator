@@ -1,13 +1,11 @@
-﻿using HarmonyLib;
-using PlayerRoles.Voice;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GhostSpectator.Patches
+﻿namespace GhostSpectator.Patches
 {
+    using HarmonyLib;
+    using PlayerRoles.Voice;
+
+    /// <summary>
+    /// Patches the intercom so that ghosts cannot interact with it.
+    /// </summary>
     [HarmonyPatch(typeof(Intercom), nameof(Intercom.CheckRange))]
     public class IntercomPatch
     {

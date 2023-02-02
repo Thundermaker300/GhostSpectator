@@ -1,12 +1,23 @@
-﻿using Exiled.API.Features;
-using HarmonyLib;
-using Interactables.Interobjects;
-using Interactables.Interobjects.DoorUtils;
-
-namespace GhostSpectator.Patches
+﻿namespace GhostSpectator.Patches
 {
+#pragma warning disable SA1313
+#pragma warning disable SA1402
+#pragma warning disable SA1649
+    using HarmonyLib;
+    using Interactables.Interobjects;
+    using Interactables.Interobjects.DoorUtils;
+
+    /// <summary>
+    /// Contains a method used by every door checking patch.
+    /// </summary>
     public static class DoorChecker
     {
+        /// <summary>
+        /// Returns the info to be returned in the door patch.
+        /// </summary>
+        /// <param name="ply">The player interacting with the door.</param>
+        /// <param name="__result">The result of the patch.</param>
+        /// <returns>Whether or not original code executes.</returns>
         public static bool Check(ReferenceHub ply, ref bool __result)
         {
             if (ply is null)
@@ -25,6 +36,10 @@ namespace GhostSpectator.Patches
     // Required in order for doors to not make denied sound.
     // POV: You can't patch abstract methods
     // this is stupid
+
+    /// <summary>
+    /// Patch for breakable door.
+    /// </summary>
     [HarmonyPatch(typeof(BreakableDoor), nameof(BreakableDoor.AllowInteracting))]
     public class BreakableDoorPatch
     {
@@ -32,6 +47,9 @@ namespace GhostSpectator.Patches
             => DoorChecker.Check(ply, ref __result);
     }
 
+    /// <summary>
+    /// Patch for basic door.
+    /// </summary>
     [HarmonyPatch(typeof(BasicDoor), nameof(BasicDoor.AllowInteracting))]
     public class BasicDoorPatch
     {
@@ -39,6 +57,9 @@ namespace GhostSpectator.Patches
             => DoorChecker.Check(ply, ref __result);
     }
 
+    /// <summary>
+    /// Patch for checkpoint door.
+    /// </summary>
     [HarmonyPatch(typeof(CheckpointDoor), nameof(CheckpointDoor.AllowInteracting))]
     public class CheckpointDoorPatch
     {
@@ -46,7 +67,9 @@ namespace GhostSpectator.Patches
             => DoorChecker.Check(ply, ref __result);
     }
 
-
+    /// <summary>
+    /// Patch for pryable door.
+    /// </summary>
     [HarmonyPatch(typeof(PryableDoor), nameof(PryableDoor.AllowInteracting))]
     public class PryableDoorPatch
     {
@@ -54,6 +77,9 @@ namespace GhostSpectator.Patches
             => DoorChecker.Check(ply, ref __result);
     }
 
+    /// <summary>
+    /// Patch for airlock door.
+    /// </summary>
     [HarmonyPatch(typeof(AirlockController), nameof(AirlockController.OnDoorAction))]
     public class AirlockPatch
     {
@@ -65,4 +91,7 @@ namespace GhostSpectator.Patches
             return true;
         }
     }
+#pragma warning restore SA1313
+#pragma warning restore SA1402
+#pragma warning restore SA1649
 }

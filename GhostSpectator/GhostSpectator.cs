@@ -16,10 +16,29 @@
         private static Harmony harmony;
         private static EventHandler handler;
 
+        /// <summary>
+        /// Gets the singleton of the plugin.
+        /// </summary>
         public static GhostSpectator Singleton { get; private set; }
+
+        /// <summary>
+        /// Gets the plugin's configs.
+        /// </summary>
         public static Config Configs => Singleton?.Config;
+
+        /// <summary>
+        /// Gets the plugin's translations.
+        /// </summary>
         public static Translation Translations => Singleton.Translation;
+
+        /// <summary>
+        /// Gets the plugin's <see cref="EventHandler"/>.
+        /// </summary>
         public static EventHandler Handler => handler;
+
+        /// <summary>
+        /// Gets the plugin's <see cref="HarmonyLib.Harmony"/> instance.
+        /// </summary>
         public static Harmony Harmony => harmony;
 
         /// <inheritdoc/>
@@ -76,7 +95,6 @@
             PlayerHandler.InteractingLocker += Handler.GenericGhostDisallow;
             PlayerHandler.InteractingShootingTarget += Handler.GenericGhostDisallow;
             PlayerHandler.IntercomSpeaking += Handler.GenericGhostDisallow;
-            //PlayerHandler.MakingNoise += Handler.GenericGhostDisallow;
             PlayerHandler.OpeningGenerator += Handler.GenericGhostDisallow;
             PlayerHandler.PlayerDamageWindow += Handler.GenericGhostDisallow;
             PlayerHandler.PickingUpItem += Handler.GenericGhostDisallow;
@@ -145,7 +163,6 @@
             PlayerHandler.InteractingLocker -= Handler.GenericGhostDisallow;
             PlayerHandler.InteractingShootingTarget -= Handler.GenericGhostDisallow;
             PlayerHandler.IntercomSpeaking -= Handler.GenericGhostDisallow;
-            //PlayerHandler.MakingNoise -= Handler.GenericGhostDisallow;
             PlayerHandler.OpeningGenerator -= Handler.GenericGhostDisallow;
             PlayerHandler.PlayerDamageWindow -= Handler.GenericGhostDisallow;
             PlayerHandler.PickingUpItem -= Handler.GenericGhostDisallow;

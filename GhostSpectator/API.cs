@@ -1,28 +1,59 @@
-﻿using Exiled.API.Features;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PlayerRoles;
-using Exiled.API.Enums;
-using Exiled.API.Features.Roles;
-using UnityEngine;
-using MEC;
-
-namespace GhostSpectator
+﻿namespace GhostSpectator
 {
+    using System;
+    using System.Collections.Generic;
+    using Exiled.API.Enums;
+    using Exiled.API.Features;
+    using Exiled.API.Features.Roles;
+    using MEC;
+    using PlayerRoles;
+    using UnityEngine;
+
+    /// <summary>
+    /// API class for controlling ghosts.
+    /// </summary>
     public static class API
     {
+        /// <summary>
+        /// Gets all players that are currently ghosts.
+        /// </summary>
         public static List<Player> Ghosts { get; } = new List<Player>();
+
+        /// <summary>
+        /// Gets all players that are becoming ghosts.
+        /// </summary>
         public static List<Player> IsBecomingGhost { get; } = new List<Player>();
+
+        /// <summary>
+        /// Gets each player and the last place they died.
+        /// </summary>
         public static Dictionary<Player, Vector3> LastDiedPosition { get; } = new();
 
+        /// <summary>
+        /// Gets since the player was last a ghost. Removed when becoming a ghost.
+        /// </summary>
         public static Dictionary<Player, DateTime> TimeSinceGhostLast { get; } = new();
 
-        public static bool IsGhost(Player player) => Ghosts.Contains(player); //player.SessionVariables.ContainsKey("IsGhost");
-        public static bool IsGhost(ReferenceHub player) => IsGhost(Player.Get(player)); //player.SessionVariables.ContainsKey("IsGhost");
+        /// <summary>
+        /// Gets a value indicating whether or not the player is a ghost.
+        /// </summary>
+        /// <param name="player">Player.</param>
+        /// <returns>True if they are a ghost.</returns>
+        public static bool IsGhost(Player player) => Ghosts.Contains(player);
 
+        /// <summary>
+        /// Gets a value indicating whether or not the player is a ghost.
+        /// </summary>
+        /// <param name="player">ReferenceHub.</param>
+        /// <returns>True if they are a ghost.</returns>
+        public static bool IsGhost(ReferenceHub player) => IsGhost(Player.Get(player));
+
+        /// <summary>
+        /// Turns a player into a ghost.
+        /// </summary>
+        /// <param name="ply">The player.</param>
+        /// <param name="ignoreChecks">Whether to ignore basic checks.</param>
+        /// <returns>Whether or not transformation was successful.</returns>
         public static bool Ghostify(Player ply, bool ignoreChecks = false)
         {
             if (IsGhost(ply)) return false;
@@ -55,6 +86,7 @@ namespace GhostSpectator
                     {
                         ply.Teleport(CoinHandler.SurfacePosition);
                     }
+
                     fpc.IsInvisible = false;
                 });
             }
@@ -89,6 +121,12 @@ namespace GhostSpectator
             return true;
         }
 
+        /// <summary>
+        /// Removes ghost effects.
+        /// </summary>
+        /// <param name="ply">The player.</param>
+        /// <param name="ignoreChecks">Whether to ignore basic checks.</param>
+        /// <returns>Whether or not transformation was successful.</returns>
         public static bool UnGhostify(Player ply, bool ignoreChecks = false)
         {
             if (!IsGhost(ply)) return false;

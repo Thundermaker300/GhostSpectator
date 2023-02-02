@@ -1,25 +1,29 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Pickups;
-using Exiled.API.Features.Roles;
-using Exiled.Events.EventArgs.Interfaces;
-using Exiled.Events.EventArgs.Map;
-using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Scp049;
-using Exiled.Events.EventArgs.Scp096;
-using Exiled.Events.EventArgs.Server;
-using Exiled.Permissions.Extensions;
-using InventorySystem;
-using MEC;
-using PlayerRoles;
-using PlayerRoles.PlayableScps.Scp049;
-using System;
-using UnityEngine;
-
-namespace GhostSpectator
+﻿namespace GhostSpectator
 {
+    using System;
+    using Exiled.API.Features;
+    using Exiled.API.Features.Roles;
+    using Exiled.Events.EventArgs.Interfaces;
+    using Exiled.Events.EventArgs.Player;
+    using Exiled.Events.EventArgs.Scp049;
+    using Exiled.Events.EventArgs.Scp096;
+    using Exiled.Events.EventArgs.Server;
+    using Exiled.Permissions.Extensions;
+    using MEC;
+    using PlayerRoles;
+    using PlayerRoles.PlayableScps.Scp049;
+    using UnityEngine;
+
+    /// <summary>
+    /// Main event handler.
+    /// </summary>
     public class EventHandler
     {
+        /// <summary>
+        /// Sets visibility settings.
+        /// </summary>
+        /// <param name="ghost">The ghost.</param>
+        /// <param name="ply">The player.</param>
         public static void CheckPlayer(Player ghost, Player ply)
         {
             if (ghost.Role is not FpcRole fpcRole)
@@ -48,7 +52,8 @@ namespace GhostSpectator
             if (!ev.IsAllowed)
                 return;
 
-            if (API.IsGhost(ev.Player)) // Remove coins before they drop!!!
+            // Remove coins before they drop!!!
+            if (API.IsGhost(ev.Player))
             {
                 ev.Player.ClearInventory();
             }
@@ -80,7 +85,7 @@ namespace GhostSpectator
             if (GhostSpectator.Configs.SpectatorMode is Mode.SpectatorByDefault)
                 return;
 
-            bool wasZombie = (ev.TargetOldRole is RoleTypeId.Scp0492);
+            bool wasZombie = ev.TargetOldRole is RoleTypeId.Scp0492;
 
             Timing.CallDelayed(wasZombie ? 5f : 0.5f, () =>
             {
@@ -140,7 +145,6 @@ namespace GhostSpectator
 
             if (API.IsGhost(ev.Player))
                 ev.IsAllowed = false;
-
             else if (API.TimeSinceGhostLast.TryGetValue(ev.Player, out DateTime dt) && (DateTime.UtcNow - dt).TotalSeconds < 3)
                 ev.IsAllowed = false;
         }

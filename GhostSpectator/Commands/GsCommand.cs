@@ -1,14 +1,10 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GhostSpectator.Commands
+﻿namespace GhostSpectator.Commands
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(ClientCommandHandler))]
     public class GsCommand : ICommand
     {

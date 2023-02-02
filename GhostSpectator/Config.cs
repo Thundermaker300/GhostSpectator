@@ -1,16 +1,29 @@
-﻿using Exiled.API.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GhostSpectator
+﻿namespace GhostSpectator
 {
+    using System.ComponentModel;
+    using Exiled.API.Interfaces;
+
+    /// <summary>
+    /// The mode at which the plugin operates.
+    /// </summary>
+    public enum Mode
+    {
+        /// <summary>
+        /// Players will be ghosts by default (default setting).
+        /// </summary>
+        GhostByDefault,
+
+        /// <summary>
+        /// Players will be spectators by default.
+        /// </summary>
+        SpectatorByDefault,
+    }
+
+#pragma warning disable SA1600
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
+
         public bool Debug { get; set; } = false;
 
         [Description("If set to true, ghosts will be given coins that each have their own abilities (such as teleporting to players, rooms, etc).")]
@@ -30,10 +43,5 @@ namespace GhostSpectator
 
         public Exiled.API.Features.Broadcast GhostBroadcast { get; set; } = new("You are a ghost! You can noclip, cannot die, and have various abilities in your inventory!", 10, true);
     }
-
-    public enum Mode
-    {
-        GhostByDefault,
-        SpectatorByDefault,
-    }
+#pragma warning restore SA1600
 }

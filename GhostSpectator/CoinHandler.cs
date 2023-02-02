@@ -1,30 +1,64 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.Permissions.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using UnityEngine;
-
-namespace GhostSpectator
+﻿namespace GhostSpectator
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using Exiled.API.Enums;
+    using Exiled.API.Features;
+    using Exiled.API.Features.Items;
+    using Exiled.Permissions.Extensions;
+    using UnityEngine;
+
+    /// <summary>
+    /// Type of ghost coin ability.
+    /// </summary>
     public enum GhostCoinType
     {
+        /// <summary>
+        /// Teleport to a random SCP.
+        /// </summary>
         TeleportSCP,
+
+        /// <summary>
+        /// Teleport to a random human.
+        /// </summary>
         TeleportHuman,
+
+        /// <summary>
+        /// Teleport to a random other ghost.
+        /// </summary>
         TeleportGhost,
+
+        /// <summary>
+        /// Teleport to a random room.
+        /// </summary>
         TeleportRoom,
+
+        /// <summary>
+        /// Teleport to the surface.
+        /// </summary>
         TeleportSurface,
+
+        /// <summary>
+        /// Swap to spectator.
+        /// </summary>
         SetToSpectator,
     }
 
+    /// <summary>
+    /// Manages ghost coin abilities.
+    /// </summary>
     public static class CoinHandler
     {
+        /// <summary>
+        /// Fixed surface position to teleport ghosts to.
+        /// </summary>
         public static readonly Vector3 SurfacePosition = new Vector3(0, 1001.5f, 5.5f);
 
-        public static ReadOnlyDictionary<GhostCoinType, string> CoinTranslation = new(new Dictionary<GhostCoinType, string>
+        /// <summary>
+        /// Gets each coin and its respective translation.
+        /// </summary>
+        public static ReadOnlyDictionary<GhostCoinType, string> CoinTranslation { get; } = new(new Dictionary<GhostCoinType, string>
         {
             { GhostCoinType.TeleportHuman, GhostSpectator.Translations.HumanTeleportCoin },
             { GhostCoinType.TeleportSCP, GhostSpectator.Translations.ScpTeleportCoin },
@@ -34,8 +68,15 @@ namespace GhostSpectator
             { GhostCoinType.SetToSpectator, GhostSpectator.Translations.SetToSpectator },
         });
 
+        /// <summary>
+        /// Gets each coin currently in distribution, keyed by <see cref="Item.Serial"/>.
+        /// </summary>
         public static Dictionary<ushort, GhostCoinType> Coins { get; } = new();
 
+        /// <summary>
+        /// Gives coins to a player.
+        /// </summary>
+        /// <param name="ply">Player.</param>
         public static void GiveCoins(Player ply)
         {
             foreach (var item in CoinTranslation)
@@ -50,6 +91,12 @@ namespace GhostSpectator
             }
         }
 
+        /// <summary>
+        /// Executes a coin effect.
+        /// </summary>
+        /// <param name="ply">The player.</param>
+        /// <param name="coin">The coin being flipped.</param>
+        /// <returns>True if successful.</returns>
         public static bool Execute(Player ply, Item coin)
         {
             if (ply is null || coin is null)
@@ -85,6 +132,7 @@ namespace GhostSpectator
                 {
                     rooms.RemoveAll(r => r.Zone == ZoneType.LightContainment);
                 }
+
                 Room r = rooms.RandomItem();
 
                 ply.Teleport(r);
