@@ -20,8 +20,11 @@ namespace GhostSpectator
         public static GhostSpectator Singleton { get; private set; }
         public static Config Configs => Singleton?.Config;
         public static Translation Translations => Singleton.Translation;
-        public static EventHandler Handler { get; private set; }
-        public static Harmony Harmony { get; private set; }
+        public static EventHandler Handler => _handler;
+        public static Harmony Harmony => _harmony;
+
+        private static Harmony _harmony;
+        private static EventHandler _handler;
 
         public override void OnEnabled()
         {
@@ -29,7 +32,7 @@ namespace GhostSpectator
 
             // Create Classes
             Singleton = this;
-            Handler = new EventHandler();
+            _handler = new EventHandler();
 
             // Important Events
             PlayerHandler.ChangingRole += Handler.OnChangingRole;
@@ -86,8 +89,8 @@ namespace GhostSpectator
             // Patching
             try
             {
-                Harmony = new Harmony(nameof(GhostSpectator).ToLowerInvariant() + "-" + DateTime.UtcNow.Ticks);
-                Harmony.PatchAll();
+                _harmony = new Harmony(nameof(GhostSpectator).ToLowerInvariant() + "-" + DateTime.UtcNow.Ticks);
+                _harmony.PatchAll();
 
                 Log.Info("Harmony patching complete.");
             }
@@ -156,8 +159,8 @@ namespace GhostSpectator
 
             // Destroy Classes
             Singleton = null;
-            Handler = null;
-            Harmony = null;
+            _handler = null;
+            _harmony = null;
 
             base.OnDisabled();
         }
