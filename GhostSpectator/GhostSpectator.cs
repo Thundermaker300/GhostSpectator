@@ -1,38 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using UnityEngine;
-using HarmonyLib;
-
-using PlayerHandler = Exiled.Events.Handlers.Player;
-using WarheadHandler = Exiled.Events.Handlers.Warhead;
-using Scp049Handler = Exiled.Events.Handlers.Scp049;
-using Scp914Handler = Exiled.Events.Handlers.Scp914;
-using ServerHandler = Exiled.Events.Handlers.Server;
-using System.Reflection;
-
-namespace GhostSpectator
+﻿namespace GhostSpectator
 {
+    using System;
+    using Exiled.API.Enums;
+    using Exiled.API.Features;
+    using HarmonyLib;
+    using PlayerHandler = Exiled.Events.Handlers.Player;
+    using Scp049Handler = Exiled.Events.Handlers.Scp049;
+    using Scp914Handler = Exiled.Events.Handlers.Scp914;
+    using ServerHandler = Exiled.Events.Handlers.Server;
+    using WarheadHandler = Exiled.Events.Handlers.Warhead;
+
+    /// <inheritdoc/>
     public class GhostSpectator : Plugin<Config, Translation>
     {
+        private static Harmony harmony;
+        private static EventHandler handler;
+
         public static GhostSpectator Singleton { get; private set; }
         public static Config Configs => Singleton?.Config;
         public static Translation Translations => Singleton.Translation;
-        public static EventHandler Handler => _handler;
-        public static Harmony Harmony => _harmony;
+        public static EventHandler Handler => handler;
+        public static Harmony Harmony => harmony;
 
-        private static Harmony _harmony;
-        private static EventHandler _handler;
+        /// <inheritdoc/>
+        public override string Name => "GhostSpectator";
 
+        /// <inheritdoc/>
+        public override string Author => "Thunder";
+
+        /// <inheritdoc/>
+        public override Version Version => new Version(2, 0, 0);
+
+        /// <inheritdoc/>
+        public override Version RequiredExiledVersion => new Version(6, 0, 0);
+
+        /// <inheritdoc/>
+        public override PluginPriority Priority => PluginPriority.High;
+
+        /// <inheritdoc/>
         public override void OnEnabled()
         {
             base.OnEnabled();
 
             // Create Classes
             Singleton = this;
-            _handler = new EventHandler();
+            handler = new EventHandler();
 
             // Important Events
             PlayerHandler.ChangingRole += Handler.OnChangingRole;
@@ -42,7 +54,7 @@ namespace GhostSpectator
             PlayerHandler.ChangingItem += Handler.OnChangingItem;
             PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
             PlayerHandler.SpawningRagdoll += Handler.OnSpawningRagdoll;
-            
+
             ServerHandler.RestartingRound += Handler.OnRestartingRound;
             ServerHandler.RespawningTeam += Handler.OnRespawningTeam;
             WarheadHandler.Detonated += Handler.OnDetonated;
@@ -89,8 +101,8 @@ namespace GhostSpectator
             // Patching
             try
             {
-                _harmony = new Harmony(nameof(GhostSpectator).ToLowerInvariant() + "-" + DateTime.UtcNow.Ticks);
-                _harmony.PatchAll();
+                harmony = new Harmony(nameof(GhostSpectator).ToLowerInvariant() + "-" + DateTime.UtcNow.Ticks);
+                harmony.PatchAll();
 
                 Log.Info("Harmony patching complete.");
             }
@@ -100,6 +112,7 @@ namespace GhostSpectator
             }
         }
 
+        /// <inheritdoc/>
         public override void OnDisabled()
         {
             // Important Events
@@ -159,16 +172,10 @@ namespace GhostSpectator
 
             // Destroy Classes
             Singleton = null;
-            _handler = null;
-            _harmony = null;
+            handler = null;
+            harmony = null;
 
             base.OnDisabled();
         }
-
-        public override string Name => "GhostSpectator";
-        public override string Author => "Thunder";
-        public override Version Version => new Version(2, 0, 0);
-        public override Version RequiredExiledVersion => new Version(6, 0, 0);
-        public override PluginPriority Priority => PluginPriority.High;
     }
 }
