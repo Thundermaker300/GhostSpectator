@@ -1,14 +1,18 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Pickups;
 using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Interfaces;
+using Exiled.Events.EventArgs.Map;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp049;
 using Exiled.Events.EventArgs.Scp096;
 using Exiled.Events.EventArgs.Server;
 using Exiled.Permissions.Extensions;
+using InventorySystem;
 using MEC;
 using PlayerRoles;
+using PlayerRoles.PlayableScps.Scp049;
 using System;
 using UnityEngine;
 
@@ -44,6 +48,11 @@ namespace GhostSpectator
             if (!ev.IsAllowed)
                 return;
 
+            if (API.IsGhost(ev.Player)) // Remove coins before they drop!!!
+            {
+                ev.Player.ClearInventory();
+            }
+
             // Refresh all visibility (because why not)
             foreach (var player in Player.List)
             {
@@ -58,9 +67,6 @@ namespace GhostSpectator
                     CheckPlayer(player, player2);
                 }
             }
-
-            if (API.IsGhost(ev.Player)) // Remove coins before they drop!!!
-                ev.Player.ClearInventory();
         }
 
         public void OnDying(DyingEventArgs ev)
@@ -74,9 +80,21 @@ namespace GhostSpectator
             if (GhostSpectator.Configs.SpectatorMode is Mode.SpectatorByDefault)
                 return;
 
-            Timing.CallDelayed(0.5f, () =>
+            bool wasZombie = (ev.TargetOldRole is RoleTypeId.Scp0492);
+
+            Timing.CallDelayed(wasZombie ? 5f : 0.5f, () =>
             {
-                API.Ghostify(ev.Player);
+                if (ev.Player.IsDead)
+                {
+                    API.Ghostify(ev.Player);
+                    if (wasZombie)
+                    {
+                        Timing.CallDelayed(0.5f, () =>
+                        {
+                            Scp049ResurrectAbility.DeadZombies.Add(ev.Player.ReferenceHub.netId);
+                        });
+                    }
+                }
             });
         }
 
