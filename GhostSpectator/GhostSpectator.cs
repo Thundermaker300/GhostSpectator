@@ -73,6 +73,7 @@
             PlayerHandler.ChangingItem += Handler.OnChangingItem;
             PlayerHandler.FlippingCoin += Handler.OnFlippingCoin;
             PlayerHandler.SpawningRagdoll += Handler.OnSpawningRagdoll;
+            PlayerHandler.Hurting += Handler.OnHurting;
 
             ServerHandler.RestartingRound += Handler.OnRestartingRound;
             ServerHandler.RespawningTeam += Handler.OnRespawningTeam;
@@ -141,6 +142,7 @@
             PlayerHandler.ChangingItem -= Handler.OnChangingItem;
             PlayerHandler.FlippingCoin -= Handler.OnFlippingCoin;
             PlayerHandler.SpawningRagdoll -= Handler.OnSpawningRagdoll;
+            PlayerHandler.Hurting -= Handler.OnHurting;
 
             ServerHandler.RestartingRound -= Handler.OnRestartingRound;
             ServerHandler.RespawningTeam -= Handler.OnRespawningTeam;
