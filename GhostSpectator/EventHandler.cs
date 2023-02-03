@@ -149,6 +149,14 @@
                 ev.IsAllowed = false;
         }
 
+        public void OnHurting(HurtingEventArgs ev)
+        {
+            if (ev.Attacker is not null && API.IsGhost(ev.Attacker))
+            {
+                ev.IsAllowed = false;
+            }
+        }
+
         public void OnRestartingRound()
         {
             API.Ghosts.Clear();
