@@ -91,6 +91,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="GhostSpectator.cs" />
+    <Compile Include="Patches\CheckSpawnPatch.cs" />
     <Compile Include="Patches\DoorPatch.cs" />
     <Compile Include="Patches\ServerDropEverythingPatch.cs" />
     <Compile Include="Patches\GeneratorPatch.cs" />

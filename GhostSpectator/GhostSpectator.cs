@@ -87,7 +87,6 @@
             PlayerHandler.DeactivatingWorkstation += Handler.GenericGhostDisallow;
             PlayerHandler.DroppingAmmo += Handler.GenericGhostDisallow;
             PlayerHandler.DroppingItem += Handler.GenericGhostDisallow;
-            PlayerHandler.DroppingNothing += Handler.GenericGhostDisallow;
             PlayerHandler.EnteringEnvironmentalHazard += Handler.GenericGhostDisallow;
             PlayerHandler.Escaping += Handler.GenericGhostDisallow;
             PlayerHandler.Handcuffing += Handler.GenericGhostDisallow;
@@ -156,7 +155,6 @@
             PlayerHandler.DeactivatingWorkstation -= Handler.GenericGhostDisallow;
             PlayerHandler.DroppingAmmo -= Handler.GenericGhostDisallow;
             PlayerHandler.DroppingItem -= Handler.GenericGhostDisallow;
-            PlayerHandler.DroppingNothing -= Handler.GenericGhostDisallow;
             PlayerHandler.EnteringEnvironmentalHazard -= Handler.GenericGhostDisallow;
             PlayerHandler.Escaping -= Handler.GenericGhostDisallow;
             PlayerHandler.Handcuffing -= Handler.GenericGhostDisallow;
