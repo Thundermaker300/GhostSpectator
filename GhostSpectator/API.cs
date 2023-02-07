@@ -87,7 +87,7 @@
                         ply.Teleport(CoinHandler.SurfacePosition);
                     }
 
-                    fpc.IsInvisible = false;
+                    // fpc.IsInvisible = false;
                 });
             }
 
