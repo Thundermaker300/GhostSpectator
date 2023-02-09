@@ -62,7 +62,7 @@
             Log.Debug($"Ghosting: {ply.Nickname}");
             IsBecomingGhost.Add(ply);
 
-            ply.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
+            ply.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.AssignInventory);
 
             if (ply.Role.Is(out FpcRole fpc))
             {
