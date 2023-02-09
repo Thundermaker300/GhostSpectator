@@ -159,7 +159,6 @@
 
         public void OnRestartingRound()
         {
-            API.Ghosts.Clear();
             API.IsBecomingGhost.Clear();
             API.TimeSinceGhostLast.Clear();
 

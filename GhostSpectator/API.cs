@@ -15,11 +15,6 @@
     public static class API
     {
         /// <summary>
-        /// Gets all players that are currently ghosts.
-        /// </summary>
-        public static List<Player> Ghosts { get; } = new List<Player>();
-
-        /// <summary>
         /// Gets all players that are becoming ghosts.
         /// </summary>
         public static List<Player> IsBecomingGhost { get; } = new List<Player>();
@@ -39,7 +34,7 @@
         /// </summary>
         /// <param name="player">Player.</param>
         /// <returns>True if they are a ghost.</returns>
-        public static bool IsGhost(Player player) => Ghosts.Contains(player);
+        public static bool IsGhost(Player player) => player.SessionVariables.ContainsKey("IsGhost");
 
         /// <summary>
         /// Gets a value indicating whether or not the player is a ghost.
@@ -94,8 +89,6 @@
             if (GhostSpectator.Configs.GhostBroadcast is not null)
                 ply.Broadcast(GhostSpectator.Configs.GhostBroadcast);
 
-            Ghosts.Add(ply);
-
             if (TimeSinceGhostLast.ContainsKey(ply))
                 TimeSinceGhostLast.Remove(ply);
 
@@ -132,7 +125,6 @@
             if (!IsGhost(ply)) return false;
 
             Log.Debug($"Unghosting: {ply.Nickname}");
-            Ghosts.Remove(ply);
 
             if (TimeSinceGhostLast.ContainsKey(ply))
                 TimeSinceGhostLast[ply] = DateTime.UtcNow;
