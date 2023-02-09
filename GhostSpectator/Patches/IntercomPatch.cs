@@ -11,6 +11,9 @@
     {
         public static bool Prefix(Intercom __instance, ReferenceHub hub)
         {
+            if (hub is null)
+                return false;
+
             return !API.IsGhost(hub);
         }
     }

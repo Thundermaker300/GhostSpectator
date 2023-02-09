@@ -34,14 +34,26 @@
         /// </summary>
         /// <param name="player">Player.</param>
         /// <returns>True if they are a ghost.</returns>
-        public static bool IsGhost(Player player) => player.SessionVariables.ContainsKey("IsGhost");
+        public static bool IsGhost(Player player)
+        {
+            if (player is null)
+                return false;
+
+            return player.SessionVariables.ContainsKey("IsGhost");
+        }
 
         /// <summary>
         /// Gets a value indicating whether or not the player is a ghost.
         /// </summary>
         /// <param name="player">ReferenceHub.</param>
         /// <returns>True if they are a ghost.</returns>
-        public static bool IsGhost(ReferenceHub player) => IsGhost(Player.Get(player));
+        public static bool IsGhost(ReferenceHub player)
+        {
+            if (player is null)
+                return false;
+
+            return IsGhost(Player.Get(player));
+        }
 
         /// <summary>
         /// Turns a player into a ghost.
