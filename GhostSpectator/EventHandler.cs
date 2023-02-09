@@ -53,7 +53,7 @@
                 return;
 
             // Remove coins before they drop!!!
-            if (API.IsGhost(ev.Player))
+            if (API.IsGhost(ev.Player) && ev.Reason != Exiled.API.Enums.SpawnReason.Destroyed)
             {
                 ev.Player.ClearInventory();
             }
