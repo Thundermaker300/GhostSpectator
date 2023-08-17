@@ -3,6 +3,7 @@
     using System;
     using CommandSystem;
     using Exiled.API.Features;
+    using Exiled.API.Features.Roles;
     using Exiled.Permissions.Extensions;
 
     [CommandHandler(typeof(ClientCommandHandler))]
@@ -40,7 +41,7 @@
                 response = "Set to spectator.";
                 return true;
             }
-            else if (ply.IsDead)
+            else if (ply.Role is SpectatorRole)
             {
                 API.Ghostify(ply);
                 response = "Set to ghost.";

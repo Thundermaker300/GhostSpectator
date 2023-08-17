@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Exiled.API.Enums;
+    using Exiled.API.Extensions;
     using Exiled.API.Features;
     using Exiled.API.Features.Roles;
     using MEC;
@@ -109,6 +110,7 @@
             ply.IsNoclipPermitted = true;
             ply.IsGodModeEnabled = true;
 
+            Scp096Role.TurnedPlayers.Add(ply);
             Scp173Role.TurnedPlayers.Add(ply);
 
             ply.EnableEffect(EffectType.MovementBoost);
@@ -116,6 +118,16 @@
 
             ply.CustomInfo = "GHOST SPECTATOR";
             ply.InfoArea &= ~PlayerInfoArea.Role;
+
+            ply.ChangeAppearance(RoleTypeId.Spectator, false);
+
+            /*foreach (Player all in Player.List)
+            {
+                if (!IsGhost(all))
+                {
+                    all.Connection.Send(new RoleSyncInfo(ply.ReferenceHub, RoleTypeId.Spectator, all.ReferenceHub));
+                }
+            }*/
 
             if (GhostSpectator.Configs.EnableCoins)
                 CoinHandler.GiveCoins(ply);
@@ -150,6 +162,7 @@
             ply.IsNoclipPermitted = false;
             ply.IsGodModeEnabled = false;
 
+            Scp096Role.TurnedPlayers.Add(ply);
             Scp173Role.TurnedPlayers.Remove(ply);
 
             ply.DisableEffect(EffectType.MovementBoost);
